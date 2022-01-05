@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+get_device(){
+  device=null
+  for ((i=1; i<=20; i++)) {
+    x=$(xinput list-props $i 2> /dev/null | ag 'AlpsPS/2 ALPS GlidePoint')
+    if [ -n "$x" ]; then
+      device=$i
+      break
+    fi
+  }
+
+  echo $device;
+}
+
+enable_tap(){
+  device=$(get_device)
+  for i in $(xinput list-props $device | ag 'Tap Action' | sed "s/.*(//g" | sed "s/).*//g"); do
+    xinput set-prop $device $i 1, 1, 1, 1, 1, 1 2> /dev/null
+    break
+  done
+}
+
+enable_tap
+

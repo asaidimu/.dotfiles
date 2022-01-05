@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+
+CONFIG_DIR="${HOME}/.config/i3"
+CONFIG_FILE="${CONFIG_DIR}/config"
+
+CONFIG_PARTIALS=(
+  conf/variables.conf
+  conf/theme.conf
+  conf/keybindings.conf
+  conf/modes.conf
+  conf/tasks.conf
+  conf/workspaces.conf
+  conf/windows.conf
+)
+
+# empty file
+: > $CONFIG_FILE
+
+# concat partials
+for file in $CONFIG_PARTIALS; do
+	cat "$CONFIG_DIR/$file" >> "$CONFIG_FILE"
+done
+
+# restart i3
+i3-msg restart 2>&1 >> /dev/null

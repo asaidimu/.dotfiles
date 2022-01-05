@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+while [ 1 -eq 1 ]; do
+  index=$((RANDOM % 49))
+  echo $index
+  [ $index -lt 10 ] && index="00${index}" || index="0${index}"
+  wallpaper="$HOME/pictures/wallpaper/${index}.png"
+  feh --bg-center $wallpaper
+  sleep $((60 * 3))
+done

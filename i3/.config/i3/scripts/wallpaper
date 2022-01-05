@@ -1,0 +1,84 @@
+#!/usr/bin/env sh
+
+CONFIG="$HOME/.config.json"
+WALLPAPER_DIR="$HOME/pictures/wallpaper"
+CMD=$0
+DEFAULT_WP=12
+
+set_wallpaper(){
+  [ $1 -lt 10 ] && index="00$1" || index="0$1"
+  wallpaper="${WALLPAPER_DIR}/$index.png"
+  feh --bg-fill $wallpaper
+}
+
+
+set_next(){
+  wallpaper=$(cat $CONFIG | jq ".wallpaper")
+
+  [ -z $wallpaper ] && {
+    wallpaper=$DEFAULT_WP
+  } || {
+    wallpaper=$((wallpaper + 1))
+  }
+
+  [ $wallpaper -gt 48 ] && wallpaper=0
+
+  echo "{ \"wallpaper\": ${wallpaper} }" > $CONFIG
+  set_wallpaper "$wallpaper"
+}
+
+set_previous(){
+  wallpaper=$(cat $CONFIG | jq ".wallpaper")
+
+  [ -z $wallpaper ] && {
+    wallpaper=$DEFAULT_WP
+  } || {
+    wallpaper=$((wallpaper - 1))
+  }
+
+  [ $wallpaper -gt 48 ] && wallpaper=0
+
+  echo "{ \"wallpaper\": ${wallpaper} }" > $CONFIG
+  set_wallpaper "$wallpaper"
+}
+
+set_current(){
+  wallpaper=$(cat $CONFIG | jq ".wallpaper")
+  [ -z $wallpaper ] && {
+    wallpaper=$DEFAULT_WP
+      echo "{ \"wallpaper\": ${wallpaper} }" > $CONFIG
+  }
+
+  set_wallpaper "$wallpaper"
+}
+
+help(){
+cat <<EOF
+USAGE
+    $(basename $CMD) [flag]
+
+FLAGS
+    -h  --help      show help
+    -p  --previous  set previous wallpaper
+    -n  --next      set next wallpaper
+EOF
+}
+
+main(){
+  case "$1" in
+    -n | --next )
+      set_next
+      ;;
+    -p | --previous )
+      set_previous
+      ;;
+    -h | --help)
+      help
+    ;;
+    * )
+      set_current
+      ;;
+  esac
+}
+
+main $@

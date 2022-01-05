@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+cmd=$1
+wks=$2
+count=$(pgrep -u augustine ${cmd} | xargs | wc -w)
+
+i3-msg "workspace $wks"
+[ $count -lt 1 ] && $cmd &
+

@@ -1,0 +1,70 @@
+# -- path --
+  export PATH="/sbin:/usr/sbin:/usr/bin:/usr/share/bin:/usr/local/bin"
+  export PATH="$PATH:/usr/lib/jvm/jdk-13.0.1/bin"
+  export PATH="$PATH:/opt/dart-sass"
+  export PATH="$PATH:/opt/xdman"
+  export PATH="$PATH:/opt/mssql/bin"
+  export PATH="$PATH:/opt/mssql-tools/bin"
+  export PATH="$PATH:/opt/DataGrip-2020.3/bin"
+  export PATH="$PATH:/opt/WebStorm-202.7660.23/bin"
+  export PATH="$PATH:/opt/PhpStorm-202.7660.42/bin"
+  export PATH="$PATH:/opt/pycharm-2020.2.4/bin"
+  export PATH="$PATH:/opt/idea-IU-203.5981.155/bin"
+  export PATH="$PATH:/opt/clion-2020.3/bin"
+  export PATH="$PATH:/opt/brave.com/brave"
+  export PATH="$PATH:/opt/appimages"
+  export PATH="$PATH:/snap/bin"
+  export PATH="$PATH:/usr/games"
+  export PATH="$PATH:/usr/lib/dart/bin"
+  export PATH="$HOME/.local/bin:$PATH"
+  export PATH="$HOME/projects/scripts/bin:$PATH"
+
+# -- oh-my-zsh --
+  export ZSH="$HOME/.oh-my-zsh"
+
+# -- projects folder --
+  export PROJECTS_PATH="$HOME/projects"
+
+# -- dotfiles --
+  export DOTFILES="$HOME/.dotfiles"
+
+# -- editor --
+  export EDITOR=nvim
+  export EDITOR_FILES=(cpp cxx cc c hh h inl asc txt TXT tex css html js json py)
+
+# -- term --
+  export TERM="st-256color"
+
+# -- language --
+  export LC_ALL="en_US.UTF-8"
+
+# -- title --
+  export DISABLE_AUTO_TITLE='true'
+
+# -- nvim socket --
+  export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim
+
+# -- java --
+_SILENT_JAVA_OPTIONS="$_JAVA_OPTIONS"
+unset _JAVA_OPTIONS
+
+# -- git --
+export LOCAL_REPO="file:///home/git"
+export GITHUB_PUSH_TOKEN="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"
+export GITHUB_USER="ausaidimu@gmail.com"
+
+# -- xdg home --
+export XDG_CONFIG_HOME="$HOME/.config"
+
+# configuration files, for editc
+# export CONFIG_FILES=(
+#        "i3:$HOME/.config/i3/config:y"
+#   "polybar:$HOME/.config/polybar/config:n"
+#      "rofi:$HOME/.config/rofi/config:n"
+#      "tmux:$HOME/.config/tmux/tmux.conf:n"
+#      "st:$HOME/.config/st/config.h"
+#       "vim:$HOME/.config/nvim/init.vim:n"
+#       "zsh:$HOME/.config/zsh/.zshrc:y"
+# )
+
+# vim:set et sw=4 ts=4 tw=80 ft=zsh:

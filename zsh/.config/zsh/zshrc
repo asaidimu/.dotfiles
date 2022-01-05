@@ -17,6 +17,9 @@ source $ZSH_CONFIG/plugins
 # -- functions --
 source $ZSH_CONFIG/functions/index.zsh
 
+# -- widgets --
+source $ZSH_CONFIG/widgets
+
 # -- nvm --
 # source /usr/share/nvm/init-nvm.sh
 

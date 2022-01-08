@@ -25,9 +25,6 @@ source $ZSH_CONFIG/aliases.zsh
 # -- functions --
 source $ZSH_CONFIG/functions.zsh
 
-# -- plugins --
-source $ZSH_CONFIG/plugins.zsh
-
 # -- bindings --
 source $ZSH_CONFIG/bindings.zsh
 

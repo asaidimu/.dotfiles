@@ -2,7 +2,7 @@
 fpath=($ZSH_CONFIG/completions $ZSH_CONFIG/functions $fpath)
 
 # load stock functions
-autoload -U compaudit compinit
+ autoload -U compaudit compinit
 
 # set up completion
 

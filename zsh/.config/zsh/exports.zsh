@@ -50,21 +50,20 @@ unset _JAVA_OPTIONS
 
 # -- git --
 export LOCAL_REPO="file:///home/git"
-export GITHUB_PUSH_TOKEN="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"
 export GITHUB_USER="ausaidimu@gmail.com"
 
 # -- xdg home --
 export XDG_CONFIG_HOME="$HOME/.config"
 
-# configuration files, for editc
-# export CONFIG_FILES=(
-#        "i3:$HOME/.config/i3/config:y"
-#   "polybar:$HOME/.config/polybar/config:n"
-#      "rofi:$HOME/.config/rofi/config:n"
-#      "tmux:$HOME/.config/tmux/tmux.conf:n"
-#      "st:$HOME/.config/st/config.h"
-#       "vim:$HOME/.config/nvim/init.vim:n"
-#       "zsh:$HOME/.config/zsh/.zshrc:y"
-# )
+# -- short host --
+export SHORT_HOST=${HOST/.*/}
+
+# Save the location of the current completion dump file.
+export ZSH_COMPDUMP="${ZDOTDIR:-${HOME}}/.zcompdump-${SHORT_HOST}-${ZSH_VERSION}"
+
+# library options
+COMPLETION_WAITING_DOTS="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
+HIST_STAMPS="yyyy-mm-dd"
 
 # vim:set et sw=4 ts=4 tw=80 ft=zsh:

@@ -2,6 +2,8 @@
   unalias ll
   unalias man
 
+
+  alias r=source_file
   alias cp="cp -r"
   alias rm="rm -i"
   alias ls='lsd  --group-dirs=first --color=auto'

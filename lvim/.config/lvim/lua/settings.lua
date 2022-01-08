@@ -26,7 +26,7 @@ vim.opt.showcmd=true
 vim.opt.incsearch=true
 
 -- Highlight search matches
-vim.opt.hlsearch=true
+vim.opt.hlsearch=false
 
 -- Ignore case in search
 vim.opt.smartcase=true

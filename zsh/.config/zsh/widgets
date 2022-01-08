@@ -1,9 +1,6 @@
 
-open-project-widget() {
-    pjopen
-}
-
-zle -N open-project-widget
-bindkey ^p open-project-widget
+# open project in tmux
+bindkey '^u' kill-whole-line
+bindkey -s '^p' "^upjopen^M"
 
 # vim:set filetype=zsh:

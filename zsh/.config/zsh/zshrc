@@ -1,3 +1,13 @@
+# -- open tmux --
+if [ -z "$TMUX" ]; then
+    session_name=$(basename $HOME | sed -E "s/^(\.)+//; s/\./_/g" )
+    if tmux has -t "$session_name" 2> /dev/null; then
+        tmux attach-session -t "$session_name"
+    else
+        tmux new-session -s "$session_name" -c "$HOME"
+        exit
+    fi
+fi
 
 # config_dir
 export ZSH_CONFIG="${HOME}/.config/zsh"

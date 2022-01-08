@@ -21,7 +21,7 @@
   HIST_STAMPS="yyyy-mm-dd"
 
 # -- plugins ---
-plugins=(common-aliases fzf tmux)
+plugins=(common-aliases fzf)
 
 # -- load oh-my-zsh --
 source $ZSH/oh-my-zsh.sh

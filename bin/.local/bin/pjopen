@@ -11,7 +11,8 @@ _open_session() {
 }
 
 _main(){
-    project=$(find ~/projects -mindepth 1 -maxdepth 1 | fzf)
+    locations="$HOME/projects $HOME/.dotfiles"
+    project=$(find `echo "$locations" | tr ' ' "\n" | xargs` -type d -mindepth 1 -maxdepth 1 | fzf)
     session_name=$(basename "$project" | sed -E "s/^(\.)+//; s/\./_/g" )
 
     if tmux has -t "$session_name" 2> /dev/null; then

@@ -1,0 +1,35 @@
+snippet test "testf"
+
+test('${1}', ${2}function() {
+    ${3}
+})
+
+endsnippet
+
+snippet it "it"
+
+it('${1}', () => {
+    ${2}
+})
+
+endsnippet
+
+snippet arf "Arrow function"
+const ${1} = (${2}) => {
+    ${3}
+}
+endsnippet
+
+snippet ometh "Object method"
+${1} (${2}){
+    ${3}
+},
+endsnippet
+
+snippet meth "Class method"
+${1} (${2}){
+    ${3}
+}
+endsnippet
+
+

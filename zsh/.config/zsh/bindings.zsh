@@ -7,10 +7,10 @@ bindkey -M viins 'jk' vi-cmd-mode
 bindkey '^u' kill-whole-line
 
 # open a project
-bindkey -s '^p' "^upjopen^M"
+bindkey -s '^p' "^uopen_project^M"
 
 # open a tmux session at the current directory
-bindkey -s '^n' "^u session_here && clear ^M"
+bindkey -s '^n' "^u start_session && clear ^M"
 
 # Paste contents of xclip
 bindkey -s '^v' '`xclip -o`^i'

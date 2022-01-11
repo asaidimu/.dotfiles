@@ -1,8 +1,3 @@
-# Key bindings
-# ------------
-if [[ $- == *i* ]]; then
-
-# CTRL-T - Paste the selected file path(s) into the command line
 __fsel() {
   local cmd="${FZF_CTRL_T_COMMAND:-"command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
     -o -type f -print \
@@ -33,7 +28,6 @@ fzf-file-widget() {
   return $ret
 }
 zle     -N   fzf-file-widget
-bindkey '^F' fzf-file-widget
 
 # Ensure precmds are run after cd
 fzf-redraw-prompt() {
@@ -62,7 +56,6 @@ fzf-cd-widget() {
   return $ret
 }
 zle     -N    fzf-cd-widget
-bindkey '\ec' fzf-cd-widget
 
 # CTRL-R - Paste the selected command from history into the command line
 fzf-history-widget() {
@@ -80,7 +73,5 @@ fzf-history-widget() {
   zle reset-prompt
   return $ret
 }
-zle     -N   fzf-history-widget
-bindkey '^R' fzf-history-widget
 
-fi
+zle     -N   fzf-history-widget

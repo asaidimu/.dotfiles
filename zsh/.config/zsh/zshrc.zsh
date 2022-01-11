@@ -1,13 +1,16 @@
 # -- open tmux --
 if [ -z "$TMUX" ]; then
     session_name=$(basename $HOME | sed -E "s/^(\.)+//; s/\./_/g" )
-    if tmux has -t "$session_name" 2> /dev/null; then
-        tmux attach-session -t "$session_name"
-    else
-        tmux new-session -s "$session_name" -c "$HOME"
-    fi
 
-    exit
+    # shell started
+    while  [ 1 -eq 1 ]; do
+      clear
+      if tmux has -t "$session_name" 2> /dev/null; then
+        tmux attach-session -t "$session_name"
+      else
+        tmux new-session -s "$session_name" -c "$HOME"
+      fi
+    done
 fi
 
 # config_dir

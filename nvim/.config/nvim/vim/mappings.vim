@@ -70,3 +70,15 @@ nnoremap <silent> <leader>b :Buffers<cr>
 
 " -- exit --
 nnoremap <silent>zz :q! <cr>
+
+" stay on the home row.
+for key in ['<Up>', '<Down>', '<Left>', '<Right>', ]
+  exec 'noremap' key '<Nop>'
+  exec 'inoremap' key '<Nop>'
+endfor
+
+" -- Telescope --
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>

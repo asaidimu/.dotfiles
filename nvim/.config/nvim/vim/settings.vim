@@ -1,5 +1,3 @@
-
-" -- Settings -
 " Switch syntax highlighting on, when the terminal has colors
 syntax enable
 
@@ -78,9 +76,6 @@ set timeout timeoutlen=1000 ttimeoutlen=100
 " Always show status bar
 set laststatus=2
 
-" Set the status line to something useful
-"  set statusline=%f\ %=L:%l/%L\ %c\ (%p%%)
-
 " Hide the toolbar
 set guioptions-=T
 
@@ -138,5 +133,3 @@ let g:python3_host_prog= "/sbin/python3"
 
 " options for complete window
 set completeopt=menu,menuone,noselect
-
-

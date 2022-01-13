@@ -42,14 +42,23 @@ use {
 }
 
 -- status line
+use 'vim-airline/vim-airline'
+use 'vim-airline/vim-airline-themes'
 --use  {
     --'nvim-lualine/lualine.nvim',
     --config = function() require('plugin/_lualine') end
 --}
 
-use 'vim-airline/vim-airline'
-use 'vim-airline/vim-airline-themes'
+-- fuzzy finder
+use {
+    "nvim-telescope/telescope.nvim",
+    config = function() require('plugin/_telescope') end
+}
 
+use {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    run = 'make'
+}
 
 -- file manager
 use  {
@@ -185,6 +194,7 @@ use {
     --branch = '3p',
 --}
 
+-- lsp installer
 use {
     "williamboman/nvim-lsp-installer",
     config = function()
@@ -200,3 +210,17 @@ use {
     --end
 --}
 
+-- note taking
+use {
+    "oberblastmeister/neuron.nvim",
+    branch= 'unstable',
+    config = function()
+        require'neuron'.setup {
+            virtual_titles = true,
+            mappings = true,
+            run = nil,
+            neuron_dir = "~/notes/zettel",
+            leader = "gz",
+    }
+    end
+}

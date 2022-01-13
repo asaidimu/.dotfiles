@@ -1,4 +1,5 @@
-return require'nvim-tree'.setup {
+return require'nvim-tree'.setup(
+{
       disable_netrw = true,
       hijack_netrw = true,
       open_on_setup = false,
@@ -14,15 +15,9 @@ return require'nvim-tree'.setup {
       auto_close = true,
       open_on_tab = false,
       hijack_cursor = false,
-      update_cwd = false,
+      update_cwd = true,
       diagnostics = {
-        enable = true,
-        icons = {
-          hint = "",
-          info = "",
-          warning = "",
-          error = "",
-        },
+        enable = false,
       },
       update_focused_file = {
         enable = true,
@@ -41,7 +36,7 @@ return require'nvim-tree'.setup {
       view = {
         width = 30,
         height = 30,
-        side = "left",
+        side = "right",
         auto_resize = true,
         number = false,
         relativenumber = false,
@@ -57,3 +52,5 @@ return require'nvim-tree'.setup {
         custom = { ".git", "node_modules", ".cache" },
       },
 }
+
+)

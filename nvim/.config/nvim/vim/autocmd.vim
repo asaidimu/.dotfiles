@@ -1,4 +1,3 @@
-
 " Close all folds when opening a new buffer
 autocmd BufRead * normal zM
 
@@ -33,16 +32,8 @@ autocmd Bufread,BufNewFile *.md set filetype=markdown " Vim interprets .md as 'm
 " HTML snippets in markdown
 autocmd Bufread,BufNewFile *.md :UltiSnipsAddFiletypes html
 
-" js prettier
-autocmd Filetype javascript nnoremap <silent> =  :%!prettier --parser=typescript --tab-width=4 <cr>
-
-
-" stay on the home row.
-"'<BS>'
-for key in ['<Up>', '<Down>', '<Left>', '<Right>', ]
-  exec 'noremap' key '<Nop>'
-  exec 'inoremap' key '<Nop>'
-endfor
+" quit with q for the following file types
+autocmd Filetype help,lspinfo,man,fugitive nnoremap <silent>q :q!<cr>
 
 " reload packer on changes
 augroup packer_user_config
@@ -50,11 +41,11 @@ augroup packer_user_config
   autocmd BufWritePost plugins.lua source <afile> | PackerCompile
 augroup end
 
-" quit with q for the following file types
-autocmd Filetype help,lspinfo,man nnoremap <silent>q :q!<cr>
-
 augroup vimrc_help
   autocmd!
   autocmd BufEnter *.txt if &buftype == 'help' | wincmd L | endif
 augroup END
+
+" js prettier
+autocmd Filetype javascript,typescript nnoremap <silent> =  :%!prettier --parser=typescript --tab-width=4 <cr>
 

@@ -1,17 +1,13 @@
-snippet test "testf"
-
-test('${1}', ${2}function() {
+snippet testf "Test function"
+test('${1}', ${2}() => {
     ${3}
 })
-
 endsnippet
 
 snippet it "it"
-
 it('${1}', () => {
     ${2}
 })
-
 endsnippet
 
 snippet arf "Arrow function"
@@ -32,4 +28,9 @@ ${1} (${2}){
 }
 endsnippet
 
+snippet cb "Callback arrow function"
+(${1}) => {
+    ${2}
+}
+endsnippet
 

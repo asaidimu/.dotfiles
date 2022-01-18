@@ -1,3 +1,10 @@
+
+-- bootstrap packer
+local fn = vim.fn
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+if fn.empty(fn.glob(install_path)) > 0 then
+  fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+end
 local packer = require('packer')
 
 packer.init({
@@ -139,10 +146,11 @@ use {
 }
 
 -- completion
-use 'hrsh7th/cmp-nvim-lsp'
-use 'hrsh7th/cmp-buffer'
-use 'hrsh7th/cmp-path'
-use 'hrsh7th/cmp-cmdline'
+use {'hrsh7th/cmp-nvim-lsp'}
+use {'hrsh7th/cmp-buffer'  }
+use {'hrsh7th/cmp-path'    }
+use {'hrsh7th/cmp-cmdline' }
+--use { 'f3fora/cmp-spell' }
 
 use {
     'SirVer/ultisnips',
@@ -175,6 +183,19 @@ use {
         require('plugin/_nvim-cmp')
     end,
 }
+
+--use {
+    --'uga-rosa/cmp-dictionary',
+    --config= function()
+        --require("cmp_dictionary").setup({
+            --dic = {
+                --["*"] = '~/.local/share/thesaurus/thesaurus.txt',
+            --},
+            --exact = 2,
+            --async = true,
+        --})
+    --end
+--}
 
 --use {
     --'ms-jpq/coq_nvim',
@@ -224,3 +245,25 @@ use {
     }
     end
 }
+
+-- nvim in the browser
+use {
+    "glacambre/firenvim",
+    tag="0.2.11",
+    run=function() vim.fn['firenvim#install'](0) end
+}
+
+-- markdown preview
+use {
+    "ellisonleao/glow.nvim"
+}
+
+-- vim for writers
+use {'junegunn/goyo.vim' }
+use {'junegunn/limelight.vim' }
+use {'reedes/vim-pencil' }
+use {'reedes/vim-wordy'}
+use {'reedes/vim-lexical'}
+use { 'dbmrq/vim-ditto' }
+use { 'rhysd/vim-grammarous' }
+

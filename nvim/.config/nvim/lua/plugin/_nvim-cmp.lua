@@ -41,6 +41,8 @@ local formatting  = {
         vsnip = "(Snippet)",
         luasnip = "(Snippet)",
         buffer = "(Buffer)",
+        spell = "(Spell)",
+        dictionary= "(Dictionary)"
       },
       duplicates = {
         buffer = 1,
@@ -61,7 +63,7 @@ cmp.setup({
         { name = 'nvim_lsp' },
         { name = "ultisnips" },
         { name = "path" },
-        { name = 'buffer' },
+        { name = 'buffer' }
     }),
     mapping = {
         ["<Tab>"] = cmp.mapping({

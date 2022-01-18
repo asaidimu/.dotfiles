@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+set -eu
+
+[ -d $PWD/.git ] || exit 1
+
+clear
+while inotifywait .git/ -e create,delete,modify -q; do
+  clear && git status
+done
+

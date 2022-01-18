@@ -31,6 +31,7 @@ autocmd Bufread,BufNewFile *.md set filetype=markdown " Vim interprets .md as 'm
 
 " HTML snippets in markdown
 autocmd Bufread,BufNewFile *.md :UltiSnipsAddFiletypes html
+autocmd Bufread,BufNewFile *.md :nnoremap <buffer> <silent><leader>p :Glow<cr>
 
 " quit with q for the following file types
 autocmd Filetype help,lspinfo,man,fugitive nnoremap <silent>q :q!<cr>
@@ -49,3 +50,5 @@ augroup END
 " js prettier
 autocmd Filetype javascript,typescript nnoremap <silent> =  :%!prettier --parser=typescript --tab-width=4 <cr>
 
+" Ditto
+au FileType markdown,text,tex DittoOn

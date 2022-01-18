@@ -1,7 +1,7 @@
+clear
 q
 bind -f common n player-next
 bind -f common n 
-clear
 wq
 toggle play
 bind -f common p player-previous

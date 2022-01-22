@@ -1,4 +1,34 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
+
+CACHE_FILE=~/.cache/tmux.session.paths
+
+_generate_list(){
+  dotfiles=`find ~/.dotfiles -name ".project" | xargs | sed -E "s/..project//g;s/\s/:/g"`
+
+  SESSION_LOCATIONS=( "$HOME/projects" "$HOME/books"  )
+  SESSION_DIRS="$HOME:$HOME/music/music:$HOME/.dotfiles:$dotfiles"
+
+  length=${#SESSION_LOCATIONS[@]}
+
+  for((i = 0; i < $length; i++)){
+    location=${SESSION_LOCATIONS[$i]}
+    SESSION_DIRS="$SESSION_DIRS:`find $location -mindepth 1 -maxdepth 1 -type d`"
+  }
+
+  echo $SESSION_DIRS | tee $CACHE_FILE
+}
+
+_get_selection(){
+  SESSION_DIRS=""
+  if [[ -e $CACHE_FILE ]]; then
+    SESSION_DIRS=$(cat $CACHE_FILE)
+  else
+    SESSION_DIRS=$(_generate_list)
+  fi
+
+  selection=$(echo $SESSION_DIRS | sed -E "s/(\s|:)/\n/g" | fzf)
+  echo $selection
+}
 
 _open_session() {
     session_name="$1"
@@ -11,16 +41,14 @@ _open_session() {
 }
 
 _main(){
-    locations="$HOME/projects $HOME/.dotfiles"
-    dotfiles=`find ~/.dotfiles -name ".project" | sed -E "s/..project//g;"`
-    projects=`find ~/projects -mindepth 1 -maxdepth 1 -type d`
-    project=$(printf "$dotfiles\n$projects"  | fzf)
-    session_name=$(basename "$project" | sed -E "s/^(\.)+//; s/\./_/g" )
+    selection=$(_get_selection)
+
+    session_name=$(basename "$selection" | sed -E "s/^(\.)+//; s/\./_/g" )
 
     if tmux has -t "$session_name" 2> /dev/null; then
         _open_session "$session_name"
     else
-        tmux new-session -ds "$session_name" -c "$project"
+        tmux new-session -ds "$session_name" -c "$selection"
         _open_session "$session_name"
     fi
 }

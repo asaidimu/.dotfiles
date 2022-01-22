@@ -39,9 +39,6 @@ use 'Yggdroot/indentLine'
 -- fuzzy finder
 use 'junegunn/fzf.vim'
 
--- supertab
-use 'ervandew/supertab'
-
 -- pretty icons
 use {
     'kyazdani42/nvim-web-devicons',
@@ -51,17 +48,12 @@ use {
 -- status line
 use 'vim-airline/vim-airline'
 use 'vim-airline/vim-airline-themes'
---use  {
-    --'nvim-lualine/lualine.nvim',
-    --config = function() require('plugin/_lualine') end
---}
 
 -- fuzzy finder
 use {
     "nvim-telescope/telescope.nvim",
     config = function() require('plugin/_telescope') end
 }
-
 use {
     'nvim-telescope/telescope-fzf-native.nvim',
     run = 'make'
@@ -184,37 +176,6 @@ use {
     end,
 }
 
---use {
-    --'uga-rosa/cmp-dictionary',
-    --config= function()
-        --require("cmp_dictionary").setup({
-            --dic = {
-                --["*"] = '~/.local/share/thesaurus/thesaurus.txt',
-            --},
-            --exact = 2,
-            --async = true,
-        --})
-    --end
---}
-
---use {
-    --'ms-jpq/coq_nvim',
-    --branch= 'coq',
-    --config= function()
-        --require('plugin/_coq_nvim')
-    --end
---}
-
---use {
-    --'ms-jpq/coq.artifacts',
-    --branch = 'artifacts'
---}
-
---use {
-    --'ms-jpq/coq.thirdparty',
-    --branch = '3p',
---}
-
 -- lsp installer
 use {
     "williamboman/nvim-lsp-installer",
@@ -223,34 +184,11 @@ use {
     end
 }
 
--- dashboard
---use {
-    --'glepnir/dashboard-nvim',
-    --config = function()
-        --require('plugin/_dashboard-nvim')
-    --end
---}
-
--- note taking
+-- show errors
 use {
-    "oberblastmeister/neuron.nvim",
-    branch= 'unstable',
-    config = function()
-        require'neuron'.setup {
-            virtual_titles = true,
-            mappings = true,
-            run = nil,
-            neuron_dir = "~/notes/zettel",
-            leader = "gz",
-    }
-    end
-}
-
--- nvim in the browser
-use {
-    "glacambre/firenvim",
-    tag="0.2.11",
-    run=function() vim.fn['firenvim#install'](0) end
+  "folke/trouble.nvim",
+  requires = "kyazdani42/nvim-web-devicons",
+  config = function() require("trouble").setup { } end
 }
 
 -- markdown preview

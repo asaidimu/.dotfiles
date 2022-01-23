@@ -50,24 +50,6 @@ noremap <leader>z <c-z>
 " macro buffer
 nnoremap ` @a
 
-" run :FZF with ctrl-f
-nnoremap <silent> <c-f> :FZF<cr>
-
-" nvim-tree
-nnoremap <silent><leader>e :NvimTreeToggle<CR>
-
-" -- Tabularize --
-map <leader>=  :Tabularize /=<cr>
-map <leader>c  :Tabularize /:<cr>
-map <leader>=s :Tabularize /=\zs<cr>
-map <leader>cs :Tabularize /:\zs<cr>
-
-" -- Tag Bar --
-map <silent> <leader>x :TagbarToggle <cr>
-
-" -- Fzf --
-nnoremap <silent> <leader>b :Buffers<cr>
-
 " -- exit --
 nnoremap <silent>zz :q! <cr>
 
@@ -77,8 +59,28 @@ for key in ['<Up>', '<Down>', '<Left>', '<Right>', ]
   exec 'inoremap' key '<Nop>'
 endfor
 
-" -- Telescope --
+" Fzf
+nnoremap <silent> <c-f> :FZF<cr>
+nnoremap <silent> <leader>b :Buffers<cr>
+
+" nvim-tree
+nnoremap <silent><leader>e :NvimTreeToggle<CR>
+
+" Tabularize
+map <leader>=  :Tabularize /=<cr>
+map <leader>c  :Tabularize /:<cr>
+map <leader>=s :Tabularize /=\zs<cr>
+map <leader>cs :Tabularize /:\zs<cr>
+
+" Tag Bar
+map <silent> <leader>t :TagbarToggle <cr>
+
+" Telescope
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" Trouble
+map <silent> <leader>x :TroubleToggle <cr>
+

@@ -114,6 +114,9 @@ set showmatch
 " Use 24bit Colors
 set termguicolors
 
+" divider between panes
+set fillchars+=vert:\┃
+
 " set underline cursor for normal and visual
 set guicursor=n-ci:hor30-iCursor-blinkwait300-blinkon200-blinkoff150
 set guicursor=v-ci:hor30-iCursor-blinkwait300-blinkon200-blinkoff150

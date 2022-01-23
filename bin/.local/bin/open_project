@@ -6,7 +6,7 @@ _generate_list(){
   dotfiles=`find ~/.dotfiles -name ".project" | xargs | sed -E "s/..project//g;s/\s/:/g"`
 
   SESSION_LOCATIONS=( "$HOME/projects" "$HOME/books"  )
-  SESSION_DIRS="$HOME:$HOME/music/music:$HOME/.dotfiles:$dotfiles"
+  SESSION_DIRS="$HOME:$HOME/Music/music:$HOME/.dotfiles:$dotfiles"
 
   length=${#SESSION_LOCATIONS[@]}
 

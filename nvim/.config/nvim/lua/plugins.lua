@@ -56,8 +56,8 @@ use {
 
 -- status line
 use {
-    'feline-nvim/feline.nvim', tag = 'v0.4.3',
-    config = function () require('plugin/_feline') end
+    'nvim-lualine/lualine.nvim',
+    config = function () require('plugin/_lualine') end
 }
 
 -- buffer line

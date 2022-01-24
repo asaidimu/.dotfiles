@@ -89,7 +89,7 @@ nnoremap <silent> gp <cmd>BufferLineCyclePrev<CR>
 nnoremap <silent> gx <cmd>BufferLinePickClose<CR>
 
 " close buffers with leader q
-noremap <silent><leader>q <cmd>BufferLinePickClose<cr>
+noremap <silent><leader>q <cmd>CloseBuffer<cr>
 
 " harpoon
 nnoremap <silent><leader>m :lua require("harpoon.mark").add_file()<CR>

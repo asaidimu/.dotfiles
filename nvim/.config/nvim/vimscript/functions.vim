@@ -37,10 +37,18 @@ command! Scratch : call ScratchBuffer()
 
 " -- Open File in New Tab if current is empty --
 fun! OpenInTabIfBufferDirty(file)
-    if line('$') == 1 && getline(1) == ''
-        exec 'e' a:file
-    else
-        exec 'tabnew' a:file
-    endif
-  endfun
-" nnoremap <silent> <leader>ev :call OpenInTabIfBufferDirty($MYVIMRC)<cr>
+  if line('$') == 1 && getline(1) == ''
+    exec 'e' a:file
+  else
+    exec 'tabnew' a:file
+  endif
+endfun
+
+fun! DeleteCurrentBuffer()
+  let s:buff = bufnr()
+  exec 'bdelete' s:buff
+  if line('$') == 1 && getline(1) == ''
+    exec 'quit'
+  endif
+endfun
+command! CloseBuffer :call DeleteCurrentBuffer()

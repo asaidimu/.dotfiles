@@ -41,9 +41,6 @@ inoremap <leader>o <esc>o
 " save with <leader>w
 noremap <leader>w :w<cr>
 
-" exit with <leader>q
-noremap <leader>q :wq<cr>
-
 " pause with <leader>z
 noremap <leader>z <c-z>
 
@@ -51,7 +48,7 @@ noremap <leader>z <c-z>
 nnoremap ` @a
 
 " -- exit --
-nnoremap <silent>zz :q! <cr>
+nnoremap <silent>ee :q! <cr>
 
 " stay on the home row.
 for key in ['<Up>', '<Down>', '<Left>', '<Right>', ]
@@ -61,7 +58,6 @@ endfor
 
 " Fzf
 nnoremap <silent> <c-f> :FZF<cr>
-nnoremap <silent> <leader>b :Buffers<cr>
 
 " nvim-tree
 nnoremap <silent><leader>e :NvimTreeToggle<CR>
@@ -76,11 +72,25 @@ map <leader>cs :Tabularize /:\zs<cr>
 map <silent> <leader>t :TagbarToggle <cr>
 
 " Telescope
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap F <cmd>Telescope find_files<cr>
+nnoremap <leader>g <cmd>Telescope live_grep<cr>
+nnoremap <leader>b <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap M <cmd>Telescope harpoon marks<cr>
 
 " Trouble
-map <silent> <leader>x :TroubleToggle <cr>
+nnoremap <silent> <leader>x :TroubleToggle <cr>
+
+" bufferline
+nnoremap <silent> gb <cmd>BufferLinePick<CR>
+nnoremap <silent> gn <cmd>BufferLineCycleNext<CR>
+nnoremap <silent> gt <cmd>BufferLineCycleNext<CR>
+nnoremap <silent> gp <cmd>BufferLineCyclePrev<CR>
+nnoremap <silent> gx <cmd>BufferLinePickClose<CR>
+
+" close buffers with leader q
+noremap <silent><leader>q <cmd>BufferLinePickClose<cr>
+
+" harpoon
+nnoremap <silent><leader>m :lua require("harpoon.mark").add_file()<CR>
 

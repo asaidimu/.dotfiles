@@ -24,8 +24,12 @@ local use = packer.use
 use 'wbthomason/packer.nvim'
 
 -- colorscheme
-use 'sainnhe/gruvbox-material'
-use 'morhetz/gruvbox'
+use {
+    'EdenEast/nightfox.nvim',
+    config = function ()
+        require("plugin/_nightfox")
+    end
+}
 
 -- align stuff
 use 'godlygeek/tabular'
@@ -34,7 +38,12 @@ use 'godlygeek/tabular'
 use 'scrooloose/nerdcommenter'
 
 -- show indentation levels
-use 'Yggdroot/indentLine'
+use {
+    'lukas-reineke/indent-blankline.nvim',
+    config = function ()
+        require("indent_blankline").setup { }
+    end
+}
 
 -- fuzzy finder
 use 'junegunn/fzf.vim'
@@ -46,14 +55,17 @@ use {
 }
 
 -- status line
-use 'vim-airline/vim-airline'
-use 'vim-airline/vim-airline-themes'
-
--- fuzzy finder
 use {
-    "nvim-telescope/telescope.nvim",
-    config = function() require('plugin/_telescope') end
+    'feline-nvim/feline.nvim', tag = 'v0.4.3',
+    config = function () require('plugin/_feline') end
 }
+
+-- buffer line
+use {
+    'akinsho/bufferline.nvim',
+    config = function () require('plugin/_bufferline') end
+}
+
 use {
     'nvim-telescope/telescope-fzf-native.nvim',
     run = 'make'
@@ -72,13 +84,6 @@ use {
     config = function() require('plugin/_nvim-autopairs') end
 }
 
--- tags
-use  {
-    'majutsushi/tagbar',
-    cmd= { "Tagbar", "TagbarToggle"}
-}
-
-
 -- git in vim
 use {
     'tpope/vim-fugitive',
@@ -93,17 +98,6 @@ use {
     },
     config = function()
         require('plugin/_gitsigns')
-    end
-}
-
--- diff view
-use {
-    'sindrets/diffview.nvim',
-    requires = {
-        'nvim-lua/plenary.nvim'
-    },
-    config = function()
-        require('diffview').setup()
     end
 }
 
@@ -142,7 +136,6 @@ use {'hrsh7th/cmp-nvim-lsp'}
 use {'hrsh7th/cmp-buffer'  }
 use {'hrsh7th/cmp-path'    }
 use {'hrsh7th/cmp-cmdline' }
---use { 'f3fora/cmp-spell' }
 
 use {
     'SirVer/ultisnips',
@@ -191,11 +184,6 @@ use {
   config = function() require("trouble").setup { } end
 }
 
--- markdown preview
-use {
-    "ellisonleao/glow.nvim"
-}
-
 -- vim for writers
 use {'junegunn/goyo.vim' }
 use {'junegunn/limelight.vim' }
@@ -205,3 +193,20 @@ use {'reedes/vim-lexical'}
 use { 'dbmrq/vim-ditto' }
 use { 'rhysd/vim-grammarous' }
 
+-- harpoon
+use {
+    'ThePrimeagen/harpoon',
+    config = function() require('harpoon').setup() end
+}
+
+-- fuzzy finder
+use {
+    "nvim-telescope/telescope.nvim",
+    config = function() require('plugin/_telescope') end
+}
+
+-- basic debugger
+use {
+    'mfussenegger/nvim-dap',
+    config = function() require('plugin/_dap') end
+}

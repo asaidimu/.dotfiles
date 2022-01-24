@@ -42,13 +42,11 @@ return require'nvim-tree'.setup(
         relativenumber = false,
         mappings = {
           custom_only = false,
-          list = {
-
-          },
+          list = { },
         },
       },
       filters = {
-        dotfiles = false,
+        dotfiles = true,
         custom = { ".git", "node_modules", ".cache" },
       },
 }

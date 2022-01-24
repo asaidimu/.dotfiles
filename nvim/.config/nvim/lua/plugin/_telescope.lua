@@ -16,4 +16,4 @@ telescope.setup({
 -- load extensions
 telescope.load_extension('fzf')
 telescope.load_extension('projects')
-
+telescope.load_extension('harpoon')

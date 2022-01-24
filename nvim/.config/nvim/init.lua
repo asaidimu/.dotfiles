@@ -1,6 +1,3 @@
---vim.cmd('profile start /tmp/vim_profile.log')
---vim.cmd('profile func *')
---vim.cmd('profile file *')
 
 -- configs location
 local config_dir = "$HOME/.config/nvim"
@@ -15,7 +12,7 @@ local configs = {
 
 -- load configurations
 for _,config in pairs(configs) do
-    local script = config_dir.."/vim/"..config
+    local script = config_dir.."/vimscript/"..config
     vim.cmd("source "..script)
 end
 
@@ -25,11 +22,14 @@ local function listFiles(dir, ext)
 end
 
 -- load vimscript plugin configurations
-for vimsConfig in listFiles(config_dir.."/vim/plugin", "vim"):lines() do
-    vim.cmd("source "..config_dir.."/vim/plugin/"..vimsConfig)
+for vimsConfig in listFiles(config_dir.."/vimscript/plugin", "vim"):lines() do
+    vim.cmd("source "..config_dir.."/vimscript/plugin/"..vimsConfig)
 end
 
 -- load plugins
 require("plugins")
 
+--vim.cmd('profile start /tmp/vim_profile.log')
+--vim.cmd('profile func *')
+--vim.cmd('profile file *')
 --vim.cmd('profile pause')

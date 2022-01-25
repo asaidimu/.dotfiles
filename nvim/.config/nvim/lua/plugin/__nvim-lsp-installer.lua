@@ -24,6 +24,7 @@ server_opts.sumneko_lua = {
                   globals= {
                       "hs",
                       "vim",
+                      "conky",
                       "it",
                       "describe",
                       "before_each",

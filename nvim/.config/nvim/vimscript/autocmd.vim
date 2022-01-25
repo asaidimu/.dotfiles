@@ -47,8 +47,15 @@ augroup vimrc_help
   autocmd BufEnter *.txt if &buftype == 'help' | wincmd L | endif
 augroup END
 
-" js prettier
-autocmd Filetype javascript,typescript nnoremap <silent> =  :%!prettier --parser=typescript --tab-width=4 <cr>
+" prettier
+autocmd Filetype scss nnoremap <silent>=  :%!prettier --parser=scss --tab-width=4 <cr>
+autocmd Filetype css nnoremap <silent>=  :%!prettier --parser=css --tab-width=4 <cr>
+autocmd Filetype vue nnoremap <silent>=  :%!prettier --parser=vue --tab-width=4 <cr>
+autocmd Filetype yaml nnoremap <silent>=  :%!prettier --parser=yaml --tab-width=4 <cr>
+autocmd Filetype json nnoremap <silent>=  :%!prettier --parser=json --tab-width=4 <cr>
+autocmd Filetype markdown nnoremap <silent>=  :%!prettier --parser=markdown --tab-width=4 <cr>
+autocmd Filetype xml,svg,html nnoremap <silent>=  :%!prettier --parser=html --tab-width=4 <cr>
+autocmd Filetype javascript,typescript nnoremap <silent>=  :%!prettier --parser=babel --tab-width=4 <cr>
 
 " Ditto
 au FileType markdown,text,tex DittoOn

@@ -24,6 +24,7 @@ local use = packer.use
 use 'wbthomason/packer.nvim'
 
 -- colorscheme
+use 'sainnhe/gruvbox-material'
 use {
     'EdenEast/nightfox.nvim',
     config = function ()

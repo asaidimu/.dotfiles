@@ -136,3 +136,6 @@ let g:python3_host_prog= "/sbin/python3"
 
 " options for complete window
 set completeopt=menu,menuone,noselect
+
+" disable man mappings
+let g:no_man_maps = v:true

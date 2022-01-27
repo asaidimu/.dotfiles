@@ -28,13 +28,14 @@ autocmd FileType sh,cucumber,ruby,yaml,zsh,vim setlocal shiftwidth=2 tabstop=2 e
 autocmd Bufread,BufNewFile *.spv set filetype=php
 autocmd Bufread,BufNewFile *.asm set filetype=nasm
 autocmd Bufread,BufNewFile *.md set filetype=markdown " Vim interprets .md as 'modula2' otherwise, see :set filetype?
+autocmd Bufread,BufNewFile *.vue set filetype=vue
 
 " HTML snippets in markdown
 autocmd Bufread,BufNewFile *.md :UltiSnipsAddFiletypes html
 autocmd Bufread,BufNewFile *.md :nnoremap <buffer> <silent><leader>p :Glow<cr>
 
 " quit with q for the following file types
-autocmd Filetype help,lspinfo,man,fugitive nnoremap <silent>q :q!<cr>
+autocmd Filetype help,lspinfo,man,fugitive nnoremap <buffer><silent>q <cmd>CloseBuffer<cr>
 
 " reload packer on changes
 augroup packer_user_config
@@ -55,7 +56,7 @@ autocmd Filetype yaml nnoremap <silent>=  :%!prettier --parser=yaml --tab-width=
 autocmd Filetype json nnoremap <silent>=  :%!prettier --parser=json --tab-width=4 <cr>
 autocmd Filetype markdown nnoremap <silent>=  :%!prettier --parser=markdown --tab-width=4 <cr>
 autocmd Filetype xml,svg,html nnoremap <silent>=  :%!prettier --parser=html --tab-width=4 <cr>
-autocmd Filetype javascript,typescript nnoremap <silent>=  :%!prettier --parser=babel --tab-width=4 <cr>
+autocmd Filetype javascript,typescript nnoremap <silent>=  :%!prettier --parser=typescript --tab-width=4 <cr>
 
 " Ditto
 au FileType markdown,text,tex DittoOn

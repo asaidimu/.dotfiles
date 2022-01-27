@@ -21,22 +21,22 @@ packer.init({
 local use = packer.use
 
 -- Packer can manage itself
-use 'wbthomason/packer.nvim'
+use {'wbthomason/packer.nvim',
+    cmd={"PackerCompile", "PackerLoad", "PackerSync", "PackerClean", "PackerStatus", "PackerUpdate", "PackerInstall", "PackerProfile",}
+}
 
 -- colorscheme
-use 'sainnhe/gruvbox-material'
+use {
+    'sainnhe/gruvbox-material',
+    cmd="colorscheme gruvbox",
+}
+
 use {
     'EdenEast/nightfox.nvim',
     config = function ()
         require("plugin/_nightfox")
     end
 }
-
--- align stuff
-use 'godlygeek/tabular'
-
--- quick comments
-use 'scrooloose/nerdcommenter'
 
 -- show indentation levels
 use {
@@ -45,9 +45,6 @@ use {
         require("indent_blankline").setup { }
     end
 }
-
--- fuzzy finder
-use 'junegunn/fzf.vim'
 
 -- pretty icons
 use {
@@ -67,9 +64,28 @@ use {
     config = function () require('plugin/_bufferline') end
 }
 
+-- auto pairs
 use {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    run = 'make'
+    'windwp/nvim-autopairs',
+    config = function() require('plugin/_nvim-autopairs') end
+}
+
+-- align stuff
+use {
+    'godlygeek/tabular',
+    cmd="Tabularize"
+}
+
+-- quick comments
+use {
+    'scrooloose/nerdcommenter',
+    cmd={ "NERDCommenterToggle", "NERDCommenterComment"}
+}
+
+-- fuzzy finder
+use {
+    'junegunn/fzf.vim',
+    cmd={"Fzf", "Buffers"}
 }
 
 -- file manager
@@ -77,12 +93,6 @@ use  {
     'kyazdani42/nvim-tree.lua',
     cmd = { 'NvimTreeToggle', 'NvimTreeOpen' },
     config = function() require('plugin/_nvim-tree') end
-}
-
--- auto pairs
-use {
-    'windwp/nvim-autopairs',
-    config = function() require('plugin/_nvim-autopairs') end
 }
 
 -- git in vim
@@ -127,6 +137,7 @@ use {
 
 use {
     "tamago324/nlsp-settings.nvim",
+    cmd={ "NlspConfig", "NlspLocalConfig", "NlspLocalBufConfig", "NlspUpdateSettings", },
     config = function()
         require('plugin/_nlsp-settings')
     end
@@ -173,6 +184,7 @@ use {
 -- lsp installer
 use {
     "williamboman/nvim-lsp-installer",
+    cmd = { 'LspInstall',  'LspInstallInfo', 'LspUninstall'},
     config = function()
         require('plugin/__nvim-lsp-installer')
     end
@@ -181,18 +193,37 @@ use {
 -- show errors
 use {
   "folke/trouble.nvim",
+  cmd = { "TroubleToggle" },
   requires = "kyazdani42/nvim-web-devicons",
   config = function() require("trouble").setup { } end
 }
 
 -- vim for writers
-use {'junegunn/goyo.vim' }
-use {'junegunn/limelight.vim' }
-use {'reedes/vim-pencil' }
-use {'reedes/vim-wordy'}
-use {'reedes/vim-lexical'}
-use { 'dbmrq/vim-ditto' }
-use { 'rhysd/vim-grammarous' }
+use {
+    'junegunn/goyo.vim',
+    cmd = { "Goyo" }
+}
+use {
+    'junegunn/limelight.vim',
+    cmd = { "limelight" }
+}
+use {
+    'reedes/vim-pencil',
+    cmd={ "Pencil", "Pexplore", "PencilOff", "PencilHard", "PencilSoft", "PencilToggle"},
+    ft={"markdown","text" }
+}
+use {'reedes/vim-wordy',
+    ft={"markdown","text" }
+}
+use {'reedes/vim-lexical',
+    ft={"markdown","text" }
+}
+use { 'dbmrq/vim-ditto',
+    ft={"markdown","text" }
+}
+use { 'rhysd/vim-grammarous',
+    ft={"markdown","text" }
+}
 
 -- harpoon
 use {
@@ -203,7 +234,13 @@ use {
 -- fuzzy finder
 use {
     "nvim-telescope/telescope.nvim",
+    cmd={"Telescope"},
     config = function() require('plugin/_telescope') end
+}
+
+use {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    run = 'make'
 }
 
 -- basic debugger

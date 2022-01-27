@@ -18,7 +18,7 @@ _generate_list(){
   echo $SESSION_DIRS | tee $CACHE_FILE
 }
 
-_get_selection(){
+_get_folder(){
   SESSION_DIRS=""
   if [[ -e $CACHE_FILE ]]; then
     SESSION_DIRS=$(cat $CACHE_FILE)
@@ -26,8 +26,8 @@ _get_selection(){
     SESSION_DIRS=$(_generate_list)
   fi
 
-  selection=$(echo $SESSION_DIRS | sed -E "s/(\s|:)/\n/g" | fzf)
-  echo $selection
+  folder=$(echo $SESSION_DIRS | sed -E "s/(\s|:)/\n/g" | fzf)
+  echo $folder
 }
 
 _open_session() {
@@ -41,16 +41,21 @@ _open_session() {
 }
 
 _main(){
-    selection=$(_get_selection)
+    folder=$(_get_folder)
+    session_name=$(basename "$folder" | sed -E "s/^(\.)+//; s/\./_/g" )
 
-    session_name=$(basename "$selection" | sed -E "s/^(\.)+//; s/\./_/g" )
+    setup="$folder/.project"
+    p_env="$folder/.env"
 
-    if tmux has -t "$session_name" 2> /dev/null; then
-        _open_session "$session_name"
-    else
-        tmux new-session -ds "$session_name" -c "$selection"
-        _open_session "$session_name"
+    if ! tmux has -t "$session_name" 2> /dev/null; then
+        [ -e "$p_env" ] && source $p_env
+
+        tmux new-session -ds "$session_name" -c "$folder"
+
+        [ -x "$setup" ] && $setup "$session_name" "$folder"
     fi
+
+    _open_session "$session_name"
 }
 
 _main

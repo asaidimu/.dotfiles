@@ -1,0 +1,13 @@
+dotfiles=`find ~/.dotfiles -name ".project" | xargs | sed -E "s/..project//g;s/\s/:/g"`
+
+SESSION_TARGETS="$HOME:$HOME/Music/music:$HOME/.dotfiles:$dotfiles"
+SESSION_LOCATIONS="$HOME/projects:$HOME/books"
+targets=$(echo $SESSION_TARGETS | sed "s/:/\n/g")
+
+for d in $(echo $SESSION_LOCATIONS | sed "s/:/ /g"); do
+  dirs=`find $d -mindepth 1 -maxdepth 1 -type d`
+  targets="$targets\n$dirs"
+done
+
+printf "$targets\n" > $SESSIONIZER_TARGET_LIST
+# vim:set ft=sh:

@@ -66,4 +66,8 @@ COMPLETION_WAITING_DOTS="true"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 HIST_STAMPS="yyyy-mm-dd"
 
+# sessionizer
+export SESSIONIZER_TARGET_LIST=~/.dotfiles/personal/sessionizer/paths
+export SESSIONIZER_LIST_GENERATOR=~/.dotfiles/personal/sessionizer/generator
+
 # vim:set et sw=4 ts=4 tw=80 ft=zsh:

@@ -7,9 +7,13 @@ bufferline.setup {
         diagnostics_indicator = function(count)
             return "("..count..")"
         end,
-        show_tab_indicators = true,
-        separator_style = "slant",
+        show_tab_indicators = false,
         always_show_bufferline = true,
-        sort_by = 'id'
+        sort_by = 'id',
+        show_close_icon = false,
+        modified_icon = '',
+        buffer_close_icon = '',
+        indicator_icon = ' '
     }
 }
+

@@ -35,6 +35,9 @@ server_opts.sumneko_lua = {
     }
 }
 
+-- tsserver
+server_opts.tsserver = { }
+
 return lsp_installer.on_server_ready(function(server)
     local opts = vim.deepcopy(common_setup_opts)
     if server_opts[server.name] then

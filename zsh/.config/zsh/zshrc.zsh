@@ -1,3 +1,9 @@
+# config_dir
+export ZSH_CONFIG="${HOME}/.config/zsh"
+
+# -- exports --
+source $ZSH_CONFIG/exports.zsh
+
 # -- open tmux --
 if [ -z "$TMUX" ]; then
     session_name=$(basename $HOME | sed -E "s/^(\.)+//; s/\./_/g" )
@@ -10,17 +16,13 @@ if [ -z "$TMUX" ]; then
       else
         tmux new-session -s "$session_name" -c "$HOME"
       fi
+
     done
 fi
 
-# config_dir
-export ZSH_CONFIG="${HOME}/.config/zsh"
 
 # -- settings --
 source $ZSH_CONFIG/settings.zsh
-
-# -- exports --
-source $ZSH_CONFIG/exports.zsh
 
 # -- aliases --
 source $ZSH_CONFIG/aliases.zsh

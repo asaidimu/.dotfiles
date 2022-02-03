@@ -22,7 +22,6 @@ autocmd Filetype gitcommit setlocal spell textwidth=80 colorcolumn=80
 
 autocmd Filetype markdown setlocal wrap linebreak nolist textwidth=0 wrapmargin=0 " http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
 autocmd FileType sh,cucumber,ruby,yaml,zsh,vim setlocal shiftwidth=2 tabstop=2 expandtab
-"autocmd FileType html setlocal foldmethod=marker
 
 " specify syntax highlighting for specific files
 autocmd Bufread,BufNewFile *.spv set filetype=php
@@ -32,7 +31,6 @@ autocmd Bufread,BufNewFile *.vue set filetype=vue
 
 " HTML snippets in markdown
 autocmd Bufread,BufNewFile *.md :UltiSnipsAddFiletypes html
-autocmd Bufread,BufNewFile *.md :nnoremap <buffer> <silent><leader>p :Glow<cr>
 
 " quit with q for the following file types
 autocmd Filetype help,lspinfo,man,fugitive nnoremap <buffer><silent>q <cmd>CloseBuffer<cr>
@@ -49,14 +47,11 @@ augroup vimrc_help
 augroup END
 
 " prettier
-autocmd Filetype scss nnoremap <silent>=  :%!prettier --parser=scss --tab-width=4 <cr>
-autocmd Filetype css nnoremap <silent>=  :%!prettier --parser=css --tab-width=4 <cr>
-autocmd Filetype vue nnoremap <silent>=  :%!prettier --parser=vue --tab-width=4 <cr>
-autocmd Filetype yaml nnoremap <silent>=  :%!prettier --parser=yaml --tab-width=4 <cr>
-autocmd Filetype json nnoremap <silent>=  :%!prettier --parser=json --tab-width=4 <cr>
-autocmd Filetype markdown nnoremap <silent>=  :%!prettier --parser=markdown --tab-width=4 <cr>
-autocmd Filetype xml,svg,html nnoremap <silent>=  :%!prettier --parser=html --tab-width=4 <cr>
-autocmd Filetype javascript,typescript nnoremap <silent>=  :%!prettier --parser=typescript --tab-width=4 <cr>
-
-" Ditto
-au FileType markdown,text,tex DittoOn
+autocmd Filetype scss                  nnoremap <buffer><silent>=  :%!prettier --parser=scss --tab-width=4 <cr>
+autocmd Filetype css                   nnoremap <buffer><silent>=  :%!prettier --parser=css --tab-width=4 <cr>
+autocmd Filetype vue                   nnoremap <buffer><silent>=  :%!prettier --parser=vue --tab-width=4 <cr>
+autocmd Filetype yaml                  nnoremap <buffer><silent>=  :%!prettier --parser=yaml --tab-width=4 <cr>
+autocmd Filetype json                  nnoremap <buffer><silent>=  :%!prettier --parser=json --tab-width=4 <cr>
+autocmd Filetype markdown              nnoremap <buffer><silent>=  :%!prettier --parser=markdown --tab-width=4 <cr>
+autocmd Filetype xml,svg,html          nnoremap <buffer><silent>=  :%!prettier --parser=html --tab-width=4 <cr>
+autocmd Filetype javascript,typescript nnoremap <buffer><silent>=  :%!prettier --parser=typescript --tab-width=4 <cr>

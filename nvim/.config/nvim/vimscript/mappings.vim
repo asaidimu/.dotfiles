@@ -57,7 +57,7 @@ for key in ['<Up>', '<Down>', '<Left>', '<Right>', ]
 endfor
 
 " Fzf
-nnoremap <silent> <c-f> :FZF<cr>
+nnoremap <silent> <c-f> :GFiles<cr>
 
 " nvim-tree
 nnoremap <silent><leader>e :NvimTreeToggle<CR>
@@ -72,11 +72,12 @@ map <leader>cs :Tabularize /:\zs<cr>
 map <silent> <leader>t :TagbarToggle <cr>
 
 " Telescope
-nnoremap F <cmd>Telescope find_files<cr>
-nnoremap <leader>g <cmd>Telescope live_grep<cr>
-nnoremap <leader>b <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-nnoremap M <cmd>Telescope harpoon marks<cr>
+nnoremap <silent>F <cmd>Telescope find_files<cr>
+nnoremap <silent>B <cmd>Telescope buffers<cr>
+nnoremap <silent>M <cmd>Telescope harpoon marks<cr>
+nnoremap <silent><leader>g <cmd>Telescope live_grep<cr>
+nnoremap <silent><leader>b <cmd>Telescope buffers<cr>
+nnoremap <silent><leader>fh <cmd>Telescope help_tags<cr>
 
 " Trouble
 nnoremap <silent> <leader>x :TroubleToggle <cr>
@@ -94,3 +95,7 @@ noremap <silent><leader>q <cmd>CloseBuffer<cr>
 " harpoon
 nnoremap <silent><leader>m :lua require("harpoon.mark").add_file()<CR>
 
+" lsp saga
+nnoremap <silent>ga :Lspsaga code_action<CR>
+nnoremap <silent>gk :Lspsaga hover_doc<CR>
+nnoremap <silent>gd :Lspsaga preview_definition<CR>

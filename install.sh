@@ -12,8 +12,11 @@ fi
 pushd $DOTFILES
 for folder in `ls $DOTFILES`; do
     if [ -d "$folder" ]; then
-        stow -D $folder
-        stow $folder
+        if ! `echo $folder | grep "personal" > /dev/null`; then
+            echo $folder
+            stow -D $folder
+            stow $folder
+        fi
     fi
 done
 popd

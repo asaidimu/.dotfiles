@@ -1,6 +1,6 @@
 return require('lualine').setup({
     options = {
-        theme = "nightfox"
+        theme = "sonokai"
     }
 })
 

@@ -1,9 +1,8 @@
-
 -- bootstrap packer
 local fn = vim.fn
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-  fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
 local packer = require('packer')
 
@@ -21,22 +20,13 @@ packer.init({
 local use = packer.use
 
 -- Packer can manage itself
-use {'wbthomason/packer.nvim',
-    cmd={"PackerCompile", "PackerLoad", "PackerSync", "PackerClean", "PackerStatus", "PackerUpdate", "PackerInstall", "PackerProfile",}
-}
+use { 'wbthomason/packer.nvim' }
+
+-- library
+use { 'nvim-lua/plenary.nvim' }
 
 -- colorscheme
-use {
-    'sainnhe/gruvbox-material',
-    cmd="colorscheme gruvbox",
-}
-
-use {
-    'EdenEast/nightfox.nvim',
-    config = function ()
-        require("plugin/_nightfox")
-    end
-}
+use { 'sainnhe/sonokai' }
 
 -- show indentation levels
 use {
@@ -78,14 +68,7 @@ use {
 
 -- quick comments
 use {
-    'scrooloose/nerdcommenter',
-    cmd={ "NERDCommenterToggle", "NERDCommenterComment"}
-}
-
--- fuzzy finder
-use {
-    'junegunn/fzf.vim',
-    cmd={"Fzf", "Buffers"}
+    'scrooloose/nerdcommenter'
 }
 
 -- file manager
@@ -104,9 +87,6 @@ use {
 -- git signs
 use {
     'lewis6991/gitsigns.nvim',
-    requires = {
-        'nvim-lua/plenary.nvim'
-    },
     config = function()
         require('plugin/_gitsigns')
     end
@@ -123,6 +103,7 @@ use {
 -- language support
 use {
     "nvim-treesitter/nvim-treesitter",
+    commit = '668de0951a36ef17016074f1120b6aacbe6c4515',
     config = function()
         require('plugin/_nvim-treesitter')
     end
@@ -144,24 +125,24 @@ use {
 }
 
 -- completion
-use {'hrsh7th/cmp-nvim-lsp'}
-use {'hrsh7th/cmp-buffer'  }
-use {'hrsh7th/cmp-path'    }
-use {'hrsh7th/cmp-cmdline' }
+use{'hrsh7th/cmp-nvim-lsp'}
+use{'hrsh7th/cmp-buffer'  }
+use{'hrsh7th/cmp-path'    }
+use{'hrsh7th/cmp-cmdline' }
 
-use {
+use{
     'SirVer/ultisnips',
     requires = {{'honza/vim-snippets', rtp = '.'}},
     config = function()
-      vim.g.UltiSnipsExpandTrigger = '<Plug>(ultisnips_expand)'
-      vim.g.UltiSnipsJumpForwardTrigger = '<Plug>(ultisnips_jump_forward)'
-      vim.g.UltiSnipsJumpBackwardTrigger = '<Plug>(ultisnips_jump_backward)'
-      vim.g.UltiSnipsListSnippets = '<c-x><c-s>'
-      vim.g.UltiSnipsRemoveSelectModeMappings = 0
+        vim.g.UltiSnipsExpandTrigger = '<Plug>(ultisnips_expand)'
+        vim.g.UltiSnipsJumpForwardTrigger = '<Plug>(ultisnips_jump_forward)'
+        vim.g.UltiSnipsJumpBackwardTrigger = '<Plug>(ultisnips_jump_backward)'
+        vim.g.UltiSnipsListSnippets = '<c-x><c-s>'
+        vim.g.UltiSnipsRemoveSelectModeMappings = 0
     end
 }
 
-use {
+use{
     'quangnguyen30192/cmp-nvim-ultisnips',
     config=  function()
         require("cmp_nvim_ultisnips").setup {
@@ -181,10 +162,10 @@ use {
     end,
 }
 
+
 -- lsp installer
 use {
     "williamboman/nvim-lsp-installer",
-    cmd = { 'LspInstall',  'LspInstallInfo', 'LspUninstall'},
     config = function()
         require('plugin/__nvim-lsp-installer')
     end
@@ -192,38 +173,30 @@ use {
 
 -- show errors
 use {
-  "folke/trouble.nvim",
-  cmd = { "TroubleToggle" },
-  requires = "kyazdani42/nvim-web-devicons",
-  config = function() require("trouble").setup { } end
+    "folke/trouble.nvim",
+    cmd = { "TroubleToggle" },
+    config = function() require("trouble").setup { } end
 }
+
+-- actions
+use { 'tami5/lspsaga.nvim' }
 
 -- vim for writers
 use {
     'junegunn/goyo.vim',
     cmd = { "Goyo" }
 }
+
 use {
     'junegunn/limelight.vim',
     cmd = { "limelight" }
 }
-use {
-    'reedes/vim-pencil',
-    cmd={ "Pencil", "Pexplore", "PencilOff", "PencilHard", "PencilSoft", "PencilToggle"},
-    ft={"markdown","text" }
-}
-use {'reedes/vim-wordy',
-    ft={"markdown","text" }
-}
-use {'reedes/vim-lexical',
-    ft={"markdown","text" }
-}
-use { 'dbmrq/vim-ditto',
-    ft={"markdown","text" }
-}
-use { 'rhysd/vim-grammarous',
-    ft={"markdown","text" }
-}
+
+use  { 'reedes/vim-pencil',}
+use  { 'reedes/vim-wordy',}
+use  { 'reedes/vim-lexical',}
+use  { 'dbmrq/vim-ditto',}
+use  { 'rhysd/vim-grammarous',}
 
 -- harpoon
 use {
@@ -233,18 +206,28 @@ use {
 
 -- fuzzy finder
 use {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    run = 'make'
+}
+use {
     "nvim-telescope/telescope.nvim",
     cmd={"Telescope"},
     config = function() require('plugin/_telescope') end
 }
 
 use {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    run = 'make'
+    'junegunn/fzf.vim',
+    cmd={"Fzf", "Buffers"}
 }
 
 -- basic debugger
+--use {
+--'mfussenegger/nvim-dap',
+--config = function() require('plugin/_dap') end
+--}
+
+-- symbols
 use {
-    'mfussenegger/nvim-dap',
-    config = function() require('plugin/_dap') end
+    'simrat39/symbols-outline.nvim',
+    config = function() require('plugin/_symbols-outline') end
 }

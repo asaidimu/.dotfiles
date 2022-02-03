@@ -49,6 +49,4 @@ return require'nvim-tree'.setup(
         dotfiles = true,
         custom = { ".git", "node_modules", ".cache" },
       },
-}
-
-)
+})

@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-CONFIG="$HOME/.config.json"
+CONFIG="$HOME/.config/i3/config.json"
 WALLPAPER_DIR="$HOME/pictures/wallpaper"
 CMD=$0
 DEFAULT_WP=12
@@ -10,7 +10,6 @@ set_wallpaper(){
   wallpaper="${WALLPAPER_DIR}/$index.png"
   feh --bg-fill $wallpaper
 }
-
 
 set_next(){
   wallpaper=$(cat $CONFIG | jq ".wallpaper")

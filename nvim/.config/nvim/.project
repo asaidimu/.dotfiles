@@ -1,0 +1,12 @@
+#!/usr/bin/env dash
+set -eu
+
+session="$1"
+path="$2"
+
+#
+cd $path
+tmux send-keys -t "$session" vim Enter F
+
+# vim:set ft=sh sw=4 ts=4 tw=80:
+

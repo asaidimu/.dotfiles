@@ -231,3 +231,10 @@ use {
     'simrat39/symbols-outline.nvim',
     config = function() require('plugin/_symbols-outline') end
 }
+
+-- Org Mode
+use {
+    "nvim-neorg/neorg",
+    ft = "norg",
+    config = function() require('plugin/_neorg') end,
+}

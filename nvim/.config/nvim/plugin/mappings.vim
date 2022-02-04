@@ -68,9 +68,6 @@ map <leader>c  :Tabularize /:<cr>
 map <leader>=s :Tabularize /=\zs<cr>
 map <leader>cs :Tabularize /:\zs<cr>
 
-" Tag Bar
-map <silent> <leader>t :TagbarToggle <cr>
-
 " Telescope
 nnoremap <silent>F <cmd>Telescope find_files<cr>
 nnoremap <silent>B <cmd>Telescope buffers<cr>
@@ -99,3 +96,6 @@ nnoremap <silent><leader>m :lua require("harpoon.mark").add_file()<CR>
 nnoremap <silent>ga :Lspsaga code_action<CR>
 nnoremap <silent>gk :Lspsaga hover_doc<CR>
 nnoremap <silent>gd :Lspsaga preview_definition<CR>
+
+" Tag Bar
+"map <silent> <leader>t :TagbarToggle <cr>

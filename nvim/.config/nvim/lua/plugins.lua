@@ -182,7 +182,7 @@ use {
 use {
     "folke/todo-comments.nvim",
     cmd = { "TodoQuickFix", "TodoLocList", "TodoTrouble", "TodoTelescope" },
-    config = function() require("trouble").setup { } end
+    config = function() require("todo-comments").setup { } end
 }
 
 -- actions
@@ -246,3 +246,6 @@ use {
     after = "nvim-treesitter",
     config = function() require('plugin/_neorg') end,
 }
+
+-- dashboard
+-- use { 'glepnir/dashboard-nvim' }

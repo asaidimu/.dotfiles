@@ -178,6 +178,13 @@ use {
     config = function() require("trouble").setup { } end
 }
 
+-- show todo
+use {
+    "folke/todo-comments.nvim",
+    cmd = { "TodoQuickFix", "TodoLocList", "TodoTrouble", "TodoTelescope" },
+    config = function() require("trouble").setup { } end
+}
+
 -- actions
 use { 'tami5/lspsaga.nvim' }
 
@@ -236,5 +243,6 @@ use {
 use {
     "nvim-neorg/neorg",
     ft = "norg",
+    after = "nvim-treesitter",
     config = function() require('plugin/_neorg') end,
 }

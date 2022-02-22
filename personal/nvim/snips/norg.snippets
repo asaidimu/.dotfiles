@@ -1,0 +1,36 @@
+snippet doc "Document"
+@document.meta
+	title: ${1}
+	description: ${2}
+	author: ${3}
+	categories: [ ${4} ]
+	created: `date "+%Y-%m-%d"`
+	version: 0.1
+@end
+endsnippet
+
+snippet code "Code Data"
+@code ${1}
+	${2}
+@end
+endsnippet
+
+snippet todo "Todo List"
+	- [${1}] ${2}
+endsnippet
+
+snippet link "Link"
+	{ ${1} }[${2}]!
+endsnippet
+
+snippet table "Table"
+@table
+	${1}
+@end
+endsnippet
+
+snippet section "Section"
+@code ${1}
+	${2}
+@end
+endsnippet

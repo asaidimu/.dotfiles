@@ -24,4 +24,9 @@ timezsh() {
   for i in $(seq 1 10); do time $shell -i -c exit; done
 }
 
+# append to ignore files.
+ig () {
+	[ -e ".gitignore" ] && echo "$@" | xargs | sed -E -E "s/\s/\n/g" >> .gitignore
+}
+
 # vim:set et sw=4 ts=4 tw=80 ft=zsh:

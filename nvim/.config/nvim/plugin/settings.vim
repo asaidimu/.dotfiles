@@ -139,3 +139,8 @@ set completeopt=menu,menuone,noselect
 
 " disable man mappings
 let g:no_man_maps = v:true
+
+" fold expressions
+" set foldmethod=expr
+" set foldexpr=nvim_treesitter#foldexpr()
+" set foldnestmax=2

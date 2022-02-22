@@ -55,3 +55,4 @@ autocmd Filetype json                  nnoremap <buffer><silent>=  :%!prettier -
 autocmd Filetype markdown              nnoremap <buffer><silent>=  :%!prettier --parser=markdown --tab-width=4 <cr>
 autocmd Filetype xml,svg,html          nnoremap <buffer><silent>=  :%!prettier --parser=html --tab-width=4 <cr>
 autocmd Filetype javascript,typescript nnoremap <buffer><silent>=  :%!prettier --parser=typescript --tab-width=4 <cr>
+autocmd Filetype sh,python,zsh,tmux,vim vnoremap <buffer><silent><leader>c :lua require('Comment.api').toggle_current_linewise_op(vim.fn.visualmode())<cr>

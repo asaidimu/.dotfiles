@@ -27,6 +27,7 @@ use { 'nvim-lua/plenary.nvim' }
 
 -- colorscheme
 use { 'sainnhe/sonokai' }
+-- use { 'ful1e5/onedark.nvim' }
 
 -- show indentation levels
 use {
@@ -68,13 +69,13 @@ use {
 
 -- quick comments
 use {
-    'scrooloose/nerdcommenter'
+    'numToStr/Comment.nvim'
 }
 
 -- file manager
 use  {
     'kyazdani42/nvim-tree.lua',
-    cmd = { 'NvimTreeToggle', 'NvimTreeOpen' },
+    cmd = { 'NvimTreeOpen', 'NvimTreeToggle' },
     config = function() require('plugin/_nvim-tree') end
 }
 
@@ -103,7 +104,6 @@ use {
 -- language support
 use {
     "nvim-treesitter/nvim-treesitter",
-    commit = '668de0951a36ef17016074f1120b6aacbe6c4515',
     config = function()
         require('plugin/_nvim-treesitter')
     end
@@ -186,7 +186,10 @@ use {
 }
 
 -- actions
-use { 'tami5/lspsaga.nvim' }
+use {
+    'tami5/lspsaga.nvim',
+    config = function() require("plugin/_lspsaga") end
+}
 
 -- vim for writers
 use {
@@ -196,7 +199,7 @@ use {
 
 use {
     'junegunn/limelight.vim',
-    cmd = { "limelight" }
+    cmd = { "Limelight" }
 }
 
 use  { 'reedes/vim-pencil',}
@@ -222,10 +225,7 @@ use {
     config = function() require('plugin/_telescope') end
 }
 
-use {
-    'junegunn/fzf.vim',
-    cmd={"Fzf", "Buffers"}
-}
+use { 'junegunn/fzf.vim' }
 
 -- basic debugger
 --use {
@@ -236,6 +236,7 @@ use {
 -- symbols
 use {
     'simrat39/symbols-outline.nvim',
+    cmd={ "SymbolsOutline", "SymbolsOutlineOpen"},
     config = function() require('plugin/_symbols-outline') end
 }
 
@@ -247,5 +248,19 @@ use {
     config = function() require('plugin/_neorg') end,
 }
 
--- dashboard
--- use { 'glepnir/dashboard-nvim' }
+-- startup time
+use { 'dstein64/vim-startuptime' }
+
+-- startup time
+use{ "nathom/filetype.nvim" }
+
+-- colorizer
+use {
+    'norcalli/nvim-colorizer.lua',
+    config = function () require'colorizer'.setup() end
+}
+-- formatter
+--[[ use {
+    'jose-elias-alvarez/null-ls.nvim',
+    config = function () require'plugin/_null-ls' end
+} ]]

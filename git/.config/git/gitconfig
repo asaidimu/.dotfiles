@@ -1,6 +1,6 @@
 [user]
-	name = augustine saidimu
-	email = 47994458+augustinesaidimu@users.noreply.github.com
+	name = Saidimu
+    email = 47994458+asaidimu@users.noreply.github.com
 [core]
     editor = nvim
 	excludesfile = /home/augustine/.config/git/gitignore

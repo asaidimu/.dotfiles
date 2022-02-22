@@ -42,7 +42,6 @@ local formatting  = {
         luasnip = "(Snippet)",
         buffer = "(Buffer)",
         spell = "(Spell)",
-        dictionary= "(Dictionary)"
       },
       duplicates = {
         buffer = 1,
@@ -63,7 +62,7 @@ cmp.setup({
         { name = 'nvim_lsp' },
         { name = "ultisnips" },
         { name = "path" },
-        { name = 'buffer' }
+        { name = 'buffer' },
     }),
     mapping = {
         ["<Tab>"] = cmp.mapping({
@@ -159,9 +158,7 @@ cmp.setup({
             c = function(fallback)
                 if cmp.visible() then
                     cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
-                else
-                    fallback()
-                end
+                else fallback() end
             end
         }),
     },
@@ -185,13 +182,13 @@ cmp.setup({
 })
 
 --[[
-
   cmp.setup.cmdline('/', {
     sources = {
       { name = 'buffer' }
     }
   })
-  -- ]]
+-- ]]
+
 cmp.setup.cmdline(':', {
     sources = cmp.config.sources({
         { name = 'path' }

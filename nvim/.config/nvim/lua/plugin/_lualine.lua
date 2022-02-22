@@ -1,6 +1,5 @@
-return require('lualine').setup({
+require('lualine').setup {
     options = {
-        theme = "sonokai"
-    }
-})
-
+        theme = "sonokai",
+    },
+}

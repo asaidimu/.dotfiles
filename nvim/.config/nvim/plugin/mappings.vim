@@ -19,15 +19,8 @@ map <leader>j <C-w>j
 map <leader>k <C-w>k
 map <leader>l <C-w>l
 
-" Make splitting Vim windows easier
-map <leader>; <C-W>s
-map <leader>` <C-W>v
-
 " clear searches with space
 nnoremap <silent> <space> :nohl<cr>
-
-" spilt windows with leader s
-nnoremap <silent> <leader>s :split<cr>
 
 " spilt windows with leader v
 nnoremap <silent> <leader>v :vsplit<cr>
@@ -48,7 +41,7 @@ noremap <leader>z <c-z>
 nnoremap ` @a
 
 " -- exit --
-nnoremap <silent>ee :q! <cr>
+nnoremap <silent>zz :q! <cr>
 
 " stay on the home row.
 for key in ['<Up>', '<Down>', '<Left>', '<Right>', ]
@@ -64,9 +57,9 @@ nnoremap <silent><leader>e :NvimTreeToggle<CR>
 
 " Tabularize
 map <leader>=  :Tabularize /=<cr>
-map <leader>c  :Tabularize /:<cr>
+map <leader>:  :Tabularize /:<cr>
 map <leader>=s :Tabularize /=\zs<cr>
-map <leader>cs :Tabularize /:\zs<cr>
+map <leader>:s :Tabularize /:\zs<cr>
 
 " Telescope
 nnoremap <silent>F <cmd>Telescope find_files<cr>
@@ -96,6 +89,11 @@ nnoremap <silent><leader>m :lua require("harpoon.mark").add_file()<CR>
 nnoremap <silent>ga :Lspsaga code_action<CR>
 nnoremap <silent>gk :Lspsaga hover_doc<CR>
 nnoremap <silent>gd :Lspsaga preview_definition<CR>
+nnoremap <silent><leader>r :Lspsaga rename<CR>
 
-" Tag Bar
-"map <silent> <leader>t :TagbarToggle <cr>
+" Symbols
+map <silent> <leader>t :SymbolsOutline<cr>
+
+" Comments
+nnoremap <silent><leader>c :lua require('Comment.api').toggle_current_linewise()<cr>
+vnoremap <silent><leader>c :lua require('Comment.api').toggle_blockwise_op(vim.fn.visualmode())<cr>

@@ -1,24 +1,16 @@
 # -- path --
-  export PATH="/sbin:/usr/sbin:/usr/bin:/usr/share/bin:/usr/local/bin"
+  export PATH="$PATH:/sbin:/usr/sbin:/usr/bin:/usr/share/bin:/usr/local/bin"
   export PATH="$PATH:/usr/lib/jvm/jdk-13.0.1/bin"
-  export PATH="$PATH:/opt/dart-sass"
-  export PATH="$PATH:/opt/xdman"
   export PATH="$PATH:/opt/mssql/bin"
-  export PATH="$PATH:/opt/mssql-tools/bin"
   export PATH="$PATH:/opt/DataGrip-2020.3/bin"
-  export PATH="$PATH:/opt/WebStorm-202.7660.23/bin"
-  export PATH="$PATH:/opt/PhpStorm-202.7660.42/bin"
-  export PATH="$PATH:/opt/pycharm-2020.2.4/bin"
-  export PATH="$PATH:/opt/idea-IU-203.5981.155/bin"
-  export PATH="$PATH:/opt/clion-2020.3/bin"
   export PATH="$PATH:/opt/brave.com/brave"
   export PATH="$PATH:/opt/appimages"
   export PATH="$PATH:/snap/bin"
   export PATH="$PATH:/usr/games"
   export PATH="$PATH:/usr/lib/dart/bin"
   export PATH="$HOME/.local/bin:$PATH"
-  export PATH="$HOME/projects/scripts/bin:$PATH"
 
+  export PATH=$(echo $PATH | sed "s/:/\n/g" | sort | uniq| xargs | sed "s/\s/:/g")
 # -- oh-my-zsh --
   export ZSH="$HOME/.oh-my-zsh"
 
@@ -62,12 +54,14 @@ export SHORT_HOST=${HOST/.*/}
 export ZSH_COMPDUMP="${ZDOTDIR:-${HOME}}/.zcompdump-${SHORT_HOST}-${ZSH_VERSION}"
 
 # library options
-COMPLETION_WAITING_DOTS="true"
-DISABLE_UNTRACKED_FILES_DIRTY="true"
-HIST_STAMPS="yyyy-mm-dd"
+export COMPLETION_WAITING_DOTS="true"
+export DISABLE_UNTRACKED_FILES_DIRTY="true"
+export HIST_STAMPS="yyyy-mm-dd"
 
 # sessionizer
 export SESSIONIZER_TARGET_LIST=~/.dotfiles/personal/sessionizer/paths
 export SESSIONIZER_LIST_GENERATOR=~/.dotfiles/personal/sessionizer/generator
 
+# ledger
+export LEDGER_FILE="${HOME}/.finance/ledger"
 # vim:set et sw=4 ts=4 tw=80 ft=zsh:

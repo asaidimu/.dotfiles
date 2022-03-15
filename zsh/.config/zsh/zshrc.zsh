@@ -5,7 +5,7 @@ export ZSH_CONFIG="${HOME}/.config/zsh"
 source $ZSH_CONFIG/exports.zsh
 
 # -- open tmux --
-if [ -z "$TMUX" ]; then
+if [ -z "$TMUX" -a "$(whoami)" != "root" ]; then
     session_name=$(basename $HOME | sed -E "s/^(\.)+//; s/\./_/g" )
 
     # shell started

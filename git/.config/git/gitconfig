@@ -3,7 +3,7 @@
     email = 47994458+asaidimu@users.noreply.github.com
 [core]
     editor = nvim
-	excludesfile = /home/augustine/.config/git/gitignore
+	excludesfile = ~/.config/git/gitignore
 [alias]
     s = status
     t = tree
@@ -23,7 +23,7 @@
         vtree = !bash -c '"
 
 [commit]
-    template = /home/augustine/.config/git/commit-template.txt
+    template = ~/.config/git/commit-template.txt
 
 [credential]
     helper = cache --timeout 25920000

@@ -1,4 +1,4 @@
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = "כֿ " }
 
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type

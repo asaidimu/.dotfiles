@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-##Terminate already running bar instances
-killall -q polybar
-
 USER_ID=$(whoami)
 
+#Terminate already running bar instances
+killall -q -u "$USER_ID" polybar
+
 # Wait until the processes have been shut down
-while pgrep -u $USER_ID -x polybar > /dev/null; do
+while pgrep -u "$USER_ID" -x polybar > /dev/null; do
   sleep 1;
 done
 

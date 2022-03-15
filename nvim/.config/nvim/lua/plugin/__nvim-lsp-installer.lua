@@ -2,6 +2,10 @@ local cmp_lsp = require('cmp_nvim_lsp')
 local client_capabilities = vim.lsp.protocol.make_client_capabilities()
 local capabilities = cmp_lsp.update_capabilities(client_capabilities)
 
+--[[ local servers = require "nvim-lsp-installer.servers"
+local server = require "nvim-lsp-installer.server"
+local path = require "nvim-lsp-installer.path" ]]
+
 local common_setup_opts = {
     capabilites = capabilities
 }
@@ -38,12 +42,39 @@ server_opts.sumneko_lua = {
 -- tsserver
 server_opts.tsserver = { }
 
-return lsp_installer.on_server_ready(function(server)
-    local opts = vim.deepcopy(common_setup_opts)
-    if server_opts[server.name] then
-        opts = vim.tbl_deep_extend('force', opts, server_opts[server.name])
-    end
+--tailwind
+server_opts.tailwindcss = {
+    filetypes = { "gohtml", "handlebars", "hbs", "html", "postcss", "javascriptreact", "rescript", "typescriptreact", "vue",}
+}
 
-    server:setup(opts)
+return lsp_installer.on_server_ready(function(sv)
+    local opts = vim.deepcopy(common_setup_opts)
+
+    if server_opts[sv.name] then
+        opts = vim.tbl_deep_extend('force', opts, server_opts[sv.name])
+    end
+    sv:setup(opts)
 end)
+
+--[[ local npm = require "nvim-lsp-installer.installers.npm"
+
+local installer = npm.packages { "alcides" }
+
+local alcides ="alcides"
+
+local root_dir = server.get_server_root_path(alcides)
+
+local alcides_server = server.Server:new {
+    name = alcides,
+    root_dir = root_dir,
+    installer = installer,
+    default_options = {
+        cmd = {path.concat { root_dir, "node_modules/alcides/index.js" }, "--lsp" },
+    },
+}
+
+servers.register(alcides_server)
+]]
+
+
 

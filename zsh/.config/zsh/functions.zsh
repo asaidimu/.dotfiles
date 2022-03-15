@@ -29,4 +29,14 @@ ig () {
 	[ -e ".gitignore" ] && echo "$@" | xargs | sed -E -E "s/\s/\n/g" >> .gitignore
 }
 
+# nnn sync pwd
+nnn_cd()
+{
+    if ! [ -z "$NNN_PIPE" ]; then
+        printf "%s\0" "0c${PWD}" > "${NNN_PIPE}" !&
+    fi
+}
+
+trap nnn_cd EXIT
+
 # vim:set et sw=4 ts=4 tw=80 ft=zsh:

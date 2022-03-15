@@ -49,4 +49,16 @@ return require'nvim-tree'.setup(
         dotfiles = true,
         custom = { ".git", "node_modules", ".cache" },
       },
+      ['actions.open_file.window_picker.exclude'] = {
+          filetype= {
+              'notify',
+              'packer',
+              'qf'
+          },
+          buftype= {
+              'terminal'
+          }
+      },
+      ["actions.open_file.quit_on_open"] = true
+
 })

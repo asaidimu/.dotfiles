@@ -59,9 +59,23 @@ export DISABLE_UNTRACKED_FILES_DIRTY="true"
 export HIST_STAMPS="yyyy-mm-dd"
 
 # sessionizer
-export SESSIONIZER_TARGET_LIST=~/.dotfiles/personal/sessionizer/paths
-export SESSIONIZER_LIST_GENERATOR=~/.dotfiles/personal/sessionizer/generator
+export SESSIONIZER_TARGET_LIST="${HOME}/.dotfiles/personal/sessionizer/paths"
+export SESSIONIZER_LIST_GENERATOR="${HOME}/.dotfiles/personal/sessionizer/generator"
 
 # ledger
 export LEDGER_FILE="${HOME}/.finance/ledger"
+
+# NNN
+
+# cmd options
+export NNN_OPTS="cErx"
+
+# colors for files
+export NNN_FCOLORS='c1e2272e006033f7c6d6abc4'
+
+# always cd on quit
+export NNN_TMPFILE='/tmp/.lastd'
+
+# archive
+export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
 # vim:set et sw=4 ts=4 tw=80 ft=zsh:

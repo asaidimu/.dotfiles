@@ -9,3 +9,11 @@ let g:sonokai_diagnostic_virtual_text = 'colored'
 let g:sonokai_better_performance = 1
 
 colorscheme sonokai
+
+
+" vim.cmd([[
+highlight DiagnosticErrorSign ctermfg=203 guifg=#ff6578 ctermbg=236 guibg=#333846
+highlight DiagnosticWarnSign  ctermfg=179 guifg=#eacb64 ctermbg=236 guibg=#333846
+highlight DiagnosticInfoSign  ctermfg=110 guifg=#72cce8 ctermbg=236 guibg=#333846
+highlight DiagnosticHintSign  ctermfg=107 guifg=#9dd274 ctermbg=236 guibg=#333846
+" ]])

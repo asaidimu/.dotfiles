@@ -28,6 +28,7 @@ use { 'nvim-lua/plenary.nvim' }
 -- colorscheme
 use { 'sainnhe/sonokai' }
 -- use { 'ful1e5/onedark.nvim' }
+-- use { 'EdenEast/nightfox.nvim' }
 
 -- show indentation levels
 use {
@@ -264,3 +265,9 @@ use {
     'jose-elias-alvarez/null-ls.nvim',
     config = function () require'plugin/_null-ls' end
 } ]]
+
+-- notification
+use {
+    'rcarriga/nvim-notify' ,
+    config = function () require('plugin/_nvim-notify') end
+}

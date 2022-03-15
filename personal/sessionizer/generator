@@ -5,7 +5,7 @@ SESSION_TARGETS="$HOME:$HOME/.dotfiles:$dotfiles"
 
 printf "$SESSION_TARGETS\n" | sed "s/:/\n/g" >> $SESSIONIZER_TARGET_LIST
 
-SESSIONIZE="$HOME/projects:$HOME/books:$HOME/Music:$HOME/contrib"
+SESSIONIZE="$HOME/projects:$HOME/books:$HOME/Music:$HOME/contrib:$HOME/notes"
 
 for target in $(echo $SESSIONIZE | sed "s/:/ /g"); do
   find "$target" -mindepth 1 -maxdepth 1 -type d >> "$SESSIONIZER_TARGET_LIST"

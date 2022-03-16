@@ -23,7 +23,7 @@
   alias add_semver="yarn add -D @semantic-release/commit-analyzer @semantic-release/git @semantic-release/release-notes-generator @semantic-release/changelog semantic-release"
 
   alias vim="nvim"
-  alias tmp="cd $(mktemp -d)"
+  alias tmp='cd $(mktemp -d)'
 
 
 # vim:set et sw=4 ts=4 tw=80 ft=zsh:

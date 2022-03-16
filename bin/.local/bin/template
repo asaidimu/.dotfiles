@@ -2,8 +2,11 @@
 
 help(){
 cat <<EOF
+$(bold ABOUT)
+    ${SCRIPT_NAME}
+
 $(bold USAGE)
-    template [flag]
+    ${SCRIPT_NAME} [flag]
 
 $(bold options)
     -h  --help         show help
@@ -72,4 +75,5 @@ underline(){
   printf "\033[4m${@}\033[0m";
 }
 
+export SCRIPT_NAME=$(basename $0)
 main $@

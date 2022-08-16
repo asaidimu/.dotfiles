@@ -1,5 +1,5 @@
 ! Select the font to be used.
-URxvt.font: xft:SauceCodePro NF, xft:Font Awesome 5 Free
+URxvt.font: xft:SauceCodePro NF:pixelsize=8
 
 !use visual bell on receipt of a bell character
 URxvt.visualBell: true
@@ -17,10 +17,10 @@ URxvt.cursorUnderline: true
 URxvt.url-launcher: chromium
 
 !Internal border width
-URxvt.internalBorder: 1
+URxvt.internalBorder: 0
 
 !External border width
-URxvt.externalBorder: 1
+URxvt.externalBorder: 0
 
 ! Window Size
 URxvt.geometry: 95x24
@@ -40,7 +40,7 @@ URxvt*saveLines: 5000
 URxvt.transparent: true
 
 !! Darken (0 .. 99) or lighten (101 .. 200) the transparent background.
-URxvt.shading: 60
+URxvt.shading: 0
 
 st.alpha: 0.9
 

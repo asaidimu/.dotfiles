@@ -3,11 +3,12 @@
 USER_ID=$(whoami)
 
 #Terminate already running bar instances
-killall -q -u "$USER_ID" polybar
+killall -q -s "KILL" -u "$USER_ID" polybar
 
 # Wait until the processes have been shut down
 while pgrep -u "$USER_ID" -x polybar > /dev/null; do
   sleep 1;
+  echo "waiting"
 done
 
 # Launch polybar

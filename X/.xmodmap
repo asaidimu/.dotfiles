@@ -1,13 +1,13 @@
-!remove Lock = Caps_Lock
-!keysym Caps_Lock =  Control_L
-
 remove Lock = Caps_Lock
-remove Control = Control_L
+remove Control = Control_R
 
-
+! keysym Caps_Lock = Control_R
 keysym Caps_Lock = Shift_L
 add Lock = Caps_Lock
-add Control = Control_L
+add Control = Control_R
+
+!remove Lock = Caps_Lock
+!keysym Caps_Lock =  Control_L
 
 !remove Lock = Shift_R
 !keysym Shift_R = Return

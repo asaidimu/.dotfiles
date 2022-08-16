@@ -62,13 +62,15 @@ export HIST_STAMPS="yyyy-mm-dd"
 export SESSIONIZER_TARGET_LIST="${HOME}/.dotfiles/personal/sessionizer/paths"
 export SESSIONIZER_LIST_GENERATOR="${HOME}/.dotfiles/personal/sessionizer/generator"
 
-# ledger
-export LEDGER_FILE="${HOME}/.finance/ledger"
-
 # NNN
 
 # cmd options
-export NNN_OPTS="cErx"
+export NNN_OPTS="ceErx"
+#
+export NNN_OPS_PROG=0
+
+# plugins
+export NNN_PLUG="z:!zsh $nnn;"
 
 # colors for files
 export NNN_FCOLORS='c1e2272e006033f7c6d6abc4'

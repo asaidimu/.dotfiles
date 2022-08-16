@@ -8,13 +8,19 @@ source $ZSH_CONFIG/exports.zsh
 if [ -z "$TMUX" -a "$(whoami)" != "root" ]; then
     session_name=$(basename $HOME | sed -E "s/^(\.)+//; s/\./_/g" )
 
+    _benoni=1
     # shell started
-    while  [ 1 -eq 1 ]; do
+    while  [ "$_benoni" -eq 1 ]; do
       clear
-      if tmux has -t "$session_name" 2> /dev/null; then
-        tmux attach-session -t "$session_name"
+      if [ -e "/tmp/kill_term" ]; then
+        rm -rf "/tmp/kill_term"
+        _benoni=2
       else
-        tmux new-session -s "$session_name" -c "$HOME"
+        if tmux has -t "$session_name" 2> /dev/null; then
+          tmux attach-session -t "$session_name"
+        else
+          tmux new-session -s "$session_name" -c "$HOME"
+        fi
       fi
 
     done

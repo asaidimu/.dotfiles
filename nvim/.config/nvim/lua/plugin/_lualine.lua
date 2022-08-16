@@ -41,7 +41,7 @@ require('lualine').setup {
             always_visible = false
         }
     },
-        lualine_x = {'filetype'},
+        lualine_x = {'filetype' , GetWords},
         lualine_y = {'progress'},
         lualine_z = {'location'}
     },

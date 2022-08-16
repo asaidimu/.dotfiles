@@ -8,10 +8,11 @@ require('neorg').setup {
                 }
             }
         },
+        ["core.export"] = {},
         ["core.norg.journal"] = {},
         ["core.norg.qol.todo_items"] = {},
-        ["core.norg.esupports.hop"] = {},
-        ["core.norg.esupports"] = {},
+        --[[ ["core.norg.esupports.hop"] = {},
+        ["core.norg.esupports"] = {}, ]]
         ["core.autocommands"] = {},
         ["core.integrations.treesitter"] = {},
         ["core.keybinds"] = {},

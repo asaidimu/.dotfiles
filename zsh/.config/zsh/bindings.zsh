@@ -23,3 +23,5 @@ bindkey '\ec' fzf-cd-widget
 # CTRL-R - Paste the selected command from history into the command line
 bindkey '^R' fzf-history-widget
 
+# Start Sessionizer
+bindkey '^P' sessionize

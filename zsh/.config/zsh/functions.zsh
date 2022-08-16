@@ -29,14 +29,24 @@ ig () {
 	[ -e ".gitignore" ] && echo "$@" | xargs | sed -E -E "s/\s/\n/g" >> .gitignore
 }
 
-# nnn sync pwd
-nnn_cd()
-{
-    if ! [ -z "$NNN_PIPE" ]; then
-        printf "%s\0" "0c${PWD}" > "${NNN_PIPE}" !&
-    fi
+# kill terminal
+kill_term () {
+    touch /tmp/kill_term && exit
 }
 
-trap nnn_cd EXIT
+# sessionize
+sessionize(){
+  sessionizer
+}
+zle     -N   sessionize
+
+n(){
+    nnn "$@"
+
+    if [ -f "$NNN_TMPFILE" ]; then
+        . "$NNN_TMPFILE"
+        rm -f "$NNN_TMPFILE" > /dev/null
+    fi
+}
 
 # vim:set et sw=4 ts=4 tw=80 ft=zsh:

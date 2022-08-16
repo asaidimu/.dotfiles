@@ -4,9 +4,8 @@ autocmd BufRead * normal zM
 " Declare file types
 autocmd Bufread,BufNewFile *.css set filetype=css
 autocmd Bufread,BufNewFile *.rasi set filetype=css
-autocmd Bufread,BufNewFile *.scss set filetype=scss
+autocmd Bufread,BufNewFile *.scss set filetype=css
 autocmd Bufread,BufNewFile *.sass set filetype=sass
-autocmd Bufread,BufNewFile *.txt set filetype=note
 autocmd Bufread,BufNewFile *.js set filetype=javascript
 autocmd Bufread,BufNewFile *.html set filetype=html
 autocmd Bufread,BufNewFile *.ejs set filetype=html
@@ -55,4 +54,6 @@ autocmd Filetype json                  nnoremap <buffer><silent>=  :%!prettier -
 autocmd Filetype markdown              nnoremap <buffer><silent>=  :%!prettier --parser=markdown --tab-width=4 <cr>
 autocmd Filetype xml,svg,html          nnoremap <buffer><silent>=  :%!prettier --parser=html --tab-width=4 <cr>
 autocmd Filetype javascript,typescript nnoremap <buffer><silent>=  :%!prettier --parser=typescript --tab-width=4 <cr>
+autocmd Filetype javascriptreact,typescriptreact nnoremap <buffer><silent>=  :%!prettier --parser=typescript --tab-width=4 <cr>
+
 autocmd Filetype sh,python,zsh,tmux,vim vnoremap <buffer><silent><leader>c :lua require('Comment.api').toggle_current_linewise_op(vim.fn.visualmode())<cr>

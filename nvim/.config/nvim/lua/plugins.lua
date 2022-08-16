@@ -27,8 +27,6 @@ use { 'nvim-lua/plenary.nvim' }
 
 -- colorscheme
 use { 'sainnhe/sonokai' }
--- use { 'ful1e5/onedark.nvim' }
--- use { 'EdenEast/nightfox.nvim' }
 
 -- show indentation levels
 use {
@@ -74,10 +72,9 @@ use {
 }
 
 -- file manager
-use  {
-    'kyazdani42/nvim-tree.lua',
-    cmd = { 'NvimTreeOpen', 'NvimTreeToggle' },
-    config = function() require('plugin/_nvim-tree') end
+use {
+    'luukvbaal/nnn.nvim',
+    config = function() require('plugin/_nnn') end
 }
 
 -- git in vim
@@ -163,7 +160,6 @@ use {
     end,
 }
 
-
 -- lsp installer
 use {
     "williamboman/nvim-lsp-installer",
@@ -209,30 +205,19 @@ use  { 'reedes/vim-lexical',}
 use  { 'dbmrq/vim-ditto',}
 use  { 'rhysd/vim-grammarous',}
 
--- harpoon
-use {
-    'ThePrimeagen/harpoon',
-    config = function() require('harpoon').setup() end
-}
-
 -- fuzzy finder
+use { 'junegunn/fzf.vim' }
+
 use {
     'nvim-telescope/telescope-fzf-native.nvim',
     run = 'make'
 }
+
 use {
     "nvim-telescope/telescope.nvim",
     cmd={"Telescope"},
     config = function() require('plugin/_telescope') end
 }
-
-use { 'junegunn/fzf.vim' }
-
--- basic debugger
---use {
---'mfussenegger/nvim-dap',
---config = function() require('plugin/_dap') end
---}
 
 -- symbols
 use {
@@ -260,14 +245,39 @@ use {
     'norcalli/nvim-colorizer.lua',
     config = function () require'colorizer'.setup() end
 }
+
 -- formatter
---[[ use {
-    'jose-elias-alvarez/null-ls.nvim',
-    config = function () require'plugin/_null-ls' end
-} ]]
+use {
+    "lukas-reineke/lsp-format.nvim",
+    config = function () require('plugin/_lsp-format') end
+}
 
 -- notification
 use {
     'rcarriga/nvim-notify' ,
     config = function () require('plugin/_nvim-notify') end
 }
+
+-- session manager
+use { 'tpope/vim-obsession' }
+
+-- typescript support
+use {
+    "jose-elias-alvarez/typescript.nvim",
+}
+
+-- gift from tpope
+use { 'tpope/vim-abolish' }
+
+-- refactoring
+use {
+    "ThePrimeagen/refactoring.nvim",
+    requires = {
+        {"nvim-lua/plenary.nvim"},
+        {"nvim-treesitter/nvim-treesitter"}
+    },
+    config = function ()
+        require("plugin/_refactoring")
+    end
+}
+

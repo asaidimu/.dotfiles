@@ -50,10 +50,10 @@ for key in ['<Up>', '<Down>', '<Left>', '<Right>', ]
 endfor
 
 " Fzf
-nnoremap <silent> <c-f> :GFiles<cr>
+nnoremap <silent> <leader>f :Files<cr>
 
 " nvim-tree
-nnoremap <silent><leader>e :NvimTreeToggle<CR>
+nnoremap <silent><leader>e :NnnPicker %:p:h<CR>
 
 " Tabularize
 map <leader>=  :Tabularize /=<cr>
@@ -62,7 +62,7 @@ map <leader>=s :Tabularize /=\zs<cr>
 map <leader>:s :Tabularize /:\zs<cr>
 
 " Telescope
-nnoremap <silent>F <cmd>Telescope find_files<cr>
+" nnoremap <silent>F <cmd>Telescope find_files<cr>
 nnoremap <silent>B <cmd>Telescope buffers<cr>
 nnoremap <silent>M <cmd>Telescope harpoon marks<cr>
 nnoremap <silent><leader>g <cmd>Telescope live_grep<cr>
@@ -97,3 +97,7 @@ map <silent> <leader>t :SymbolsOutline<cr>
 " Comments
 nnoremap <silent><leader>c :lua require('Comment.api').toggle_current_linewise()<cr>
 vnoremap <silent><leader>c :lua require('Comment.api').toggle_blockwise_op(vim.fn.visualmode())<cr>
+
+" replace text
+inoremap <leader>o <esc>:%S/
+

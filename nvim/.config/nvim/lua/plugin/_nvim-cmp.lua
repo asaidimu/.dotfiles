@@ -39,6 +39,7 @@ local formatting  = {
         calc = "(Calc)",
         cmp_tabnine = "(Tabnine)",
         vsnip = "(Snippet)",
+        ultisnips = "(Snippet)",
         luasnip = "(Snippet)",
         buffer = "(Buffer)",
         spell = "(Spell)",
@@ -59,8 +60,8 @@ cmp.setup({
         end
     },
     sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
         { name = "ultisnips" },
+        { name = 'nvim_lsp' },
         { name = "path" },
         { name = 'buffer' },
     }),
@@ -172,22 +173,16 @@ cmp.setup({
         return vim_item
       end,
     },
-    documentation = {
-      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+    window = {
+        documentation = {
+            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+        },
     },
     experimental = {
         native_menu = false,
         ghost_text = true,
     },
 })
-
---[[
-  cmp.setup.cmdline('/', {
-    sources = {
-      { name = 'buffer' }
-    }
-  })
--- ]]
 
 cmp.setup.cmdline(':', {
     sources = cmp.config.sources({

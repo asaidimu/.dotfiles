@@ -11,10 +11,10 @@
   alias ag="ag  --color-match='1;32' --color-line-number='0;34'"
   alias td="tmux detach"
 
-  alias ev="vim ~/.config/nvim/init.lua"
-  alias ez="vim ~/.zshrc"
-  alias e3="vim ~/config/i3/"
-  alias ep="vim ~/.config/polybar"
+  alias ev="nvim ~/.config/nvim/init.lua"
+  alias ez="nvim ~/.zshrc"
+  alias e3="nvim ~/.config/i3"
+  alias ep="nvim ~/.config/polybar"
 
   alias sfs="OIFS=${IFS};IFS=$'\n'"
   alias ufs="IFS=${OIFS}"
@@ -22,8 +22,8 @@
 
   alias add_semver="yarn add -D @semantic-release/commit-analyzer @semantic-release/git @semantic-release/release-notes-generator @semantic-release/changelog semantic-release"
 
-  alias vim="nvim"
   alias tmp='cd $(mktemp -d)'
+  alias vim="nvim"
 
 
 # vim:set et sw=4 ts=4 tw=80 ft=zsh:

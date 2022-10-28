@@ -25,5 +25,6 @@
   alias tmp='cd $(mktemp -d)'
   alias vim="nvim"
 
+  alias upwork="/opt/Upwork/upwork"
 
 # vim:set et sw=4 ts=4 tw=80 ft=zsh:

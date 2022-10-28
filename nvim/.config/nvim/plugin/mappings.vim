@@ -95,8 +95,8 @@ nnoremap <silent><leader>r :Lspsaga rename<CR>
 map <silent> <leader>t :SymbolsOutline<cr>
 
 " Comments
-nnoremap <silent><leader>c :lua require('Comment.api').toggle_current_linewise()<cr>
-vnoremap <silent><leader>c :lua require('Comment.api').toggle_blockwise_op(vim.fn.visualmode())<cr>
+nnoremap <silent><leader>c :lua require('Comment.api').toggle.linewise.current()<cr>
+vnoremap <silent><leader>c :lua require('Comment.api').toggle.blockwise(vim.fn.visualmode())<cr>
 
 " replace text
 inoremap <leader>o <esc>:%S/

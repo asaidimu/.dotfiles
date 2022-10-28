@@ -13,7 +13,10 @@ bufferline.setup {
         show_close_icon = false,
         modified_icon = '',
         buffer_close_icon = '',
-        indicator_icon = ' '
+        indicator ={
+            icon = ' ',
+            style = 'icon'
+        }
     }
 }
 

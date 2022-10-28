@@ -6,7 +6,7 @@
   alias r=source_file
   alias cp="cp -r"
   alias rm="rm -i"
-  alias ls='lsd  --group-dirs=first --color=auto'
+  which lsd > /dev/null && alias ls='lsd  --group-dirs=first --color=auto'
   alias ll='ls -lh'
   alias ag="ag  --color-match='1;32' --color-line-number='0;34'"
   alias td="tmux detach"
@@ -23,7 +23,7 @@
   alias add_semver="yarn add -D @semantic-release/commit-analyzer @semantic-release/git @semantic-release/release-notes-generator @semantic-release/changelog semantic-release"
 
   alias tmp='cd $(mktemp -d)'
-  alias vim="nvim"
+  which nvim > /dev/null && alias vim="nvim"
 
   alias upwork="/opt/Upwork/upwork"
 

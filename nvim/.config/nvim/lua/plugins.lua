@@ -281,3 +281,5 @@ use {
     end
 }
 
+-- LTEX Support
+use { "barreiroleo/ltex-extra.nvim" }

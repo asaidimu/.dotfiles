@@ -1,6 +1,6 @@
 local cmp_lsp = require('cmp_nvim_lsp')
 local client_capabilities = vim.lsp.protocol.make_client_capabilities()
-local capabilities = cmp_lsp.update_capabilities(client_capabilities)
+local capabilities = cmp_lsp.default_capabilities(client_capabilities)
 
 local common_setup_opts = {
     capabilites = capabilities,
@@ -77,6 +77,19 @@ server_opts.tailwindcss = {
 server_opts.emmet_ls = {
     filetypes = { 'html', 'typescriptreact', 'javascriptreact', 'css', 'sass', 'scss', 'less' },
     autostart= false
+}
+
+-- ltex extra
+server_opts.ltex = {
+    on_attach = function()
+        -- your other on_attach functions.
+        require("ltex_extra").setup{
+            load_langs = { "es-AR", "en-US" }, -- table <string> : languages for witch dictionaries will be loaded
+            init_check = true, -- boolean : whether to load dictionaries on startup
+            path = vim.env.XDG_CONFIG_HOME .. "/nvim/spell/dictionary.txt",
+            log_level = "none", -- string : "none", "trace", "debug", "info", "warn", "error", "fatal"
+        }
+    end,
 }
 
 return lsp_installer.on_server_ready(function(sv)

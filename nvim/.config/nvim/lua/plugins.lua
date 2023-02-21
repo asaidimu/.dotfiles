@@ -145,8 +145,7 @@ use{
     config=  function()
         require("cmp_nvim_ultisnips").setup {
             filetype_source = "treesitter",
-            show_snippets = "all",
-            documentation = function(snippet)
+            show_snippets = "all", documentation = function(snippet)
                 return snippet.description
             end
         }
@@ -265,6 +264,9 @@ use { 'tpope/vim-obsession' }
 use {
     "jose-elias-alvarez/typescript.nvim",
 }
+
+-- java support
+use { 'mfussenegger/nvim-jdtls' }
 
 -- gift from tpope
 use { 'tpope/vim-abolish' }

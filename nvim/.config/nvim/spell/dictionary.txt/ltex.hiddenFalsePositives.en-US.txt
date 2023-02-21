@@ -1,0 +1,2 @@
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qdescription: Use Cases depicting usage of the Jedwali PoS software\n    author: Saidimu\n    categories: documentation\n    created: 2023-01-31\n    version: 0.1\n@end\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qdescription: Use Cases depicting usage of the Jedwali POS software\n    author: Saidimu\n    categories: documentation\n    created: 2023-01-31\n    version: 0.1\n@end\\E$"}

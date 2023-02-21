@@ -1,2 +1,7 @@
 Roboports
 Nauvis
+@document
+Jedwali
+Saidimu
+@end
+Pilau

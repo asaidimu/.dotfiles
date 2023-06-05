@@ -4,8 +4,8 @@ vim.g.symbols_outline = {
 require("functions")
 require("plugins")
 
--- [[ lua settings
+-- lua settings
 
 -- disable mouse
 vim.opt.mouse = nil
---  ]]
+--

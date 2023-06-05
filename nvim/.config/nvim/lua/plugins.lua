@@ -107,6 +107,15 @@ use {
     end
 }
 
+-- lsp config & config
+use {
+    "williamboman/mason.nvim",
+}
+
+use {
+    "williamboman/mason-lspconfig.nvim",
+}
+
 use {
     "neovim/nvim-lspconfig",
     config = function()
@@ -159,14 +168,6 @@ use {
     end,
 }
 
--- lsp installer
-use {
-    "williamboman/nvim-lsp-installer",
-    config = function()
-        require('plugin/__nvim-lsp-installer')
-    end
-}
-
 -- show errors
 use {
     "folke/trouble.nvim",
@@ -209,7 +210,7 @@ use { 'junegunn/fzf.vim' }
 
 use {
     'nvim-telescope/telescope-fzf-native.nvim',
-    run = 'make'
+    run ="make"
 }
 
 use {
@@ -271,17 +272,26 @@ use { 'mfussenegger/nvim-jdtls' }
 -- gift from tpope
 use { 'tpope/vim-abolish' }
 
--- refactoring
-use {
-    "ThePrimeagen/refactoring.nvim",
-    requires = {
-        {"nvim-lua/plenary.nvim"},
-        {"nvim-treesitter/nvim-treesitter"}
-    },
-    config = function ()
-        require("plugin/_refactoring")
-    end
-}
-
 -- LTEX Support
 use { "barreiroleo/ltex-extra.nvim" }
+
+-- nui
+use {"MunifTanjim/nui.nvim",
+module = {"nui.layout", "nui.popup"},
+module_pattern = {"chatgpt*"},
+}
+
+-- ChatGPT
+use {
+    "jackMort/ChatGPT.nvim",
+    opt = true,
+    keys = {"<leader>i"},
+    module_pattern = {"chatgpt*"},
+    after={"nui.nvim", "telescope.nvim"},
+    config = function () require('plugin/_gpt') end,
+    dependencies = {
+        "MunifTanjim/nui.nvim",
+        "nvim-lua/plenary.nvim",
+        "nvim-telescope/telescope.nvim",
+    }
+}

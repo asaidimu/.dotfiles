@@ -40,13 +40,13 @@ sessionize(){
 }
 zle     -N   sessionize
 
-#n(){
-#    nnn "$@"
-#
-#    if [ -f "$NNN_TMPFILE" ]; then
-#        . "$NNN_TMPFILE"
-#        rm -f "$NNN_TMPFILE" > /dev/null
-#    fi
-#}
+n(){
+    nnn "$@"
+
+    if [ -f "$NNN_TMPFILE" ]; then
+        . "$NNN_TMPFILE"
+        rm -f "$NNN_TMPFILE" > /dev/null
+    fi
+}
 
 # vim:set et sw=4 ts=4 tw=80 ft=zsh:

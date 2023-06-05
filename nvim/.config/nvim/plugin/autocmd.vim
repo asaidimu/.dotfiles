@@ -4,7 +4,7 @@ autocmd BufRead * normal zM
 " Declare file types
 autocmd Bufread,BufNewFile *.css set filetype=css
 autocmd Bufread,BufNewFile *.rasi set filetype=css
-autocmd Bufread,BufNewFile *.scss set filetype=css
+autocmd Bufread,BufNewFile *.scss set filetype=scss
 autocmd Bufread,BufNewFile *.sass set filetype=sass
 autocmd Bufread,BufNewFile *.js set filetype=javascript
 autocmd Bufread,BufNewFile *.html set filetype=html

@@ -70,7 +70,7 @@ export NNN_OPTS="ceErx"
 export NNN_OPS_PROG=0
 
 # plugins
-export NNN_PLUG="z:!zsh $nnn;"
+export NNN_PLUG="o:fzopen;"
 
 # colors for files
 export NNN_FCOLORS='c1e2272e006033f7c6d6abc4'

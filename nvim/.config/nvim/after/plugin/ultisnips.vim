@@ -3,4 +3,4 @@
 let g:UltiSnipsUsePythonVersion = 3
 
 "" location for custom snippets
-let g:UltiSnipsSnippetDirectories=["UltiSnips", $HOME."/.dotfiles/personal/nvim/snips"]
+let g:UltiSnipsSnippetDirectories=["UltiSnips", $HOME."/.config/nvim/snips"]

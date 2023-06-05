@@ -34,7 +34,6 @@ local lsp_installer = require "nvim-lsp-installer"
 
 local server_opts = {}
 
-
 local ts = require("typescript")
 
 -- tsserver

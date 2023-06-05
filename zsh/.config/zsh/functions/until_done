@@ -1,4 +1,4 @@
-[ 1 -eq 2]
+[ 1 -eq 2 ]
 while [ $? -ne 0 ]
 do
   clear

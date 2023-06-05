@@ -4,25 +4,29 @@ export ZSH_CONFIG="${HOME}/.config/zsh"
 # -- exports --
 source $ZSH_CONFIG/exports.zsh
 
+MAIN_TERMINAL=${MAIN_TERMINAL:-0}
+
 # -- open tmux --
-if [ -z "$TMUX" -a "$(whoami)" != "root" ]; then
+if [ -z "$TMUX" -a "$(whoami)" != "root" -a  "$MAIN_TERMINAL" -eq 0 ]; then
     session_name=$(basename $HOME | sed -E "s/^(\.)+//; s/\./_/g" )
 
-    _benoni=1
+    _in_loop=1
+
+    [ "$MAIN_TERMINAL" -eq 0 ] && export MAIN_TERMINAL=1
+
     # shell started
-    while  [ "$_benoni" -eq 1 ]; do
-      clear
-      if [ -e "/tmp/kill_term" ]; then
-        rm -rf "/tmp/kill_term"
-        _benoni=2
+    while  [ "$_in_loop" -eq 1 ]; do
+      if [ -e /tmp/kill_term ]; then
+        rm -f /tmp/kill_term
+        _in_loop=0
       else
+        clear
         if tmux has -t "$session_name" 2> /dev/null; then
           tmux attach-session -t "$session_name"
         else
           tmux new-session -s "$session_name" -c "$HOME"
         fi
       fi
-
     done
 fi
 
@@ -41,3 +45,16 @@ source $ZSH_CONFIG/bindings.zsh
 
 # -- theme --
 source $ZSH_CONFIG/theme.zsh
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# bun completions
+[ -s "/home/augustine/.oh-my-zsh/completions/_bun" ] && source "/home/augustine/.oh-my-zsh/completions/_bun"
+
+# custom functions
+fpath=( "$ZSH_CONFIG/functions" "${fpath[@]}" )
+autoload -Uz $fpath[1]/*(.:t)
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+# export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

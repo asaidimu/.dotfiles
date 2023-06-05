@@ -1,5 +1,5 @@
 " -- Ditto
-let g:ditto_dir = "~/.dotfiles/personal/nvim/ditto"
+let g:ditto_dir = "~/.config/nvim/ditto"
 
 " -- Goyo
 let g:goyo_width = 100
@@ -13,7 +13,7 @@ augroup prose
   autocmd FileType markdown,norg,text call lexical#init({
         \'spell': 0,
         \'thesaurus':  ['~/.local/share/thesaurus/thesaurus.txt'],
-        \'spellfile':  ['~/.dotfiles/personal/nvim/spell/en.utf-8.add']
+        \'spellfile':  ['~/.config/nvim/spell/en.utf-8.add']
         \})
   autocmd FileType markdown,norg,text call pencil#init({ 'wrap': 'soft'})
   autocmd FileType markdown,norg,text :LspStart ltex

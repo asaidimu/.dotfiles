@@ -50,7 +50,7 @@ for key in ['<Up>', '<Down>', '<Left>', '<Right>', ]
 endfor
 
 " Fzf
-nnoremap <silent> <leader>f :Files<cr>
+nnoremap <silent> <leader>f <cmd>Telescope find_files<cr>
 
 " nvim-tree
 nnoremap <silent><leader>e :NnnPicker %:p:h<CR>

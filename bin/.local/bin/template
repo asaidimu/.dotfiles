@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 
+sayToken(){
+  echo "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"
+}
+
 help(){
 cat <<EOF
 $(bold ABOUT)
@@ -20,13 +24,8 @@ main(){
     -h | --help)
       help
     ;;
-    --test )
-      echo "no test"
-    ;;
     * )
-      {
-        help
-      }
+      sayToken
       ;;
   esac
 }

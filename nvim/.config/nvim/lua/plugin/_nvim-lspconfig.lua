@@ -1,3 +1,5 @@
+require('plugin/_mason-nvim')
+
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = "כֿ " }
 
 for type, icon in pairs(signs) do

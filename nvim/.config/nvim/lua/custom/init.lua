@@ -4,6 +4,9 @@ vim.g.no_man_maps = true
 -- map leader key to '
 vim.g.mapleader = "'"
 
+-- disable mouse
+vim.cmd("set mouse=")
+
 -- No backup files
 vim.cmd("set nobackup")
 
@@ -115,11 +118,10 @@ vim.cmd("set encoding=utf-8")
 vim.cmd("set autoread")
 
 --  Use system clipboard
-vim.cmd("set clipboard+=unnamed")
+vim.cmd("set clipboard=unnamed")
 
 --  Don't show intro
 vim.cmd("set shortmess+=I")
-
 --  Better splits (new windows appear below and to the right)
 vim.cmd("set splitbelow")
 vim.cmd("set splitright")
@@ -127,3 +129,85 @@ vim.cmd("set splitright")
 -- Highlight the current line
 vim.cmd("set cursorline")
 
+ vim.cmd([[
+ fun! StripTrailingWhitespace()
+     " don't strip on these filetypes
+     if &ft =~ 'markdown'
+         return
+     endif
+     %s/\s\+$//e
+ endfun
+ autocmd BufWritePre * call StripTrailingWhitespace()
+ ]])
+
+ vim.cmd([[
+ fun! DeleteCurrentBuffer()
+   let s:buff = bufnr()
+   exec 'bdelete' s:buff
+   if line('$') == 1 && getline(1) == ''
+     exec 'quit'
+   endif
+ endfun
+ command! CloseBuffer :call DeleteCurrentBuffer()
+ ]])
+
+vim.cmd([[
+" Close all folds when opening a new buffer
+autocmd BufRead * normal zM
+
+" Declare file types
+autocmd Bufread,BufNewFile *.css set filetype=css
+autocmd Bufread,BufNewFile *.rasi set filetype=css
+autocmd Bufread,BufNewFile *.scss set filetype=scss
+autocmd Bufread,BufNewFile *.sass set filetype=sass
+autocmd Bufread,BufNewFile *.js set filetype=javascript
+autocmd Bufread,BufNewFile *.html set filetype=html
+autocmd Bufread,BufNewFile *.ejs set filetype=html
+
+" jump to last cursor
+autocmd BufReadPost *
+            \ if line("'\"") > 0 && line("'\"") <= line("$") |
+            \   exe "normal g`\"" |
+            \ endif
+
+" file formats
+autocmd Filetype gitcommit setlocal spell textwidth=80 colorcolumn=80
+
+autocmd Filetype markdown setlocal wrap linebreak nolist textwidth=0 wrapmargin=0 " http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
+autocmd FileType sh,cucumber,ruby,yaml,zsh,vim setlocal shiftwidth=2 tabstop=2 expandtab
+
+" specify syntax highlighting for specific files
+autocmd Bufread,BufNewFile *.spv set filetype=php
+autocmd Bufread,BufNewFile *.asm set filetype=nasm
+autocmd Bufread,BufNewFile *.md set filetype=markdown " Vim interprets .md as 'modula2' otherwise, see :set filetype?
+autocmd Bufread,BufNewFile *.vue set filetype=vue
+
+" quit with q for the following file types
+autocmd Filetype help,lspinfo,man,fugitive nnoremap <buffer><silent>q <cmd>CloseBuffer<cr>
+
+" reload packer on changes
+augroup packer_user_config
+  autocmd!
+  autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+augroup end
+
+augroup vimrc_help
+  autocmd!
+  autocmd BufEnter *.txt if &buftype == 'help' | wincmd L | endif
+augroup END
+
+autocmd Filetype sh,python,zsh,tmux,vim vnoremap <buffer><silent><leader>c :lua require('Comment.api').toggle_current_linewise_op(vim.fn.visualmode())<cr>
+
+augroup prose
+  autocmd!
+  autocmd FileType markdown,norg,text set textwidth=80
+  autocmd FileType markdown,norg,text call lexical#init({
+        \'spell': 0,
+        \'thesaurus':  ['~/.local/share/thesaurus/thesaurus.txt'],
+        \'spellfile':  ['~/.config/nvim/spell/en.utf-8.add']
+        \})
+  autocmd FileType markdown,norg,text call pencil#init({ 'wrap': 'soft'})
+  autocmd FileType markdown,norg,text :LspStart ltex
+augroup END
+
+]])

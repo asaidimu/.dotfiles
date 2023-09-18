@@ -43,7 +43,7 @@ M.system = {
         ["<leader>x"] = { ":TroubleToggle<cr>", opts = { nowait = true, silent = true }},
         ["ga"] = { ":Lspsaga code_action<CR>", opts = { nowait = true, silent = true }},
         ["gk"] = { ":Lspsaga hover_doc<CR>", opts = { nowait = true, silent = true }},
-        ["gd"] = { ":Lspsaga preview_definition<CR>", opts = { nowait = true, silent = true }},
+        ["gd"] = { ":Lspsaga peek_definition<CR>", opts = { nowait = true, silent = true }},
         ["<leader>r"] = { ":Lspsaga rename<CR>", opts = { nowait = true, silent = true }},
         ["<leader>f"] = { ":Telescope find_files<CR>",  opts = { nowait = true, silent = true }}
     },

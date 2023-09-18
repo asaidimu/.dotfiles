@@ -22,6 +22,4 @@ done
 for script in `find $ZSH_CONFIG/plugins/ -name "*.zsh"`; do
     source "$script"
 done
-
-sudo setkeycodes 3a 42
 # vim:set et sw=4 ts=4 tw=80 ft=zsh:

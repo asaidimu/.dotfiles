@@ -144,7 +144,7 @@ vim.cmd("set cursorline")
  fun! DeleteCurrentBuffer()
    let s:buff = bufnr()
    exec 'bdelete' s:buff
-   if line('$') == 1 && getline(1) == ''
+   if empty(bufname('%')) && line('$') == 1 && getline(1) == ''
      exec 'quit'
    endif
  endfun

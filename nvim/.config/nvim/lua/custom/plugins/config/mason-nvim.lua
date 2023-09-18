@@ -1,7 +1,6 @@
 require("mason-lspconfig").setup({
     ensure_installed = {
         "lua_ls",
-        "clangd",
         "cssls",
         "dockerls",
         "emmet_ls",

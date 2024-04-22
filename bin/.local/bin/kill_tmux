@@ -1,12 +1,20 @@
 #!/usr/bin/env sh
 
+_kill_tmux() {
+  pid=$(pgrep tmux:\ server)
+  [ "$?" -eq 0 ] || exit "$?"
+  touch /tmp/kill_term
+
+  kill -KILL "$pid"
+}
+
 help(){
 cat <<EOF
 $(bold ABOUT)
     ${SCRIPT_NAME}
 
 $(bold USAGE)
-    ${SCRIPT_NAME} [flag]
+    ${SCRIPT_NAME} [option]
 
 $(bold options)
     -h  --help         show help

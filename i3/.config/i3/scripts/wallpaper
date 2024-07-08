@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 CONFIG="$HOME/.config/i3/config.json"
-WALLPAPER_DIR="$HOME/pictures/wallpaper"
+WALLPAPER_DIR="$HOME/.wallpaper"
 CMD=$0
 DEFAULT_WP=12
 

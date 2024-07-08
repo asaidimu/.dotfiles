@@ -11,7 +11,7 @@
   alias ag="ag  --color-match='1;32' --color-line-number='0;34'"
   alias td="tmux detach"
 
-  alias ev="nvim ~/.config/nvim/lua/custom/init.lua"
+  alias ev="nvim ~/.config/nvim/init.lua"
   alias ez="nvim ~/.zshrc"
   alias e3="nvim ~/.config/i3"
   alias ep="nvim ~/.config/polybar"

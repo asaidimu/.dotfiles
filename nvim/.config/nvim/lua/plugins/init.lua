@@ -1,4 +1,11 @@
-local plugins = {
+return {
+  {
+    "stevearc/conform.nvim",
+    -- event = 'BufWritePre', -- uncomment for format on save
+    config = function()
+      require "configs.conform"
+    end,
+  },
     {
         "folke/which-key.nvim",
         enabled = false,
@@ -11,7 +18,7 @@ local plugins = {
         "jose-elias-alvarez/null-ls.nvim",
         lazy = false,
         config = function()
-            require("custom.plugins.config.null_ls")
+            require("configs.null_ls")
         end,
     },
     {
@@ -21,22 +28,21 @@ local plugins = {
         "nvimdev/lspsaga.nvim",
         cmd = { "Lspsaga" },
         config = function()
-            require("custom.plugins.config.saga")
+            require("configs.saga")
         end,
     },
     {
         "rcarriga/nvim-notify",
         lazy = false,
         config = function()
-            require("custom.plugins.config.notifier")
+            require("configs.notifier")
         end,
     },
     {
         "lukas-reineke/indent-blankline.nvim",
         lazy = false,
-        config = function()
-            require("indent_blankline").setup({})
-        end,
+        main = "ibl",
+        opts = {}
     },
     {
         "folke/trouble.nvim",
@@ -56,19 +62,18 @@ local plugins = {
         "luukvbaal/nnn.nvim",
         lazy = false,
         config = function()
-            require("custom.plugins.config.nnn")
+            require("configs.nnn")
         end,
     },
     {
         "williamboman/mason.nvim",
         cmd = { "Mason" },
-        opts = require("plugins.configs.mason"),
     },
     {
         "williamboman/mason-lspconfig.nvim",
         lazy = false,
         config = function()
-            require("custom.plugins.config.mason-nvim")
+            require("configs.mason-nvim")
         end,
         dependencies = {
             "williamboman/mason.nvim",
@@ -77,7 +82,7 @@ local plugins = {
     {
         "hrsh7th/nvim-cmp",
         opts = function()
-            return require("custom.plugins.config.cmp")
+            return require("configs.cmp")
         end,
     },
     { "barreiroleo/ltex-extra.nvim" },
@@ -102,13 +107,20 @@ local plugins = {
         init = function ()
             vim.g.rustfmt_autosave = 1
         end
-    },{
+    },
+-- add this to your lua/plugins.lua, lua/plugins/init.lua,  or the file you keep your other plugins:
+{
+    'numToStr/Comment.nvim',
+    opts = {
+        -- add any options here
+    }
+},
+  {
         "simrat39/rust-tools.nvim",
         ft="rust",
         dependencies = "williamboman/mason-lspconfig.nvim",
         config = function ()
-            require("custom.plugins.config.rust-tools")
+            require("configs.rust-tools")
         end
     }
 }
-return plugins

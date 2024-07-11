@@ -99,8 +99,9 @@ require("mason-lspconfig").setup_handlers({
                 "rescript",
                 "typescriptreact",
                 "vue",
+                "smarty"
             },
-            autostart = false,
+            autostart = true,
         })
     end,
 
@@ -108,8 +109,8 @@ require("mason-lspconfig").setup_handlers({
     ["emmet_ls"] = function()
         lspconfig.emmet_ls.setup({
             capabilities = capabilities,
-            filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
-            autostart = false,
+            filetypes = { "html", "css", "sass", "scss", "less", "smarty" },
+            autostart = true,
         })
     end,
 

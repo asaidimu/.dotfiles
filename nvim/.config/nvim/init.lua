@@ -129,7 +129,7 @@ vim.cmd("set splitright")
 -- Highlight the current line
 vim.cmd("set cursorline")
 
- vim.cmd([[
+vim.cmd([[
  fun! StripTrailingWhitespace()
      " don't strip on these filetypes
      if &ft =~ 'markdown'
@@ -140,7 +140,7 @@ vim.cmd("set cursorline")
  autocmd BufWritePre * call StripTrailingWhitespace()
  ]])
 
- vim.cmd([[
+vim.cmd([[
  fun! DeleteCurrentBuffer()
    let s:buff = bufnr()
    exec 'bdelete' s:buff

@@ -46,19 +46,32 @@ source $ZSH_CONFIG/bindings.zsh
 # -- theme --
 source $ZSH_CONFIG/theme.zsh
 
-export PA="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PA"
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# bun completions
+[ -s "/home/augustine/.oh-my-zsh/completions/_bun" ] && source "/home/augustine/.oh-my-zsh/completions/_bun"
 
 # custom functions
-fpa=( "$ZSH_CONFIG/functions" "${fpa[@]}" )
-autoload -Uz $fpa[1]/*(.:t)
+fpath=( "$ZSH_CONFIG/functions" "${fpath[@]}" )
+autoload -Uz $fpath[1]/*(.:t)
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+# export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# bun completions
+[ -s "/home/augustine/.bun/_bun" ] && source "/home/augustine/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
-export PA="$BUN_INSTALL/bin:$PA"
+export PATH="$BUN_INSTALL/bin:$PATH"
 
-# bun completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/augustine/google-cloud-sdk/path.zsh.inc' ]; then . '/home/augustine/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/augustine/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/augustine/google-cloud-sdk/completion.zsh.inc'; fi
 
 # go
-export GOPA=$HOME/.local/lib/go
-[ -e "$GOPA" ] || mkdir -p "$GOPA"
+export GOPATH=$HOME/.local/lib/go
+[ -e "$GOPATH" ] || mkdir -p "$GOPATH"

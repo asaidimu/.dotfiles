@@ -7,7 +7,7 @@ source $ZSH_CONFIG/exports.zsh
 MAIN_TERMINAL=${MAIN_TERMINAL:-0}
 
 # -- open tmux --
-if [ -z "$TMUX" -a "$(whoami)" != "root" -a  "$MAIN_TERMINAL" -eq 0 ]; en
+if [ -z "$TMUX" -a "$(whoami)" != "root" -a  "$MAIN_TERMINAL" -eq 0 ]; then
     session_name=$(basename $HOME | sed -E "s/^(\.)+//; s/\./_/g" )
 
     _in_loop=1
@@ -16,12 +16,12 @@ if [ -z "$TMUX" -a "$(whoami)" != "root" -a  "$MAIN_TERMINAL" -eq 0 ]; en
 
     # shell started
     while  [ "$_in_loop" -eq 1 ]; do
-      if [ -e /tmp/kill_term ]; en
+      if [ -e /tmp/kill_term ]; then
         rm -f /tmp/kill_term
         _in_loop=0
       else
         clear
-        if tmux has -t "$session_name" 2> /dev/null; en
+        if tmux has -t "$session_name" 2> /dev/null; then
           tmux attach-session -t "$session_name"
         else
           tmux new-session -s "$session_name" -c "$HOME"
@@ -43,8 +43,8 @@ source $ZSH_CONFIG/functions.zsh
 # -- bindings --
 source $ZSH_CONFIG/bindings.zsh
 
-# -- eme --
-source $ZSH_CONFIG/eme.zsh
+# -- theme --
+source $ZSH_CONFIG/theme.zsh
 
 export PA="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PA"
 

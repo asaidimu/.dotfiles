@@ -36,5 +36,5 @@ map("n", "gk", ":Lspsaga hover_doc<CR>")
 map("n", "gd", ":Lspsaga peek_definition<CR>")
 map("n", "<leader>r", ":Lspsaga rename<CR>")
 map("n", "<leader>f", ":Telescope find_files<CR>")
-
+map("n","<leader>o", ":Outline<CR>")
 map("v", "<leader>c", ":lua require('Comment.api').toggle.blockwise(vim.fn.visualmode())<cr>")

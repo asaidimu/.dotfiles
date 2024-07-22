@@ -7,7 +7,7 @@ source $ZSH_CONFIG/exports.zsh
 MAIN_TERMINAL=${MAIN_TERMINAL:-0}
 
 # -- open tmux --
-if [ -z "$TMUX" -a "$(whoami)" != "root" -a  "$MAIN_TERMINAL" -eq 0 ]; then
+if [ -z "$TMUX" -a "$(whoami)" != "root" -a  "$MAIN_TERMINAL" -eq 0 ]; en
     session_name=$(basename $HOME | sed -E "s/^(\.)+//; s/\./_/g" )
 
     _in_loop=1
@@ -16,12 +16,12 @@ if [ -z "$TMUX" -a "$(whoami)" != "root" -a  "$MAIN_TERMINAL" -eq 0 ]; then
 
     # shell started
     while  [ "$_in_loop" -eq 1 ]; do
-      if [ -e /tmp/kill_term ]; then
+      if [ -e /tmp/kill_term ]; en
         rm -f /tmp/kill_term
         _in_loop=0
       else
         clear
-        if tmux has -t "$session_name" 2> /dev/null; then
+        if tmux has -t "$session_name" 2> /dev/null; en
           tmux attach-session -t "$session_name"
         else
           tmux new-session -s "$session_name" -c "$HOME"
@@ -43,35 +43,22 @@ source $ZSH_CONFIG/functions.zsh
 # -- bindings --
 source $ZSH_CONFIG/bindings.zsh
 
-# -- theme --
-source $ZSH_CONFIG/theme.zsh
+# -- eme --
+source $ZSH_CONFIG/eme.zsh
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
-# bun completions
-[ -s "/home/augustine/.oh-my-zsh/completions/_bun" ] && source "/home/augustine/.oh-my-zsh/completions/_bun"
+export PA="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PA"
 
 # custom functions
-fpath=( "$ZSH_CONFIG/functions" "${fpath[@]}" )
-autoload -Uz $fpath[1]/*(.:t)
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-# export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-# bun completions
-[ -s "/home/augustine/.bun/_bun" ] && source "/home/augustine/.bun/_bun"
+fpa=( "$ZSH_CONFIG/functions" "${fpa[@]}" )
+autoload -Uz $fpa[1]/*(.:t)
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+export PA="$BUN_INSTALL/bin:$PA"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/augustine/google-cloud-sdk/path.zsh.inc' ]; then . '/home/augustine/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/augustine/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/augustine/google-cloud-sdk/completion.zsh.inc'; fi
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # go
-export GOPATH=$HOME/.local/lib/go
-[ -e "$GOPATH" ] || mkdir -p "$GOPATH"
+export GOPA=$HOME/.local/lib/go
+[ -e "$GOPA" ] || mkdir -p "$GOPA"

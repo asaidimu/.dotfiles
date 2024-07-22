@@ -1,8 +1,47 @@
--- disable man mappings
-vim.g.no_man_maps = true
+vim.g.base46_cache = vim.fn.stdpath "data" .. "/nvchad/base46/"
 
 -- map leader key to '
 vim.g.mapleader = "'"
+
+-- bootstrap lazy and all plugins
+local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+
+if not vim.loop.fs_stat(lazypath) then
+  local repo = "https://github.com/folke/lazy.nvim.git"
+  vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
+end
+
+vim.opt.rtp:prepend(lazypath)
+
+local lazy_config = require "configs.lazy"
+
+-- load plugins
+require("lazy").setup({
+  {
+    "NvChad/NvChad",
+    lazy = false,
+    branch = "v2.5",
+    import = "nvchad.plugins",
+    config = function()
+      require "options"
+    end,
+  },
+
+  { import = "plugins" },
+}, lazy_config)
+
+-- load theme
+dofile(vim.g.base46_cache .. "defaults")
+dofile(vim.g.base46_cache .. "statusline")
+
+require "nvchad.autocmds"
+
+vim.schedule(function()
+  require "mappings"
+end)
+
+-- disable man mappings
+vim.g.no_man_maps = true
 
 -- disable mouse
 vim.cmd("set mouse=")
@@ -84,7 +123,6 @@ vim.cmd("set guicursor=n-ci:hor30-iCursor-blinkwait300-blinkon200-blinkoff150")
 vim.cmd("set guicursor=v-ci:hor30-iCursor-blinkwait300-blinkon200-blinkoff150")
 vim.cmd("set guicursor=i-ci:hor30-iCursor-blinkwait300-blinkon200-blinkoff150")
 
-
 -- Set tab size in spaces (this is for manual indenting)
 vim.cmd("set tabstop=4")
 
@@ -118,7 +156,7 @@ vim.cmd("set encoding=utf-8")
 vim.cmd("set autoread")
 
 --  Use system clipboard
-vim.cmd("set clipboard=unnamed")
+vim.cmd("set clipboard=unnamed,unnamedplus")
 
 --  Don't show intro
 vim.cmd("set shortmess+=I")
@@ -128,6 +166,9 @@ vim.cmd("set splitright")
 
 -- Highlight the current line
 vim.cmd("set cursorline")
+
+-- disable mouse --
+vim.cmd("set mouse=")
 
 vim.cmd([[
  fun! StripTrailingWhitespace()
@@ -211,43 +252,3 @@ augroup prose
 augroup END
 
 ]])
-vim.g.base46_cache = vim.fn.stdpath "data" .. "/nvchad/base46/"
-
--- bootstrap lazy and all plugins
-local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
-
-if not vim.loop.fs_stat(lazypath) then
-  local repo = "https://github.com/folke/lazy.nvim.git"
-  vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
-end
-
-vim.opt.rtp:prepend(lazypath)
-
-local lazy_config = require "configs.lazy"
-
--- load plugins
-require("lazy").setup({
-  {
-    "NvChad/NvChad",
-    lazy = false,
-    branch = "v2.5",
-    import = "nvchad.plugins",
-    config = function()
-      require "options"
-    end,
-  },
-
-  { import = "plugins" },
-}, lazy_config)
-
--- load theme
-dofile(vim.g.base46_cache .. "defaults")
-dofile(vim.g.base46_cache .. "statusline")
-
-require "nvchad.autocmds"
-
-vim.schedule(function()
-  require "mappings"
-end)
-
-vim.cmd("set mouse=")

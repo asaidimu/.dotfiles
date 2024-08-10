@@ -1,10 +1,17 @@
 local options = {
     formatters_by_ft = {
         lua = { "stylua" },
-        css = { "prettier" },
-        html = { "prettier" },
+        css = { "prettierd" },
+        html = { "prettierd" },
         smarty = { "smarty" },
         php = { "php" },
+        typescript = { 'prettierd', },
+        typescriptreact = {
+            'prettierd',
+            javascript = { "prettierd" },
+            javascriptreact = { "prettierd" },
+            json = { "prettierd" },
+        },
     },
     formatters = {
         php = {
@@ -17,7 +24,7 @@ local options = {
             stdin = false,
         },
         smarty = {
-            command = "prettier",
+            command = "prettierd",
             args = {
                 "--parser=html",
             },

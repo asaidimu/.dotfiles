@@ -5,10 +5,18 @@
 local M = {}
 
 M.ui = {
-	theme = "onedark",
-  tabufline = {
-    lazyload = false
-  }
+    theme = "onedark",
+    tabufline = {
+        lazyload = false
+    },
+    statusline = {
+        order = { "mode", "file", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cwd", "cursor", "session" },
+        modules = {
+            session = function()
+                return " %{ObsessionStatus(' ','no-session')} "
+            end
+        }
+    }
 }
 
 return M

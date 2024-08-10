@@ -101,7 +101,7 @@ require("mason-lspconfig").setup_handlers({
                 "vue",
                 "smarty"
             },
-            autostart = true,
+            autostart = false,
         })
     end,
 

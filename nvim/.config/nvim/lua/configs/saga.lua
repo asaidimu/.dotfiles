@@ -9,7 +9,6 @@ require("lspsaga").setup({
     },
     request_timeout = 2000,
 
-    -- See Customizing Lspsaga's Appearance
     ui = {
         code_action = " ",
     },

@@ -87,7 +87,7 @@ return {
     { "barreiroleo/ltex-extra.nvim" },
     {
         "tpope/vim-obsession",
-        cmd = { "Obsession" },
+        lazy = false,
     },
     {
         lazy = false,
@@ -134,4 +134,19 @@ return {
             },
         },
     },
+    {
+        "davidmh/mdx.nvim",
+        ft = "mdx",
+        config = true,
+        dependencies = { "nvim-treesitter/nvim-treesitter" }
+    },
+    {
+        "ibhagwan/fzf-lua",
+        -- optional for icon support
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        config = function()
+            -- calling `setup` is optional for customization
+            require("fzf-lua").setup({})
+        end
+    }
 }

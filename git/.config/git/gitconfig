@@ -6,7 +6,6 @@
 	excludesfile = ~/.config/git/gitignore
 [alias]
     s = status
-    t = tree
 
     lg  = lg1
     lg1 = lg1-specific --all
@@ -19,8 +18,6 @@
     tree = log --all --graph --decorate=short --color --format=format:'%C(bold blue)%h%C(reset) %C(auto)%d%C(reset)\n         %C(blue)[%cr]%C(reset)  %x09%C(blue)%an: %s %C(reset)'
     lg3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
     logx = log --all --graph --decorate=short --color --format=format:'%C(bold blue)%h%C(reset)+%C(dim blue)(%cr)%C(reset)+%C(auto)%d%C(reset)++\n+++       %C(bold blue)%an%C(reset)%C(blue): %s%C(reset)'
-    stree = !bash -c '"                                                                             \
-        vtree = !bash -c '"
 
 [commit]
     template = ~/.config/git/commit-template.txt

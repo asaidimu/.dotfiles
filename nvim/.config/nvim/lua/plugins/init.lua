@@ -1,27 +1,22 @@
 return {
     {
-        "stevearc/conform.nvim",
-        -- event = 'BufWritePre', -- uncomment for format on save
-        config = function()
-            require "configs.conform"
-        end,
-    },
-    {
         "folke/which-key.nvim",
         enabled = false,
     },
     {
         "nvim-tree/nvim-tree.lua",
-        enabled = false,
-    }, {
-    'stevearc/conform.nvim',
-    lazy = false,
-    config = function()
-        require("configs.conform")
-    end,
-},
+        opts = {
+            view = {
+                side = "right"
+            }
+        }
+    },
     {
-        "jose-elias-alvarez/typescript.nvim",
+        'stevearc/conform.nvim',
+        lazy = false,
+        config = function()
+            require("configs.conform")
+        end
     },
     {
         "nvimdev/lspsaga.nvim",
@@ -141,12 +136,19 @@ return {
         dependencies = { "nvim-treesitter/nvim-treesitter" }
     },
     {
-        "ibhagwan/fzf-lua",
-        -- optional for icon support
-        dependencies = { "nvim-tree/nvim-web-devicons" },
+        "jinzhongjia/LspUI.nvim",
+        branch = "main",
+        lazy = false,
         config = function()
-            -- calling `setup` is optional for customization
-            require("fzf-lua").setup({})
+            require("LspUI").setup({})
+        end
+    },
+    {
+        "pmizio/typescript-tools.nvim",
+        lazy = false,
+        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        config = function()
+            require("typescript-tools").setup({})
         end
     }
 }

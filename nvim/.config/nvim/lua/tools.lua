@@ -18,14 +18,13 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- Define function to delete the current buffer
 local function delete_current_buffer()
   local buf = vim.api.nvim_get_current_buf()
-  vim.cmd('bdelete ' .. buf)
 
-  -- Check if the buffer was the only one and if it's empty
-  if vim.api.nvim_buf_is_valid(buf) then
-    local buf_name = vim.api.nvim_buf_get_name(buf)
-    if buf_name == '' and vim.api.nvim_buf_line_count(buf) == 1 and vim.api.nvim_buf_get_lines(buf, 0, 1, false)[1] == '' then
-      vim.cmd('quit')
-    end
+  -- If there is only one window and one buffer, closing the buffer should close the window.
+  if #vim.fn.getbufinfo({buflisted = 1}) == 1 then
+    vim.cmd('bdelete ' .. buf)
+    vim.cmd('quit')
+  else
+    vim.cmd('bdelete ' .. buf)
   end
 end
 

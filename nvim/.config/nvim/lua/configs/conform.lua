@@ -1,17 +1,15 @@
 local options = {
     formatters_by_ft = {
         lua = { "stylua" },
-        css = { "prettierd" },
-        html = { "prettierd" },
+        css = { "prettier" },
+        html = { "prettier" },
         smarty = { "smarty" },
         php = { "php" },
-        typescript = { 'prettierd', },
-        typescriptreact = {
-            'prettierd',
-            javascript = { "prettierd" },
-            javascriptreact = { "prettierd" },
-            json = { "prettierd" },
-        },
+        typescript = { 'prettier' },
+        typescriptreact = { 'prettier' },
+        javascript = { "prettier" },
+        javascriptreact = { "prettier" },
+        json = { "prettier" },
     },
     formatters = {
         php = {
@@ -24,7 +22,7 @@ local options = {
             stdin = false,
         },
         smarty = {
-            command = "prettierd",
+            command = "prettier",
             args = {
                 "--parser=html",
             },
@@ -44,5 +42,5 @@ vim.api.nvim_create_user_command("Format", function(args)
             ["end"] = { args.line2, end_line:len() },
         }
     end
-    require("conform").format({ async = true, lsp_format = "fallback", range = range })
+    require("conform").format({ async = true, lsp_format = "fallback", range = range, timeout_ms=2500 })
 end, { range = true })

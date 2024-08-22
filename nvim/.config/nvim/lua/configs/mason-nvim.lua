@@ -7,7 +7,6 @@ require("mason-lspconfig").setup({
         "gopls",
         "html",
         "jsonls",
-        "tsserver",
         "prismals",
         "tailwindcss",
         "yamlls",
@@ -19,72 +18,13 @@ local cmp_lsp = require("cmp_nvim_lsp")
 local lspconfig = require("lspconfig")
 local client_capabilities = vim.lsp.protocol.make_client_capabilities()
 local capabilities = cmp_lsp.default_capabilities(client_capabilities)
-local ts = require("typescript")
-local util = require("lspconfig/util")
 
 require("mason-lspconfig").setup_handlers({
-    function(server_name) -- default handler (optional)
+    function(server_name)
         require("lspconfig")[server_name].setup({
             capabilities = capabilities,
         })
     end,
-    --[[ -- rust analyzer
-    ["rust-analyzer"] = function()
-        lspconfig.rust_analyzer.setup({
-            capabilities = capabilities,
-            filetypes= { "rust"},
-            root_dir = util.root_pattern("Cargo.toml"),
-            settings = {
-                ["rust-analyzer"] = {
-                    cargo = {
-                        allFeatures = true
-                    }
-                }
-            }
-        })
-    end, ]]
-    -- yamlls
-    ["yamlls"] = function()
-        lspconfig.yamlls.setup({
-            settings = {
-                yaml = {
-                    keyOrdering = false,
-                },
-            },
-        })
-    end,
-
-    -- tsserver
-    ["tsserver"] = function()
-        lspconfig.tsserver.setup({
-            capabilities = capabilities,
-            commands = {
-                TypescriptAddMissingImports = {
-                    ts.actions.addMissingImports,
-                    description = "Add missing imports.",
-                },
-                TypescriptOrganizeImports = {
-                    ts.actions.organizeImports,
-                    description = "Organize imports.",
-                },
-                TypescriptFixAll = {
-                    ts.actions.fixAll,
-                    description = "Fix all.",
-                },
-                TypescriptRemoveUnused = {
-                    ts.actions.removeUnused,
-                    description = "Remove unused variables.",
-                },
-            },
-            on_attach = function(_, bufnr)
-                local opts = { silent = true }
-                vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<Cmd>TypescriptRemoveUnused<CR>", opts)
-                vim.api.nvim_buf_set_keymap(bufnr, "n", "go", "<Cmd>TypescriptOrganizeImports<CR>", opts)
-                vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<Cmd>TypescriptAddMissingImports<CR>", opts)
-            end,
-        })
-    end,
-
     --tailwind
     ["tailwindcss"] = function()
         lspconfig.tailwindcss.setup({

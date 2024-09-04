@@ -75,6 +75,7 @@ if [ -f '/home/augustine/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/a
 # go
 export GOPATH=$HOME/.local/lib/go
 [ -e "$GOPATH" ] || mkdir -p "$GOPATH"
+export PATH="$GOPATH/bin:$PATH"
 
 # sqlite studio
 export STUDIO_INSTALL="$HOME/.local/lib/sqlitestudio"

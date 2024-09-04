@@ -150,5 +150,27 @@ return {
         config = function()
             require("typescript-tools").setup({})
         end
+    },
+    {
+        "mfussenegger/nvim-dap",
+        config = function()
+            require("configs.nvim-dap")
+        end,
+        lazy = true,
+    },
+    {
+        "leoluz/nvim-dap-go",
+        config = function()
+        end,
+    },
+    {
+        "Weissle/persistent-breakpoints.nvim",
+        config = function()
+            require("persistent-breakpoints").setup {
+                load_breakpoints_event = { "BufReadPost" }
+            }
+
+            vim.keymap.set("n", "<leader>db", ":PBToggleBreakpoint<CR>")
+        end,
     }
 }

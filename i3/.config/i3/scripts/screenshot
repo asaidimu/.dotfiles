@@ -1,9 +1,10 @@
 #!/usr/bin/env zsh
 
-SCREENSHOT_DIR="${HOME}/pictures/ScreenShots/"
+SCREENSHOT_DIR="${HOME}/pictures/screenshots/"
 NAME="$(date +"%Y-%m-%d_%H-%M-%S").png"
 SCREENSHOT_PATH="${SCREENSHOT_DIR}/${NAME}"
 
+[ -d $SCREENSHOT_DIR ] || mkdir -p $SCREENSHOT_DIR
 notify () {                                                                                                                                                      ~
         summary="Screen Shot"
         message="Saved ${NAME}."

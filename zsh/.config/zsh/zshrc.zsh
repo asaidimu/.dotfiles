@@ -74,9 +74,16 @@ if [ -f '/home/augustine/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/a
 
 # go
 export GOPATH=$HOME/.local/lib/go
-[ -e "$GOPATH" ] || mkdir -p "$GOPATH"
 export PATH="$GOPATH/bin:$PATH"
+export PATH="/usr/local/go/bin:$PATH"
 
 # sqlite studio
 export STUDIO_INSTALL="$HOME/.local/lib/sqlitestudio"
 export PATH="$STUDIO_INSTALL:$PATH"
+
+# fnm
+FNM_PATH="/home/augustine/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="/home/augustine/.local/share/fnm:$PATH"
+  eval "`fnm env`"
+fi

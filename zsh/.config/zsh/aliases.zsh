@@ -6,9 +6,10 @@
   alias r=source_file
   alias cp="cp -r"
   alias rm="rm -i"
+  alias ls="ls --group-directories-first --color=tty"
   which lsd > /dev/null && alias ls='lsd  --group-dirs=first --color=auto'
   alias ll='ls -lh'
-  alias ag="ag  --color-match='1;32' --color-line-number='0;34'"
+  alias ag="ag --color-match='1;32' --color-line-number='0;34'"
   alias td="tmux detach"
 
   alias ev="nvim ~/.config/nvim/init.lua"

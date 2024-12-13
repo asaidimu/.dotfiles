@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+from http.server import SimpleHTTPRequestHandler, HTTPServer
+import os
+
+class SPAHandler(SimpleHTTPRequestHandler):
+    def do_GET(self):
+        if not os.path.exists(self.translate_path(self.path)):
+            self.path = "/index.html"  # Rewrite to index.html
+        return super().do_GET()
+
+PORT = 8080
+server = HTTPServer(("127.0.0.1", PORT), SPAHandler)
+print(f"Serving on http://127.0.0.1:{PORT}")
+server.serve_forever()
+
+

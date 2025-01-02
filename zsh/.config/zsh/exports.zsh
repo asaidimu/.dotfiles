@@ -25,7 +25,7 @@
   export EDITOR_FILES=(cpp cxx cc c hh h inl asc txt TXT tex css html js json py)
 
 # -- term --
-  export TERM="st-256color"
+  export TERM="xterm-256color"
 
 # -- language --
   export LC_ALL="en_US.UTF-8"

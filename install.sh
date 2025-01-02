@@ -20,3 +20,8 @@ for folder in `ls $DOTFILES`; do
     fi
 done
 popd
+
+if ! command -v pj &> /dev/null; then
+  sh <(curl -fsSL https://github.com/asaidimu/pj/releases/download/latest/install.sh)
+fi
+

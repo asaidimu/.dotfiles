@@ -1,17 +1,40 @@
 #!/usr/bin/env python3
-
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 import os
 
 class SPAHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
-        if not os.path.exists(self.translate_path(self.path)):
-            self.path = "/index.html"  # Rewrite to index.html
-        return super().do_GET()
+        file_path = self.translate_path(self.path)
+
+        # Check if the requested file exists
+        if not os.path.exists(file_path) or os.path.isdir(file_path):
+            file_path = self.translate_path("/index.html")
+
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+
+        # Set content-type properly
+        if file_path.endswith(".html"):
+            self.send_header("Content-Type", "text/html")
+
+        self.send_header("Content-Length", str(os.path.getsize(file_path)))
+        self.end_headers()
+
+        # Read and send the file content
+        with open(file_path, "rb") as f:
+            self.wfile.write(f.read())
+
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS, DELETE')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        self.end_headers()
 
 PORT = 8080
 server = HTTPServer(("127.0.0.1", PORT), SPAHandler)
 print(f"Serving on http://127.0.0.1:{PORT}")
 server.serve_forever()
-
 

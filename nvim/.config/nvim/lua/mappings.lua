@@ -1,7 +1,5 @@
 require "nvchad.mappings"
 
--- add yours here
-
 local map = vim.keymap.set
 
 map("n", ";", ":", { desc = "CMD enter command mode", silent = true })
@@ -34,6 +32,8 @@ map("n", "<leader>c", ":lua require('Comment.api').toggle.linewise.current()<cr>
 map("n", "<leader>x", ":Trouble diagnostics toggle focus=false filter.buf=0<cr>", { silent = true })
 map("n", "ga", ":LspUI code_action<CR>", { silent = true })
 map("n", "gr", ":TSToolsOrganizeImports<CR>", { silent = true })
+map("n", "gh", ":LspUI hover<CR>", { silent = true })
+map("n", "gd", ":LspUI definition<CR>", { silent = true })
 map("n", "<leader>r", ":LspUI rename<CR>", { silent = true })
 map("n", "<leader>o", ":Outline<CR>", { silent = true })
 map("v", "<leader>c", ":lua require('Comment.api').toggle.blockwise(vim.fn.visualmode())<cr>", { silent = true })

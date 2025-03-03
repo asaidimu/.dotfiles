@@ -7,7 +7,7 @@ return {
         "nvim-tree/nvim-tree.lua",
         opts = {
             view = {
-                side = "right"
+                side = "left"
             }
         }
     },
@@ -156,6 +156,7 @@ return {
         config = function()
             require("configs.nvim-dap")
         end,
+        cmd = { "DapContinue" },
         lazy = true,
     },
     {
@@ -171,6 +172,23 @@ return {
             }
 
             vim.keymap.set("n", "<leader>db", ":PBToggleBreakpoint<CR>")
+        end,
+    },
+    {
+        "nvim-neotest/neotest",
+        dependencies = {
+            "nvim-neotest/nvim-nio",
+            "nvim-lua/plenary.nvim",
+            "antoinemadec/FixCursorHold.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            "marilari88/neotest-vitest",
+        },
+        config = function()
+            require("neotest").setup({
+                adapters = {
+                    require("neotest-vitest"),
+                }
+            })
         end,
     }
 }

@@ -1,43 +1,113 @@
-vim.keymap.set("n", "<leader>d<space>", ":DapContinue<CR>")
-vim.keymap.set("n", "<leader>dl", ":DapStepInto<CR>")
-vim.keymap.set("n", "<leader>dj", ":DapStepOver<CR>")
-vim.keymap.set("n", "<leader>dh", ":DapStepOut<CR>")
-vim.keymap.set("n", "<leader>dz", ":ZoomWinTabToggle<CR>")
-vim.keymap.set(
-    "n",
-    "<leader>dgt", -- dg as in debu[g] [t]race
-    ":lua require('dap').set_log_level('TRACE')<CR>"
-)
-vim.keymap.set(
-    "n",
-    "<leader>dge", -- dg as in debu[g] [e]dit
+vim.keymap.set("n", "<leader>d<space>",
     function()
-        vim.cmd(":edit " .. vim.fn.stdpath('cache') .. "/dap.log")
-    end
-)
-vim.keymap.set("n", "<F1>", ":DapStepOut<CR>")
-vim.keymap.set("n", "<F2>", ":DapStepOver<CR>")
-vim.keymap.set("n", "<F3>", ":DapStepInto<CR>")
-vim.keymap.set(
-    "n",
-    "<leader>d-",
-    function()
-        require("dap").restart()
-    end
-)
-vim.keymap.set(
-    "n",
-    "<leader>d_",
-    function()
-        require("dap").terminate()
-        require("dapui").close()
+        require("dap").continue()
     end
 )
 
+vim.keymap.set("n", "<leader>ds",
+    function()
+        require("dap").step_into()
+    end
+)
+
+vim.keymap.set("n", "<leader>do",
+    function()
+        require("dap").step_over()
+    end
+)
+
+vim.keymap.set("n", "<leader>dx",
+    function()
+        require("dap").step_out()
+    end
+)
+
+vim.keymap.set("n", "<leader>db",
+    function()
+        require("dap").toggle_breakpoint()
+    end
+)
+
+vim.keymap.set("n", "<leader>du",
+    function()
+        require("dapui").toggle()
+    end
+)
+
+vim.keymap.set("n", "<leader>du",
+    function()
+        require("dapui").toggle()
+    end
+)
+
+require('mason-nvim-dap').setup {
+    automatic_installation = true,
+    handlers = {},
+    ensure_installed = {
+        'delve',
+    },
+}
 
 local dap = require("dap")
+local dapui = require("dapui")
 
-dap.adapters.delve = {
+dap.listeners.after.event_initialized['dapui_config'] = dapui.open
+dap.listeners.before.event_terminated['dapui_config'] = dapui.close
+dap.listeners.before.event_exited['dapui_config'] = dapui.close
+
+--[[ dapui.setup {
+    icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
+    layouts = { {
+        elements = { {
+            id = "scopes",
+            size = 0.25
+        }, {
+            id = "breakpoints",
+            size = 0.25
+        }, {
+            id = "stacks",
+            size = 0.25
+        }, {
+            id = "watches",
+            size = 0.25
+        } },
+        position = "left",
+        size = 40,
+        width = 240,
+    }, {
+        elements = { {
+            id = "repl",
+            size = 0.5
+        }, {
+            id = "console",
+            size = 0.5
+        } },
+        position = "bottom",
+        size = 10
+    } },
+} ]]
+
+require("nvim-dap-virtual-text").setup()
+
+require('dap-go').setup({
+    delve = {
+        -- Use Mason's delve installation with fallback to system delve
+        path = function()
+            local mason_delve = vim.fn.stdpath("data") .. "/mason/bin/dlv"
+            if vim.fn.executable(mason_delve) == 1 then
+                return mason_delve
+            end
+            -- Fallback to system delve
+            return vim.fn.exepath("dlv") ~= "" and vim.fn.exepath("dlv") or "dlv"
+        end,
+
+        -- On Windows delve must be run attached or it crashes.
+        -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
+        -- detached = vim.fn.has 'win32' == 0,
+    }
+})
+
+--[[ dap.adapters.delve = {
     type = 'server',
     port = '${port}',
     executable = {
@@ -69,4 +139,4 @@ dap.configurations.go = {
         program = "./${relativeFileDirname}"
     },
 
-}
+} ]]

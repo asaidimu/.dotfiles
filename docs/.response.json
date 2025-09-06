@@ -1,0 +1,796 @@
+{
+  "classification": {
+    "primaryType": "Development Framework",
+    "confidence": 0.9,
+    "characteristics": [
+      "Shell Environment Customization",
+      "Command-line Utilities",
+      "Text Editor Configuration (Neovim)",
+      "System Monitoring Configuration (Conky, Polybar)",
+      "Development Workflow Enhancements"
+    ],
+    "adaptations": [
+      "Prioritize command syntax and shell functions",
+      "Detail environment variable usage and impact",
+      "Explain integration points with external tools (tmux, fzf, nnn, git)",
+      "Document configuration file formats where applicable"
+    ]
+  },
+  "introduction": "This documentation describes the `.dotfiles` repository, a comprehensive collection of configuration files and scripts designed to establish a highly customized and efficient development environment, primarily centered around the Zsh shell and Neovim. It automates system setup, enhances command-line interaction, and integrates various tools for productivity, monitoring, and media control. The aim is to provide a consistent and powerful user experience across different Arch Linux systems, focusing on developer-centric workflows.",
+  "sections": [
+    {
+      "title": "Getting Started",
+      "path": "getting-started.md",
+      "content": "## Overview\n\nThe `.dotfiles` repository is a self-contained system for configuring a personal Arch Linux development environment. It leverages `stow` for symbolic linking of configuration files, allowing for clean management of dotfiles. Key components include a highly optimized Zsh shell setup, a feature-rich Neovim configuration, and integration with utilities like Polybar, Conky, and various CLI tools.\n\n### Core Concepts\n\n*   **Stow**: Used to manage symbolic links from the dotfiles repository to your home directory, enabling version control of configurations without cluttering your home directory.\n*   **Modular Zsh Configuration**: The Zsh setup is broken into several files (`aliases.zsh`, `functions.zsh`, `settings.zsh`, `exports.zsh`, `bindings.zsh`, `theme.zsh`, `completions`, `lib`, `plugins`) for better organization and maintainability.\n*   **Neovim as IDE**: Configured with numerous plugins via `packer_compiled.lua` to provide a full-fledged IDE experience with LSP, snippets, and integrated tools.\n*   **System Aesthetics & Monitoring**: Polybar and Conky configurations provide a visually appealing and informative desktop experience.\n\n## Quick Setup Guide\n\nTo set up your system using these dotfiles, follow these steps:\n\n1.  **Clone the Repository**:\n    ```bash\ngit clone git@github.com:augustinesaidimu/.dotfiles.git ~/.dotfiles\n    ```\n\n2.  **Run the Installation Script**:\n    The `install` script handles the symbolic linking of dotfiles using `stow` and installs the `pj` utility if not present.\n    ```bash\n~/.dotfiles/install\n    ```\n\n3.  **Source Zsh Configuration**:\n    After installation, you need to source your `.zshrc` to apply the changes. This is typically done automatically when you open a new terminal, but you can force it:\n    ```bash\nsource ~/.zshrc\n    ```\n\n    *Note: The `install` script uses `stow` to link individual configuration folders. If you encounter issues, ensure `stow` is installed (`sudo pacman -S stow` on Arch Linux).*",
+      "agentGuidance": {
+        "decisionPoints": [
+          "IF [stow not installed] THEN [install stow using package manager (e.g., 'sudo pacman -S stow')] ELSE [proceed with dotfiles installation]",
+          "IF [dotfiles repository not cloned] THEN [clone repository to ~/.dotfiles] ELSE [verify existing clone]",
+          "IF [install script fails] THEN [check install script output for specific errors and manually debug dependencies or permissions] ELSE [proceed to source zshrc]"
+        ],
+        "verificationSteps": [
+          "Check: `ls -la ~/.zshrc` -> Expected: Symbolic link to `~/.dotfiles/zsh/.zshrc`",
+          "Check: `command -v pj` -> Expected: `pj` command found",
+          "Check: `echo $PATH` -> Expected: PATH updated with custom bin directories (e.g., `~/.bun/bin`, `~/.local/bin`)"
+        ],
+        "quickPatterns": [
+          "Pattern: Clone dotfiles: `git clone git@github.com:augustinesaidimu/.dotfiles.git ~/.dotfiles`",
+          "Pattern: Run installation: `~/.dotfiles/install`",
+          "Pattern: Source Zsh config: `source ~/.zshrc`"
+        ],
+        "diagnosticPaths": [
+          "Error: `command not found: stow` -> Symptom: `install` script fails -> Check: Package manager for `stow` -> Fix: `sudo pacman -S stow` (or equivalent)",
+          "Error: `Permission denied` when running install script -> Symptom: Script cannot create symlinks or access files -> Check: User permissions on `~/.dotfiles` and target directories -> Fix: `chmod +x ~/.dotfiles/install` and verify target directory permissions"
+        ]
+      }
+    },
+    {
+      "title": "Core Operations",
+      "path": "core-operations.md",
+      "content": "## Shell Aliases and Functions\n\nThe Zsh configuration provides a rich set of aliases and functions for common tasks, enhancing productivity and command-line efficiency.\n\n### General Aliases\nThese aliases simplify common commands and provide safer defaults.\n\n| Alias       | Original Command                                        | Description                                                      |\n| :---------- | :------------------------------------------------------ | :--------------------------------------------------------------- |\n| `r`         | `source_file`                                           | Sources the Zsh configuration (or specified file)                |\n| `cp`        | `cp -r` (with `-i` for confirmation)                    | Recursively copies files/directories, prompts before overwrite   |\n| `rm`        | `rm -i`                                                 | Prompts before removing files                                    |\n| `ls`        | `lsd --group-dirs=first --color=auto` (if `lsd` exists) | Modern `ls` with colors and grouped directories                  |\n| `ll`        | `ls -lh`                                                | Long list format, human-readable sizes                           |\n| `ag`        | `ag --color-match='1;32' --color-line-number='0;34'`    | `The Silver Searcher` with custom colors                         |\n| `td`        | `tmux detach`                                           | Detaches from the current tmux session                           |\n| `todo`      | `ag TODO -A1`                                           | Searches for 'TODO' comments in code, shows one line after       |\n| `add_semver`| `yarn add -D @semantic-release/...`                     | Adds semantic release dependencies (dev utility)                 |\n| `tmp`       | `cd $(mktemp -d)`                                       | Creates and navigates to a temporary directory                   |\n| `vim`       | `nvim` (if `nvim` exists)                               | Uses Neovim as the default `vim` editor                          |\n| `upwork`    | `/opt/Upwork/upwork`                                    | Launches the Upwork application                                  |\n| `man`       | Custom `man` function (opens in `nvim`)                 | Displays man pages within Neovim for enhanced readability        |\n| `ig`        | Adds patterns to `.gitignore`                           | Appends space-separated patterns to `.gitignore` file            |\n| `kill_term` | Exits and creates `/tmp/kill_term`                      | Kills the current terminal session, used with tmux session management |\n\n### Editor Configuration Aliases\n\n| Alias | Target File                               |\n| :---- | :---------------------------------------- |\n| `ev`  | `~/.config/nvim/init.lua`                 |\n| `ez`  | `~/.zshrc`                                |\n| `e3`  | `~/.config/i3`                            |\n| `ep`  | `~/.config/polybar`                       |\n\n### Directory Navigation Aliases\n\n| Alias   | Description                             |\n| :------ | :-------------------------------------- |\
+| `...`   | Navigates up two directories (`../..`)  |\n| `....`  | Navigates up three directories (`../../..`) |\n| `-`     | Changes to the previous directory       |\n| `1`     | Changes to the 1st directory in `dirs` stack |\n| `d`     | Lists directory stack (with `compdef`)  |\n| `md`    | Creates directory (with `-p`)           |\n| `rd`    | Removes directory (same as `rmdir`)     |\n\n### Git Status Aliases\n\n| Alias       | Original Command             | Description                                          |\n| :---------- | :--------------------------- | :--------------------------------------------------- |\n| `l`         | `ls -lFh`                    | Short list, human-readable, show type                |\n| `la`        | `ls -lAFh`                   | Long list, show almost all, show type, human-readable|\n| `lr`        | `ls -tRFh`                   | Sorted by date, recursive, show type, human-readable |\n| `lt`        | `ls -ltFh`                   | Long list, sorted by date, show type, human-readable |\
+| `ll`        | `ls -l`                      | Long list                                            |\n| `ldot`      | `ls -ld .*`                  | Lists hidden files/directories                       |\n| `lS`        | `ls -1FSsh`                  | Single column, size, human-readable                  |\n| `lart`      | `ls -1Fcart`                 | Single column, sorted by date, recursive             |\n| `lrt`       | `ls -1Fcrt`                  | Single column, sorted by date                        |\n| `lsr`       | `ls -lARFh`                  | Recursive list, human-readable                       |\n| `lsn`       | `ls -1`                      | Single column list                                   |\n| `zshrc`     | `${=EDITOR} ${ZDOTDIR:-$HOME}/.zshrc` | Opens `.zshrc` in default editor                     |\n| `grep`      | `grep --color`               | Enables colored grep output                          |\n| `sgrep`     | `grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS}` | Recursive grep, line numbers, filename, 5 lines context, excludes common VCS dirs |\n| `t`         | `tail -f`                    | Follows a file's content                             |\n| `H`         | `| head`                     | Pipe to `head` (global alias)                        |\n| `T`         | `| tail`                     | Pipe to `tail` (global alias)                        |\n| `G`         | `| grep`                     | Pipe to `grep` (global alias)                        |\n| `L`         | `| less`                     | Pipe to `less` (global alias)                        |\n| `M`         | `| most`                     | Pipe to `most` (global alias)                        |\n| `LL`        | `2>&1 | less`                | Pipe stderr to `less` (global alias)                 |\n| `CA`        | `2>&1 | cat -A`              | Pipe stderr to `cat -A` (global alias)               |\n| `NE`        | `2> /dev/null`               | Redirect stderr to null (global alias)               |\n| `NUL`       | `> /dev/null 2>&1`           | Redirect stdout/stderr to null (global alias)        |\n| `P`         | `2>&1| pygmentize -l pytb`   | Pipe stderr to `pygmentize` (global alias)           |\n| `dud`       | `du -d 1 -h`                 | Disk usage, depth 1, human-readable                  |\n| `duf`       | `du -sh *`                   | Disk usage of files/directories, summary             |\n| `fd`        | `find . -type d -name`       | Find directories by name (`fd` command if installed) |\n| `ff`        | `find . -type f -name`       | Find files by name                                   |\n| `h`         | `history`                    | Shows command history                                |\n| `hgrep`     | `fc -El 0 | grep`            | Greps command history                                |\n| `help`      | `man`                        | Alias for `man`                                      |\n| `p`         | `ps -f`                      | Process status (full format)                         |\n| `sortnr`    | `sort -n -r`                 | Sorts numerically in reverse order                   |\n| `unexport`  | `unset`                      | Unsets environment variables                         |\n| `rm`        | `rm -i`                      | Prompts before removal                               |\n| `cp`        | `cp -i`                      | Prompts before copy                                  |\n| `mv`        | `mv -i`                      | Prompts before move                                  |\n| `_`         | `sudo`                       | Alias for `sudo`                                     |\n| `afind`     | `ack-grep -il` (or `ack -il`)| Find files with `ack-grep`/`ack`                     |\n\n### File Extension Aliases (Zsh Suffix Aliases)\nThese aliases automatically open files with specific applications based on their extension.\n\n| Extension     | Action                         | Description                                |\n| :------------ | :----------------------------- | :----------------------------------------- |\n| `htm`, `html`, `de`, `org`, `net`, `com`, `at`, `cx`, `nl`, `se`, `dk` | Opens in `$BROWSER`            | Web pages opened in default browser        |\n| `cpp`, `cxx`, `cc`, `c`, `hh`, `h`, `inl`, `asc`, `txt`, `TXT`, `tex`, `css`, `html`, `js`, `json`, `py` | Opens in `$EDITOR` (Neovim)    | Code/text files opened in Neovim           |\n| `jpg`, `jpeg`, `png`, `gif`, `mng`, `tiff`, `tif`, `xpm` | Opens in `$XIVIEWER`           | Image files opened in image viewer         |\n| `ape`, `avi`, `flv`, `m4a`, `mkv`, `mov`, `mp3`, `mpeg`, `mpg`, `ogg`, `ogm`, `rm`, `wav`, `webm` | Plays with `mplayer`           | Media files played with mplayer            |\n| `pdf`         | Opens with `acroread`          | PDF documents                               |\n| `ps`          | Opens with `gv`                | PostScript documents                       |\n| `dvi`         | Opens with `xdvi`              | DVI documents                              |\n| `chm`         | Opens with `xchm`              | CHM documents                              |\n| `djvu`        | Opens with `djview`            | DjVu documents                             |\n| `zip`         | Lists contents with `unzip -l` | Lists files inside a ZIP archive           |\n| `rar`         | Lists contents with `unrar l`  | Lists files inside a RAR archive           |\n| `tar`         | Lists contents with `tar tf`   | Lists files inside a TAR archive           |\n| `ace`         | Lists contents with `unace l`  | Lists files inside an ACE archive          |\n\n### Zsh Functions\n\n**`man()`**\n*   **Purpose**: Overrides the default `man` command to display man pages within `nvim` with specific syntax highlighting and buffer settings.\n*   **Signature**: `man [options] <page>`\n*   **Example**: `man zsh` will open the zsh man page in Neovim.\n\n**`source_file()`**\n*   **Purpose**: Sources a specified shell file, defaulting to `~/.zshrc` if no file is provided.\n*   **Signature**: `source_file [file_path]`\n*   **Example**: `source_file ~/.config/zsh/aliases.zsh`\n\n**`timezsh()`**\n*   **Purpose**: Measures the startup time of your shell by running it 10 times and exiting.\n*   **Signature**: `timezsh [shell]`\n*   **Example**: `timezsh` or `timezsh bash`\n\n**`ig()`**\n*   **Purpose**: Appends given arguments as new lines to the `.gitignore` file, automatically separating space-delimited inputs.\n*   **Signature**: `ig <patterns...>`\n*   **Example**: `ig node_modules build .env`\n\n**`kill_term()`**\n*   **Purpose**: Creates a temporary file `/tmp/kill_term` and exits the current shell. This is integrated with the tmux auto-attachment logic to gracefully exit a terminal session.\n*   **Signature**: `kill_term`\n\n**`sessionize()`**\n*   **Purpose**: Launches the `sessionizer` utility, which manages tmux sessions based on predefined project paths.\n*   **Signature**: `sessionize`\n\n**`n()`**\n*   **Purpose**: Initiates the `nnn` file manager. It sources a temporary file upon exit to `cd` into the last visited directory by `nnn`.\n*   **Signature**: `n [nnn_options]`\n*   **Example**: `n`\n\n**`fzf-file-widget()`**\n*   **Purpose**: Zsh Line Editor widget to paste selected file path(s) using `fzf` into the current command line.\n*   **Signature**: Bound to `^F` (Ctrl-F).\n\n**`fzf-cd-widget()`**\n*   **Purpose**: Zsh Line Editor widget to change directory to a selected directory using `fzf`.\n*   **Signature**: Bound to `\\ec` (Alt-C).\n\n**`fzf-history-widget()`**\n*   **Purpose**: Zsh Line Editor widget to select and paste a command from history using `fzf`.\n*   **Signature**: Bound to `^R` (Ctrl-R).\n\n**`omz_history()`**\n*   **Purpose**: Wrapper around `fc` for managing command history, including options for clearing and listing.\n*   **Signature**: `omz_history [-c | -l] [args...]`\n    *   `-c`: Clears the history file.\n    *   `-l`: Lists history (default behavior if no number is provided).\n*   **Example**: `history -c` (alias to `omz_history -c`)\n\n**`spectrum_ls()` and `spectrum_bls()`**\n*   **Purpose**: Utility functions to display the 256 terminal colors with their respective codes, for foreground and background.\n*   **Signature**: `spectrum_ls`, `spectrum_bls`\n\n**`env_default()`**\n*   **Purpose**: Internal helper function to set an environment variable if it's not already exported.\n*   **Signature**: `env_default <VAR_NAME> <DEFAULT_VALUE>`\n\n**`expand-or-complete-with-dots()`**\n*   **Purpose**: Zsh Line Editor widget that adds a visual indicator (`...`) during tab completion, useful for long completion times.\n*   **Signature**: Bound to `^I` (Tab).\n\n**`title()`**\n*   **Purpose**: Sets the terminal window and tab/icon title, supporting `xterm`, `screen`, `tmux`, and `iTerm.app`.\n*   **Signature**: `title short_tab_title [long_window_title]`\n\n**`update_terminalapp_cwd()`**\n*   **Purpose**: (Apple Terminal.app specific) Emits control sequences to notify Terminal.app of the current working directory.\n*   **Signature**: Internal, called by `precmd` hook.\n\n### Git Prompt Functions\nThese functions are primarily used by the Zsh prompt theme to display Git repository status.\n\n**`git_prompt_info()`**\n*   **Purpose**: Displays the current Git branch and an indicator if the working tree is dirty or clean.\n*   **Signature**: Internal, used in `PROMPT` variable.\n*   **Returned Value**: Formatted string like `git:(main*)` or `git:(develop)`.\n\n**`parse_git_dirty()`**\n*   **Purpose**: Checks if the Git working tree is dirty (modified, added, etc.).\n*   **Signature**: Internal, called by `git_prompt_info`.\n*   **Returned Value**: `$ZSH_THEME_GIT_PROMPT_DIRTY` or `$ZSH_THEME_GIT_PROMPT_CLEAN`.\n\n**`git_remote_status()`**\n*   **Purpose**: Displays the status of the local branch relative to its upstream remote (ahead, behind, diverged, equal).\n*   **Signature**: Internal.\n*   **Returned Value**: Formatted string indicating remote status.\n\n**`git_current_branch()`**\n*   **Purpose**: Returns the name of the current Git branch.\n*   **Signature**: `git_current_branch`\n*   **Returned Value**: String (e.g., `main`, `develop`).\n\n**`git_commits_ahead()`**\n*   **Purpose**: Returns the number of commits the current branch is ahead of its upstream.\n*   **Signature**: `git_commits_ahead`\n*   **Returned Value**: Integer count or empty string.\n\n**`git_commits_behind()`**\n*   **Purpose**: Returns the number of commits the current branch is behind its upstream.\n*   **Signature**: `git_commits_behind`\n*   **Returned Value**: Integer count or empty string.\n\n**`git_prompt_ahead()`**\n*   **Purpose**: Indicates if the current branch is ahead of its remote.\n*   **Signature**: Internal.\n*   **Returned Value**: `$ZSH_THEME_GIT_PROMPT_AHEAD` if ahead, empty otherwise.\n\n**`git_prompt_behind()`**\n*   **Purpose**: Indicates if the current branch is behind its remote.\n*   **Signature**: Internal.\n*   **Returned Value**: `$ZSH_THEME_GIT_PROMPT_BEHIND` if behind, empty otherwise.\n\n**`git_prompt_remote()`**\n*   **Purpose**: Indicates if the current branch exists on the remote.\n*   **Signature**: Internal.\n*   **Returned Value**: `$ZSH_THEME_GIT_PROMPT_REMOTE_EXISTS` or `$ZSH_THEME_GIT_PROMPT_REMOTE_MISSING`.\n\n**`git_prompt_short_sha()` / `git_prompt_long_sha()`**\n*   **Purpose**: Returns the short/long SHA of the current Git commit.\n*   **Signature**: Internal.\n*   **Returned Value**: Formatted SHA string.\n\n**`git_prompt_status()`**\n*   **Purpose**: Provides a comprehensive Git status indicator, including untracked, added, modified, renamed, deleted, unmerged, and remote status.\n*   **Signature**: Internal.\n*   **Returned Value**: Combined status string (e.g., `*+!`).\n\n**`git_current_user_name()` / `git_current_user_email()`**\n*   **Purpose**: Returns the configured Git user name/email.\n*   **Signature**: `git_current_user_name`, `git_current_user_email`\n*   **Returned Value**: String.\n\n**`git_repo_name()`**\n*   **Purpose**: Returns the name of the current Git repository's root directory.\n*   **Signature**: `git_repo_name`\n*   **Returned Value**: String.\n\n### Zsh Key Bindings\n\nMany common shell operations are bound to custom key combinations for efficiency.\n\n| Key Binding            | Action                                    | Description                                                               |\n| :--------------------- | :---------------------------------------- | :------------------------------------------------------------------------ |\n| `jk` (in `viins` mode) | `vi-cmd-mode`                             | Enters Vi command mode from insert mode                                   |\n| `^u` (Ctrl-U)          | `kill-whole-line`                         | Deletes the entire current line                                           |\n| `^n` (Ctrl-N)          | `start_session && clear`                  | Starts a new tmux session at the current directory and clears the screen |\n| `^v` (Ctrl-V)          | `xclip -o`                                | Pastes the content of the X selection clipboard (requires `xclip`)       |\n| `^F` (Ctrl-F)          | `fzf-file-widget`                         | Uses `fzf` to select and paste file paths into the command line          |\n| `\\ec` (Alt-C)         | `fzf-cd-widget`                           | Uses `fzf` to select and `cd` into a directory                           |\n| `^R` (Ctrl-R)          | `fzf-history-widget`                      | Uses `fzf` to search and select commands from history                   |\n| `^P` (Ctrl-P)          | `sessionize`                              | Launches the `sessionizer` utility for project-based tmux sessions     |\n| `^?` (Backspace)       | `backward-delete-char`                    | Deletes the character before the cursor                                  |\n| `Delete` (Terminfo `kdch1`) | `delete-char`                           | Deletes the character under the cursor                                   |\n| `Ctrl-Delete` (`^[[3;5~`) | `kill-word`                             | Deletes the word after the cursor                                        |\n| `Ctrl-RightArrow` (`^[[1;5C`) | `forward-word`                        | Moves cursor forward one word                                            |\n| `Ctrl-LeftArrow` (`^[[1;5D`)  | `backward-word`                       | Moves cursor backward one word                                           |\n| `\\ew` (Esc-w)         | `kill-region`                             | Kills (cuts) the text from the cursor to the mark (Emacs-like)           |\n| `\\el` (Esc-l)         | `ls`                                      | Executes `ls` and newline (shortcut)                                     |\n| `^r` (Ctrl-R)          | `history-incremental-search-backward`     | Incremental history search (default Zsh)                                 |\n| ` ` (Space)            | `magic-space`                             | Disables history expansion for the current word                         |\n| `\\C-x\\C-e` (Ctrl-X Ctrl-E) | `edit-command-line`                   | Opens the current command line in `$EDITOR` (Neovim)                     |\n| `^[m` (Alt-m)          | `copy-prev-shell-word`                    | Copies the previous word on the command line                             |\n\n### Shell Options\n\nThe Zsh configuration sets various shell options for improved usability and behavior.\n\n*   **`auto_pushd`**: Automatically pushes directories onto the directory stack when `cd`ing.\n*   **`pushd_ignore_dups`**: Prevents duplicate entries in the directory stack.\n*   **`pushdminus`**: Makes `cd -` behave like `pushd -0` (swaps top two stack entries).\n*   **`auto_cd`**: Allows changing directory by just typing the directory name (if it exists) without `cd`.\n*   **`multios`**: Enables simultaneous redirection of output to multiple files/processes.\n*   **`prompt_subst`**: Enables parameter expansion, command substitution, and arithmetic expansion in the prompt string.\n*   **`unsetopt menu_complete`**: Prevents auto-selecting the first completion entry.\n*   **`unsetopt flowcontrol`**: Disables XON/XOFF flow control.\n*   **`setopt auto_menu`**: Displays the completion menu on successive tab presses.\n*   **`setopt complete_in_word`**: Allows completion within a word, not just at the end.\n*   **`setopt always_to_end`**: Moves cursor to end of the completed word.\n*   **`setopt interactivecomments`**: Allows comments (starting with `#`) in interactive shell.\n*   **`setopt long_list_jobs`**: Displays detailed information for jobs.\n*   **`setopt extended_history`**: Records timestamp of commands in `HISTFILE`.\n*   **`setopt hist_expire_dups_first`**: Deletes duplicates first when history file size exceeds `HISTSIZE`.\n*   **`setopt hist_ignore_dups`**: Ignores duplicated commands in history list.\n*   **`setopt hist_ignore_space`**: Ignores commands that start with a space from history.\n*   **`setopt hist_verify`**: Shows command with history expansion to user before running it.\n*   **`setopt share_history`**: Shares command history data between all shell sessions.",
+      "agentGuidance": {
+        "decisionPoints": [
+          "IF [need to quickly navigate to a temporary directory] THEN [use `tmp` alias] ELSE [manually create and cd]",
+          "IF [need to add patterns to .gitignore] THEN [use `ig` function] ELSE [manually edit .gitignore]",
+          "IF [current terminal needs to close gracefully in tmux setup] THEN [use `kill_term` function] ELSE [use `exit`]"
+        ],
+        "verificationSteps": [
+          "Check: `alias cp` -> Expected: `cp='cp -r -i'`",
+          "Check: `type man` -> Expected: `man is a shell function`",
+          "Check: Type `ls ~/.dotfiles`, then `d` -> Expected: `~/.dotfiles` to be in the directory stack"
+        ],
+        "quickPatterns": [
+          "Pattern: Open Zsh config in Neovim: `ez`",
+          "Pattern: Open i3 config in Neovim: `e3`",
+          "Pattern: Find all Python files: `ff *.py`",
+          "Pattern: View last 10 history commands: `h`"
+        ],
+        "diagnosticPaths": [
+          "Error: Alias `ls` doesn't show colors -> Symptom: `lsd` command not found or LS_COLORS not set -> Check: `command -v lsd` or `echo $LS_COLORS` -> Fix: Install `lsd` or verify `dircolors` setup in `.zshrc`",
+          "Error: Key binding `^P` (Ctrl-P) does not launch sessionizer -> Symptom: Nothing happens or `sessionizer: command not found` -> Check: `command -v sessionizer` and `bindkey` output -> Fix: Ensure `sessionizer` is installed and the `bindings.zsh` file is sourced correctly."
+        ]
+      }
+    },
+    {
+      "title": "Task-Based Guide",
+      "path": "task-based-guide.md",
+      "content": "This section guides you through common tasks using the `.dotfiles` configuration.\n\n## 1. Managing Your Shell Environment\n\n### Updating Configuration\n\nAfter making changes to any Zsh configuration file (e.g., `~/.config/zsh/aliases.zsh`), you need to re-source the main `.zshrc` to apply them.\n\n```bash\nr # Alias for source_file, which defaults to ~/.zshrc\n```\n\n### Inspecting Environment Variables\n\nTo see currently exported variables and their values:\n\n```bash\n# List all environment variables\nexport\n\n# Check specific variable\necho $PATH\n```\n\n### Adding Patterns to .gitignore\n\nQuickly add common patterns to your `.gitignore` file within a Git repository.\n\n```bash\nig node_modules build .env target/classes\n```\n\n## 2. Terminal Navigation and File Management\n\n### Efficient Directory Jumping\n\nUse directory stack aliases for quick navigation between recently visited directories.\n\n```bash\n# Go back to the previous directory\n-\n\n# Go to the 3rd directory in your history stack (see `d` for list)\n3\n\n# List directory stack with numbers\nd\n```\n\n### Using `nnn` for File Management\n\nLaunch `nnn` for a full-featured terminal file manager that integrates with your shell.\n\n```bash\nn\n# After exiting nnn, you will automatically be cd'd into the last visited directory\n```\n\n### Fuzzy Finding Files and History\n\nLeverage `fzf` bindings to quickly find and insert file paths or recall commands from history.\n\n*   **Ctrl-F**: Fuzzy search for files and directories, insert selected paths.\n*   **Alt-C**: Fuzzy search for directories and `cd` into the selected one.\n*   **Ctrl-R**: Fuzzy search your command history.\n\n## 3. Text Editing with Neovim\n\nThis configuration turns Neovim into a powerful IDE. The `ev` alias is the fastest way to open and edit your core Neovim configuration.\n\n```bash\nev\n```\n\n### Keybindings for Development\n\n*   **`jk`**: Quickly switch between insert and normal mode (Vi-like).\n*   **`Ctrl-X Ctrl-E`**: Edit the current shell command in Neovim.\n\n## 4. System Monitoring and Media Control\n\n### Launching Polybar & Conky\n\nThe `polybar.sh` and `killconky.sh` scripts manage your system monitoring and information display tools.\n\n```bash\n# To restart Polybar (usually runs automatically on session start)\n~/.config/polybar/polybar.sh\n\n# To kill all Conky instances (usually runs automatically on session start)\n~/.config/conky/killconky.sh\n```\n\n### Controlling VLC (via Polybar modules)\n\nThese scripts are typically integrated into Polybar modules, but can be run manually for testing.\n\n*   **`vlc/status.sh`**: Displays current VLC playback status (Playing, Paused, No player).\n*   **`vlc/duration.sh`**: Displays the current position and total duration of the playing track.\n*   **`vlc/scroll.sh`**: Enables scrolling text for long titles in Polybar.\n*   **`vlc/seek.sh`**: Seeks forward or backward in the current track.\n\n```bash\n# Check VLC status\n~/.config/polybar/scripts/vlc/status.sh --status\n\n# Get current track duration\n~/.config/polybar/scripts/vlc/duration.sh\n\n# Seek 5 seconds forward\n~/.config/polybar/scripts/vlc/seek.sh plus\n\n# Seek 5 seconds backward\n~/.config/polybar/scripts/vlc/seek.sh minus\n```\n\n## 5. Session Management with Tmux\n\nThe `.dotfiles` automate tmux session management for project-based workflows.\n\n### Auto-Attach to Tmux Session\n\nUpon opening a new terminal, the configuration attempts to attach to a tmux session named after your `$HOME` directory (e.g., `augustine`). If no such session exists, it creates one.\n\n### Managing Project Sessions\n\nUse the `sessionize` utility (bound to `Ctrl-P`) to quickly switch or create tmux sessions for your projects. Project paths are defined in `~/.dotfiles/personal/sessionizer/paths`.",
+      "agentGuidance": {
+        "decisionPoints": [
+          "IF [changes made to zsh config] THEN [source .zshrc using `r`] ELSE [open new terminal]",
+          "IF [need to add common files to gitignore] THEN [use `ig <patterns>`] ELSE [manually edit `.gitignore`]",
+          "IF [need to manage files interactively] THEN [launch `nnn` using `n`] ELSE [use standard `ls`/`cd`/`mv` commands]"
+        ],
+        "verificationSteps": [
+          "Check: `r` command execution -> Expected: Shell prompt reloaded, no errors.",
+          "Check: `cat .gitignore` after `ig` -> Expected: New patterns appended.",
+          "Check: `echo $TMUX` after opening new terminal -> Expected: TMUX environment variable is set."
+        ],
+        "quickPatterns": [
+          "Pattern: Quick config reload: `r`",
+          "Pattern: List directory stack: `d`",
+          "Pattern: Open Neovim config: `ev`",
+          "Pattern: Seek VLC forward: `~/.config/polybar/scripts/vlc/seek.sh plus`",
+          "Pattern: Start tmux session (if not already): `Ctrl-P`"
+        ],
+        "diagnosticPaths": [
+          "Error: `ig` command not found -> Symptom: Function not available -> Check: `type ig` -> Fix: Ensure `functions.zsh` is sourced and `stow` setup is correct.",
+          "Error: Tmux auto-attach fails -> Symptom: New terminal opens outside tmux -> Check: `echo $TMUX`, `tmux ls` -> Fix: Verify `~/.zshrc` tmux logic (specifically `MAIN_TERMINAL` and `kill_term` interaction), manually start `tmux new -s $(basename $HOME)`.",
+          "Error: VLC control scripts return 'No player is running' -> Symptom: Music not playing or playerctl not detecting VLC -> Check: Is VLC running? Is `playerctl` installed? -> Fix: Start VLC, install `playerctl` (`sudo pacman -S playerctl`)."
+        ]
+      }
+    },
+    {
+      "title": "Advanced Usage",
+      "path": "advanced-usage.md",
+      "content": "## Customizing Your Environment\n\n### Zsh Theme Customization\n\nThe prompt is defined in `~/.config/zsh/theme.zsh`. You can modify the `PROMPT`, `PROMPT2`, and `RPS1` variables to change its appearance. The Git prompt components are controlled by `ZSH_THEME_GIT_PROMPT_*` variables.\n\n```zsh\n# Example: Change prompt color to cyan\nPROMPT='%{$fg[cyan]%}%c $(git_prompt_info)%{$reset_color%} '\n```\n\n### Adding New Zsh Plugins and Functions\n\n*   **Plugins**: Place new Zsh plugin scripts (`.zsh` files) in `~/.config/zsh/plugins/`.\n*   **Functions**: Place new Zsh function definitions in `~/.config/zsh/functions/`. Ensure they are `autoload -Uz` at the top of `~/.zshrc`.\n*   **Completions**: Add custom completion scripts to `~/.config/zsh/completions/` and ensure `fpath` includes this directory.\n\n### Neovim Configuration\n\nYour Neovim setup is managed within `~/.config/nvim/`. The `packer_compiled.lua` file lists all installed plugins. For deeper customization, refer to the individual plugin documentation.\n\n*   **Adding Plugins**: Edit `~/.config/nvim/lua/custom/plugins.lua` (if using an NvChad-like structure) or directly `packer_compiled.lua` for manual additions.\n*   **Custom Keymaps/Settings**: Modify `~/.config/nvim/lua/custom/init.lua` for personal keybindings and global settings.\n\n### Polybar and Conky Advanced Setup\n\nPolybar configuration is in `~/.config/polybar/config.ini`. Conky configurations are in `~/.config/conky/Syrma*.conf`.\n\n*   **Modules**: Customize existing modules or add new ones by editing `config.ini`.\n*   **Scripts**: The `polybar/scripts/vlc/` directory contains helper scripts for VLC integration. You can create similar scripts for other applications or information sources.\n*   **Positioning**: Adjust `config.ini` to change bar position, size, and contained modules.\n\n## Optimizing Performance\n\n### Zsh Startup Time\n\n*   The `timezsh` function can help diagnose slow startup times.\n*   Review `~/.config/zsh/exports.zsh` and `~/.config/zsh/settings.zsh` for unnecessary operations.\n*   Minimize `source` calls in `.zshrc` by leveraging `autoload` for functions.\n\n### NNN Performance\n\n*   The `NNN_OPTS` environment variable (`ceErx`) configures `nnn` behavior. Consult `man nnn` for more options to tailor performance and features.\n*   `NNN_FCOLORS` defines file colors. Customizing this can improve visual parsing speed.\n\n### Git Status Performance\n\n*   `DISABLE_UNTRACKED_FILES_DIRTY=true` is set to ignore untracked files in Git status checks, which can significantly speed up prompt rendering in large repositories. Consider toggling this if you need full untracked file status.\n*   `ZSH_THEME_GIT_SHOW_UPSTREAM=1` (not currently set, but an option) can add remote upstream info, potentially slowing down prompt if remote checks are slow. Disable if performance is critical.",
+      "agentGuidance": {
+        "decisionPoints": [
+          "IF [need to change zsh prompt color] THEN [modify `PROMPT` variable in `theme.zsh`] ELSE [leave default]",
+          "IF [adding a new zsh function] THEN [place in `~/.config/zsh/functions/` and ensure `autoload`] ELSE [put directly in `.zshrc` (less organized)]",
+          "IF [experiencing slow zsh startup] THEN [run `timezsh` to profile] ELSE [inspect `~/.zshrc` for heavy operations]"
+        ],
+        "verificationSteps": [
+          "Check: `echo $PROMPT` after modification -> Expected: New prompt string reflects changes.",
+          "Check: `command -v my_new_function` after adding and sourcing -> Expected: Function found.",
+          "Check: `timezsh` output -> Expected: Reduced startup time after optimizations."
+        ],
+        "quickPatterns": [
+          "Pattern: Test Zsh startup: `timezsh`",
+          "Pattern: View NNN options: `echo $NNN_OPTS`",
+          "Pattern: Open Zsh theme config: `nvim ~/.config/zsh/theme.zsh`"
+        ],
+        "diagnosticPaths": [
+          "Error: Zsh prompt is slow -> Symptom: Delay before prompt appears after command execution -> Check: Git prompt configuration (`DISABLE_UNTRACKED_FILES_DIRTY`, `ZSH_THEME_GIT_SHOW_UPSTREAM`) -> Fix: Set `DISABLE_UNTRACKED_FILES_DIRTY=true` or disable certain git prompt features.",
+          "Error: Neovim plugin not loading -> Symptom: Feature missing or error on Neovim startup -> Check: `packer_compiled.lua` and `lua/custom/plugins.lua` syntax, then run `:PackerSync` in Neovim -> Fix: Correct syntax, ensure plugin exists and paths are correct."
+        ]
+      }
+    },
+    {
+      "title": "Problem Solving",
+      "path": "problem-solving.md",
+      "content": "This section provides guidance for common issues and troubleshooting steps.\n\n## Common Issues\n\n### 1. Command Not Found\n\n**Symptom**: You type a command (e.g., `pj`, `lsd`) and get `zsh: command not found`.\n\n**Diagnosis**:\n*   **Missing installation**: The utility might not be installed on your system.\n*   **Incorrect PATH**: The directory containing the executable is not in your `$PATH` environment variable.\n*   **Stow issue**: The symlink for the command or its configuration is not correctly set up by `stow`.\n\n**Resolution**:\n1.  **Check installation**: For `pj`, verify `sh <(curl -fsSL https://github.com/asaidimu/pj/releases/download/latest/install.sh)` was successful. For `lsd`, install it via your package manager (e.g., `sudo pacman -S lsd`).\n2.  **Verify PATH**: Check `echo $PATH`. Ensure paths like `~/.local/bin`, `~/.bun/bin`, or specific application paths are included.\n3.  **Inspect Stow**: Navigate to `~/.dotfiles` and check if the relevant folder (e.g., `bin` if a custom binary is expected) is symlinked to `~/` correctly. Run `stow -D <folder>` then `stow <folder>` again.\n\n### 2. Polybar / Conky Not Starting or Displaying Incorrectly\n\n**Symptom**: Polybar is not visible, or Conky displays garbled text/is not active.\n\n**Diagnosis**:\n*   **Process not running**: The `polybar.sh` or `killconky.sh` scripts might not have executed on session start, or were killed.\n*   **Configuration errors**: Syntax errors or incorrect paths in `config.ini` (Polybar) or `Syrma*.conf` (Conky).\n*   **Missing fonts/dependencies**: Polybar/Conky require specific fonts or libraries that are not installed.\n\n**Resolution**:\n1.  **Manual Start**: Try running `~/.config/polybar/polybar.sh` or `~/.config/conky/killconky.sh` manually from a terminal. Check for any error messages.\n2.  **Check Logs**: Polybar often logs to `~/.config/polybar/polybar.log` or stderr. Run `polybar -c ~/.config/polybar/config.ini top` directly to see verbose output.\n3.  **Dependencies**: Ensure all required fonts (e.g., Nerd Fonts, Font Awesome) and packages are installed. The Polybar documentation often lists dependencies.\n\n### 3. Neovim Plugin Issues\n\n**Symptom**: A feature in Neovim is not working, or an error message about a plugin appears.\n\n**Diagnosis**:\n*   **Plugin not installed/synced**: Packer might not have installed the plugin correctly.\n*   **Configuration error**: Syntax error in `.lua` files or incorrect plugin options.\n*   **LSP/DAP server missing**: For language-specific features (e.g., Go, TypeScript), the language server or debugger might not be installed.\n\n**Resolution**:\n1.  **Sync Plugins**: Inside Neovim, run `:PackerSync` or `:PackerInstall` to ensure all plugins are up to date.\n2.  **Check Config**: Open `~/.config/nvim/init.lua` or `~/.config/nvim/lua/custom/plugins.lua` and `~/.config/nvim/lua/custom/init.lua`. Look for typos or incorrect configurations.\n3.  **Install Language Servers**: Use `:MasonInstall <server_name>` (if Mason is configured) or refer to the `nvim-lspconfig` documentation to manually install required language servers (e.g., `gopls` for Go, `typescript-language-server` for TypeScript).\n\n## Error Reference\n\n### `git status: No such file or directory` or `fatal: not a git repository`\n*   **Type**: Shell Error/Git Error\n*   **Symptoms**: Git prompt shows errors, or Git commands fail.\n*   **Scenario**: Trying to use Git commands or Git prompt functions outside a Git repository.\n*   **Diagnosis**: Verify current working directory using `pwd`.\n*   **Resolution**: Navigate into a Git repository. The Git prompt functions are designed to gracefully handle non-Git directories, so this error usually indicates a misuse or a non-standard shell setup overriding the functions.\n*   **Handling Patterns**: Ensure Git commands are only invoked in valid Git repositories or handle their exit status.\n\n### `playerctl: No player is running`\n*   **Type**: Application Error\n*   **Symptoms**: VLC control scripts (e.g., `status.sh`, `seek.sh`) output `playerctl: No player is running`.\n*   **Scenario**: VLC is not running, or `playerctl` cannot detect it.\n*   **Diagnosis**: Check if VLC is open (`ps aux | grep vlc`). Verify `playerctl` is installed and can see players (`playerctl status`).\n*   **Resolution**: Launch VLC. Ensure `playerctl` is installed (`sudo pacman -S playerctl`). Sometimes, restarting `playerctld` might help (`killall playerctld; playerctld &`).\n*   **Preve`ntion**: Ensure VLC is launched before using control scripts. Consider adding `playerctld &` to your startup scripts if it's not managed by systemd.\n*   **Handling Patterns**: The Polybar scripts already handle this by displaying \"No music is playing\". For automation, check `playerctl` exit code.\n*   **Propagation Behavior**: Outputted to stderr and stdout by `playerctl`. The calling script can capture this and handle it (as seen in `vlc/status.sh`).\n\n### `Zsh: bad math expression`\n*   **Type**: Shell Error\n*   **Symptoms**: Arithmetic operations in scripts fail.\n*   **Scenario**: Occurs in scripts like `vlc/seek.sh` if `bc` (basic calculator) is not installed.\n*   **Diagnosis**: Run `command -v bc`. `bc` is used for floating-point arithmetic.\n*   **Resolution**: Install `bc` (`sudo pacman -S bc`).\n*   **Prevention**: Ensure `bc` is listed as a dependency and installed during setup.\n*   **Handling Patterns**: Scripts can include a check for `bc`'s presence at the start and exit gracefully if it's missing.\n*   **Propagation Behavior**: Typically halts script execution with an error message to stderr.",
+      "agentGuidance": {
+        "decisionPoints": [
+          "IF [command not found] THEN [check installation & PATH] ELSE [proceed]",
+          "IF [polybar/conky not running] THEN [manually launch and check logs] ELSE [assume working]",
+          "IF [nvim plugin fails] THEN [sync plugins & check config] ELSE [assume working]"
+        ],
+        "verificationSteps": [
+          "Check: `echo $PATH` includes relevant directories for executables.",
+          "Check: `journalctl -xeu polybar@<user>` for Polybar service logs (if configured as systemd service) or `polybar -c ~/.config/polybar/config.ini top` in a terminal.",
+          "Check: In Neovim, `:checkhealth` for LSP/DAP status."
+        ],
+        "quickPatterns": [
+          "Pattern: Debug PATH issue: `echo $PATH | tr ':' '\\n'`",
+          "Pattern: Manual Polybar restart: `killall polybar; ~/.config/polybar/polybar.sh`",
+          "Pattern: Nvim plugin sync: `:PackerSync`"
+        ],
+        "diagnosticPaths": [
+          "Error: Polybar displays `(error)` -> Symptom: Module output incorrect -> Check: Polybar log file for module-specific errors, or run script manually -> Fix: Correct script logic or module configuration in `config.ini`.",
+          "Error: `command not found: <cmd>` -> Symptom: Execution fails -> Check: Is `<cmd>` installed? Is its directory in `$PATH`? -> Fix: Install `<cmd>`, or add its directory to `$PATH` in `~/.config/zsh/exports.zsh`."
+        ]
+      }
+    }
+  ],
+  "reference": {
+    "system": {
+      "name": "Augustine's Dotfiles",
+      "language": "Zsh",
+      "description": "A comprehensive collection of configuration files and scripts for setting up a highly customized Arch Linux development environment, leveraging Zsh, Neovim, Polybar, and other CLI tools.",
+      "keyFeatures": [
+        "Automated environment setup with `stow`",
+        "Enhanced Zsh shell with custom aliases, functions, and key bindings",
+        "Full-featured Neovim IDE configuration with LSP and snippets",
+        "Modular system monitoring with Polybar and Conky",
+        "Seamless tmux session management for projects"
+      ]
+    },
+    "dependencies": {
+      "external": [
+        {
+          "name": "stow",
+          "purpose": "Manages symbolic links for dotfiles.",
+          "interfaces": [],
+          "installation": "sudo pacman -S stow",
+          "version": ">=2.0.0"
+        },
+        {
+          "name": "git",
+          "purpose": "Version control for dotfiles and repository status in prompt.",
+          "interfaces": [],
+          "installation": "sudo pacman -S git",
+          "version": ">=2.0.0"
+        },
+        {
+          "name": "tmux",
+          "purpose": "Terminal multiplexer for session management.",
+          "interfaces": [],
+          "installation": "sudo pacman -S tmux",
+          "version": ">=3.0"
+        },
+        {
+          "name": "fzf",
+          "purpose": "Command-line fuzzy finder, integrated into Zsh keybindings.",
+          "interfaces": [],
+          "installation": "sudo pacman -S fzf",
+          "version": ">=0.20.0"
+        },
+        {
+          "name": "nnn",
+          "purpose": "Terminal file manager.",
+          "interfaces": [],
+          "installation": "sudo pacman -S nnn",
+          "version": ">=4.0"
+        },
+        {
+          "name": "neovim",
+          "purpose": "Primary text editor, configured as an IDE.",
+          "interfaces": [],
+          "installation": "sudo pacman -S neovim",
+          "version": ">=0.8.0"
+        },
+        {
+          "name": "polybar",
+          "purpose": "Fast and easy-to-use status bar for desktops.",
+          "interfaces": [],
+          "installation": "sudo pacman -S polybar",
+          "version": ">=3.5.0"
+        },
+        {
+          "name": "conky",
+          "purpose": "Light-weight system monitor.",
+          "interfaces": [],
+          "installation": "sudo pacman -S conky",
+          "version": ">=1.10.0"
+        },
+        {
+          "name": "playerctl",
+          "purpose": "Command-line utility to control media players that implement the MPRIS D-Bus interface.",
+          "interfaces": [
+            {
+              "name": "MPRIS D-Bus Interface",
+              "description": "Standard interface for media players, allowing control and metadata retrieval.",
+              "methods": [
+                {
+                  "name": "status",
+                  "signature": "playerctl status",
+                  "parameters": "None",
+                  "returnValue": "String indicating player status (e.g., 'Playing', 'Paused', 'Stopped')"
+                },
+                {
+                  "name": "metadata",
+                  "signature": "playerctl metadata [--format <format_string>]",
+                  "parameters": "format_string: String template for metadata (e.g., '{{ title }}')",
+                  "returnValue": "String containing formatted metadata (e.g., song title, artist)"
+                },
+                {
+                  "name": "position",
+                  "signature": "playerctl position",
+                  "parameters": "None",
+                  "returnValue": "Float representing current playback position in seconds"
+                }
+              ]
+            }
+          ],
+          "installation": "sudo pacman -S playerctl",
+          "version": ">=2.0.0"
+        },
+        {
+          "name": "xclip",
+          "purpose": "Command-line interface to the X clipboard.",
+          "interfaces": [],
+          "installation": "sudo pacman -S xclip",
+          "version": ">=0.13"
+        },
+        {
+          "name": "pj",
+          "purpose": "Project jumper/sessionizer utility.",
+          "interfaces": [],
+          "installation": "sh <(curl -fsSL https://github.com/asaidimu/pj/releases/download/latest/install.sh)",
+          "version": "latest"
+        },
+        {
+          "name": "lsd",
+          "purpose": "Replacement for `ls` with colors and icons.",
+          "interfaces": [],
+          "installation": "sudo pacman -S lsd",
+          "version": ">=0.20.0"
+        },
+        {
+          "name": "bc",
+          "purpose": "Arbitrary precision calculator language.",
+          "interfaces": [],
+          "installation": "sudo pacman -S bc",
+          "version": "latest"
+        }
+      ],
+      "peer": [
+        {
+          "name": "zsh",
+          "reason": "The entire shell environment is built on Zsh.",
+          "version": ">=5.0"
+        },
+        {
+          "name": "bash",
+          "reason": "Required for specific scripts (e.g., polybar launch, install script).",
+          "version": ">=5.0"
+        },
+        {
+          "name": "i3 Window Manager",
+          "reason": "The configuration includes specific settings for i3.",
+          "version": ">=4.0"
+        },
+        {
+          "name": "Node.js",
+          "reason": "Required for `ttl.js` script and potentially other development tools.",
+          "version": ">=16.0.0"
+        },
+        {
+          "name": "Python",
+          "reason": "Required for `gen_pages.py` script and potentially other development tools.",
+          "version": ">=3.8.0"
+        },
+        {
+          "name": "VLC Media Player",
+          "reason": "Controlled by Polybar scripts via `playerctl`.",
+          "version": ">=3.0.0"
+        }
+      ]
+    },
+    "integration": {
+      "environmentRequirements": "The dotfiles are primarily designed for **Arch Linux** and require a Zsh shell environment. Essential utilities like `git`, `stow`, `tmux`, `fzf`, `nnn`, `neovim`, `polybar`, `conky`, `playerctl`, `xclip`, `pj`, `lsd`, and `bc` are expected to be installed. A functional Xorg display server is necessary for Polybar, Conky, and i3. Various `PATH` modifications are handled automatically for tools like Bun, SDKMAN, Google Cloud SDK, Go, SQLiteStudio, FNM, NVM, and Encore.",
+      "initializationPatterns": [
+        {
+          "description": "Cloning the dotfiles repository and executing the installation script.",
+          "codeExample": "git clone git@github.com:augustinesaidimu/.dotfiles.git ~/.dotfiles\n~/.dotfiles/install"
+        },
+        {
+          "description": "Sourcing the main Zsh configuration after changes or for a new shell.",
+          "codeExample": "source ~/.zshrc"
+        },
+        {
+          "description": "Launching Polybar after system startup (typically automated by i3 config).",
+          "codeExample": "~/.config/polybar/polybar.sh"
+        }
+      ],
+      "commonPitfalls": [
+        {
+          "issue": "Symlink conflicts when `stow` runs.",
+          "solution": "Ensure target directories are clean before running `stow`. Use `stow -D <folder>` to uninstall a package before re-stowing or making changes."
+        },
+        {
+          "issue": "Shell startup performance degradation.",
+          "solution": "Use `timezsh` to profile startup. Review `exports.zsh` and `settings.zsh` for heavy operations. Ensure `DISABLE_UNTRACKED_FILES_DIRTY` is set for Git prompt optimization."
+        },
+        {
+          "issue": "Missing executables after installation.",
+          "solution": "Verify installation of external dependencies (e.g., `lsd`, `pj`, `playerctl`). Check `PATH` environment variable for correct entries."
+        }
+      ],
+      "lifecycleDependencies": "The Zsh configuration is initialized on every new shell session by sourcing `~/.zshrc`. This file, in turn, sources other modular Zsh files (`exports`, `settings`, `aliases`, `functions`, `bindings`, `theme`, `completion`, `history`, `lib`, `plugins`). Environment variables are set first, followed by shell options, aliases, and functions. Tmux is automatically attached or created for interactive sessions. Polybar and Conky are launched by startup scripts, often integrated with the window manager's lifecycle (e.g., i3 config's `exec_always` commands)."
+    },
+    "types": {},
+    "methods": {
+      "man": {
+        "id": "method:man",
+        "useCase": "To view man pages formatted and navigable within Neovim.",
+        "signature": "man [options] <page>",
+        "parameters": "options: Standard `man` command options; page: The name of the man page to view (e.g., `zsh`, `grep`).",
+        "prerequisites": "Neovim (`nvim`) must be installed and accessible in `$PATH`.",
+        "sideEffects": "Opens Neovim in a new buffer.",
+        "returnValue": "None (interactive display).",
+        "exceptions": [
+          "None explicitly thrown by the function, relies on underlying `man` command and `nvim`."
+        ],
+        "availability": "sync",
+        "status": "active",
+        "related": {
+          "types": [],
+          "patterns": [],
+          "errors": [
+            "error:commandNotFound"
+          ]
+        }
+      },
+      "source_file": {
+        "id": "method:source_file",
+        "useCase": "To reload Zsh configuration files or source any specified shell script.",
+        "signature": "source_file [file_path]",
+        "parameters": "file_path: Optional. The path to the file to be sourced. Defaults to `~/.zshrc` if not provided.",
+        "prerequisites": "None.",
+        "sideEffects": "Applies changes from the sourced file to the current shell environment (e.g., new aliases, functions, environment variables).",
+        "returnValue": "None.",
+        "exceptions": [
+          "None. Relies on `source` command which can fail silently on syntax errors or exit on errors depending on `setopt err_return`."
+        ],
+        "availability": "sync",
+        "status": "active",
+        "related": {
+          "types": [],
+          "patterns": [],
+          "errors": []
+        }
+      },
+      "timezsh": {
+        "id": "method:timezsh",
+        "useCase": "To benchmark the startup time of your shell, useful for optimization.",
+        "signature": "timezsh [shell]",
+        "parameters": "shell: Optional. The shell executable to benchmark. Defaults to `$SHELL` if not provided.",
+        "prerequisites": "None.",
+        "sideEffects": "Executes new shell instances multiple times.",
+        "returnValue": "Prints average startup time to standard output.",
+        "exceptions": [
+          "None."
+        ],
+        "availability": "sync",
+        "status": "active",
+        "related": {
+          "types": [],
+          "patterns": [],
+          "errors": []
+        }
+      },
+      "ig": {
+        "id": "method:ig",
+        "useCase": "To quickly add one or more patterns to the `.gitignore` file in the current directory.",
+        "signature": "ig <patterns...>",
+        "parameters": "patterns: One or more space-separated strings to be added to `.gitignore`. Each string will be written on a new line.",
+        "prerequisites": "Must be run in a directory where a `.gitignore` file either exists or can be created.",
+        "sideEffects": "Appends content to `.gitignore`.",
+        "returnValue": "None.",
+        "exceptions": [
+          "None. Fails silently if `.gitignore` cannot be written."
+        ],
+        "availability": "sync",
+        "status": "active",
+        "related": {
+          "types": [],
+          "patterns": [],
+          "errors": []
+        }
+      },
+      "kill_term": {
+        "id": "method:kill_term",
+        "useCase": "To gracefully exit the current terminal session, especially useful in conjunction with tmux auto-attachment logic.",
+        "signature": "kill_term",
+        "parameters": "None.",
+        "prerequisites": "The tmux auto-attachment logic must be configured to check for `/tmp/kill_term`.",
+        "sideEffects": "Creates `/tmp/kill_term` file and exits the current shell process.",
+        "returnValue": "None.",
+        "exceptions": [
+          "None."
+        ],
+        "availability": "sync",
+        "status": "active",
+        "related": {
+          "types": [],
+          "patterns": [],
+          "errors": []
+        }
+      },
+      "sessionize": {
+        "id": "method:sessionize",
+        "useCase": "To manage tmux sessions based on predefined project paths.",
+        "signature": "sessionize",
+        "parameters": "None.",
+        "prerequisites": "`sessionizer` utility must be installed and `$SESSIONIZER_TARGET_LIST` configured.",
+        "sideEffects": "Launches `sessionizer`, which interacts with tmux.",
+        "returnValue": "None (interactive tmux session management).",
+        "exceptions": [
+          "error:commandNotFound (if sessionizer is not found)"
+        ],
+        "availability": "sync",
+        "status": "active",
+        "related": {
+          "types": [],
+          "patterns": [
+            "pattern:tmuxSessionManagement"
+          ],
+          "errors": [
+            "error:commandNotFound"
+          ]
+        }
+      },
+      "n": {
+        "id": "method:n",
+        "useCase": "To launch the `nnn` file manager and automatically change the current directory to the last visited one upon exit.",
+        "signature": "n [nnn_options...]",
+        "parameters": "nnn_options: Any valid options for the `nnn` command.",
+        "prerequisites": "`nnn` must be installed. `NNN_TMPFILE` must be set to `/tmp/.lastd`.",
+        "sideEffects": "Changes the current working directory upon exiting `nnn`.",
+        "returnValue": "None (interactive file management).",
+        "exceptions": [
+          "error:commandNotFound (if nnn is not found)"
+        ],
+        "availability": "sync",
+        "status": "active",
+        "related": {
+          "types": [],
+          "patterns": [],
+          "errors": [
+            "error:commandNotFound"
+          ]
+        }
+      },
+      "gen_pages.py": {
+        "id": "method:gen_pages_py",
+        "useCase": "To automate the generation of React `page.js` components based on a predefined list of navigation items.",
+        "signature": "python gen_pages.py",
+        "parameters": "None.",
+        "prerequisites": "Python 3 must be installed.",
+        "sideEffects": "Creates directories and `page.js` files within them (e.g., `dashboard/page.js`).",
+        "returnValue": "Prints messages indicating which files were generated.",
+        "exceptions": [
+          "OSError (e.g., permission denied to create directories/files)"
+        ],
+        "availability": "sync",
+        "status": "active",
+        "related": {
+          "types": [],
+          "patterns": [],
+          "errors": []
+        }
+      },
+      "ttl.js": {
+        "id": "method:ttl_js",
+        "useCase": "A utility script to calculate 'time to live' based on a birthday and maximum age.",
+        "signature": "node ttl.js",
+        "parameters": "The script currently has hardcoded `birthday` ('1998/04/13') and `max_age` (80). To make it flexible, modify the script internally.",
+        "prerequisites": "Node.js must be installed.",
+        "sideEffects": "None.",
+        "returnValue": "Prints the formatted time remaining (years:months:days:hours:minutes:seconds) to standard output.",
+        "exceptions": [
+          "None."
+        ],
+        "availability": "sync",
+        "status": "active",
+        "related": {
+          "types": [],
+          "patterns": [],
+          "errors": []
+        }
+      },
+      "polybar_launch_script": {
+        "id": "method:polybar_launch_script",
+        "useCase": "To kill existing Polybar instances and launch new ones based on `config.ini`.",
+        "signature": "~/.config/polybar/polybar.sh",
+        "parameters": "None.",
+        "prerequisites": "Polybar must be installed. `config.ini` must be valid.",
+        "sideEffects": "Terminates existing polybar processes, starts new ones.",
+        "returnValue": "None. Outputs 'waiting' during shutdown.",
+        "exceptions": [
+          "None. Fails silently if polybar command is not found or config is invalid."
+        ],
+        "availability": "sync",
+        "status": "active",
+        "related": {
+          "types": [],
+          "patterns": [
+            "pattern:polybarManagement"
+          ],
+          "errors": []
+        }
+      },
+      "vlc_status_script": {
+        "id": "method:vlc_status_script",
+        "useCase": "To get the current status or metadata of the configured VLC player.",
+        "signature": "~/.config/polybar/scripts/vlc/status.sh [--status]",
+        "parameters": "--status: If present, returns only the raw status string ('Playing', 'Paused', 'Stopped', 'No player is running'). Otherwise, returns formatted metadata or status.",
+        "prerequisites": "VLC must be running. `playerctl` must be installed.",
+        "sideEffects": "Updates Polybar hooks (if integrated).",
+        "returnValue": "String indicating VLC status or formatted metadata.",
+        "exceptions": [
+          "error:playerctlNoPlayerRunning"
+        ],
+        "availability": "sync",
+        "status": "active",
+        "related": {
+          "types": [],
+          "patterns": [],
+          "errors": [
+            "error:playerctlNoPlayerRunning"
+          ]
+        }
+      },
+      "vlc_duration_script": {
+        "id": "method:vlc_duration_script",
+        "useCase": "To retrieve the current duration of the playing track in VLC.",
+        "signature": "~/.config/polybar/scripts/vlc/duration.sh",
+        "parameters": "None.",
+        "prerequisites": "VLC must be running. `playerctl` must be installed. `bc` (for calculations) is required.",
+        "sideEffects": "None.",
+        "returnValue": "String representing the duration (e.g., ' 0:00:15 ') or empty string if no player is running.",
+        "exceptions": [
+          "error:playerctlNoPlayerRunning",
+          "error:badMathExpression"
+        ],
+        "availability": "sync",
+        "status": "active",
+        "related": {
+          "types": [],
+          "patterns": [],
+          "errors": [
+            "error:playerctlNoPlayerRunning",
+            "error:badMathExpression"
+          ]
+        }
+      },
+      "vlc_seek_script": {
+        "id": "method:vlc_seek_script",
+        "useCase": "To seek forward or backward in the current VLC track.",
+        "signature": "~/.config/polybar/scripts/vlc/seek.sh <direction>",
+        "parameters": "direction: 'plus' to seek forward 5 seconds, 'minus' to seek backward 5 seconds.",
+        "prerequisites": "VLC must be running. `playerctl` must be installed. `bc` (for calculations) is required.",
+        "sideEffects": "Changes the playback position of the VLC player.",
+        "returnValue": "None.",
+        "exceptions": [
+          "error:playerctlNoPlayerRunning",
+          "error:badMathExpression"
+        ],
+        "availability": "sync",
+        "status": "active",
+        "related": {
+          "types": [],
+          "patterns": [],
+          "errors": [
+            "error:playerctlNoPlayerRunning",
+            "error:badMathExpression"
+          ]
+        }
+      }
+    },
+    "decisionTrees": {
+      "selectTextEditor": {
+        "id": "decisionTree:selectTextEditor",
+        "question": "Which text editor should I use for general programming and configuration?",
+        "logic": "IF [primary goal is powerful CLI IDE] THEN [use Neovim (default configuration)] ELSE IF [primary goal is quick simple edits] THEN [use system default editor or a lightweight one like 'nano']",
+        "validationMethod": "Verify Neovim opens with `nvim`, `ev`, or `vim` aliases and displays expected plugin status.",
+        "related": {
+          "methods": [
+            "method:man"
+          ],
+          "patterns": []
+        }
+      },
+      "zshReloadStrategy": {
+        "id": "decisionTree:zshReloadStrategy",
+        "question": "How should I apply changes to my Zsh configuration?",
+        "logic": "IF [changes are minor and affect current session only] THEN [use `r` (source_file)] ELSE IF [changes require a fresh environment or new terminal] THEN [open a new terminal session] ELSE [reboot for system-wide environment changes]",
+        "validationMethod": "Verify new aliases/functions are available via `type <alias/function>` or `echo $VAR`.",
+        "related": {
+          "methods": [
+            "method:source_file"
+          ],
+          "patterns": []
+        }
+      },
+      "tmuxSessionManagement": {
+        "id": "decisionTree:tmuxSessionManagement",
+        "question": "How do I manage my tmux sessions for projects?",
+        "logic": "IF [need to quickly jump to/create a project session] THEN [use `Ctrl-P` (sessionize)] ELSE IF [need to detach current session] THEN [use `td` alias] ELSE [use standard tmux commands `tmux attach`, `tmux new`, `tmux ls`]",
+        "validationMethod": "Verify `tmux ls` shows the expected session, or `pj` opens the correct project directory.",
+        "related": {
+          "methods": [
+            "method:sessionize",
+            "alias:td"
+          ],
+          "patterns": [
+            "pattern:tmuxSessionManagement"
+          ]
+        }
+      }
+    },
+    "patterns": {
+      "stowPackageManagement": {
+        "id": "pattern:stowPackageManagement",
+        "description": "Managing dotfiles by creating symbolic links from the repository to the home directory using `stow`.",
+        "example": {
+          "code": "cd ~/.dotfiles\nstow <folder_name>      # Link a specific dotfile package\nstow -D <folder_name>   # Unlink a specific dotfile package",
+          "validation": "Check for symbolic links: `ls -la ~/.<folder_name>` (e.g., `~/.config/nvim` should be a symlink to `~/.dotfiles/nvim/.config/nvim`)"
+        },
+        "related": {
+          "methods": [],
+          "errors": []
+        }
+      },
+      "tmuxSessionManagement": {
+        "id": "pattern:tmuxSessionManagement",
+        "description": "Automated and manual management of tmux sessions for development workflows.",
+        "example": {
+          "code": "# On shell start, auto-attaches or creates a new session\n# To jump to a project session:\nCtrl-P # (Launches sessionizer)\n# To detach from current session:\ntd",
+          "validation": "Verify `echo $TMUX` is set inside the terminal. Run `tmux ls` to see active sessions."
+        },
+        "related": {
+          "methods": [
+            "method:sessionize",
+            "alias:td"
+          ],
+          "errors": [
+            "error:commandNotFound"
+          ]
+        }
+      },
+      "polybarManagement": {
+        "id": "pattern:polybarManagement",
+        "description": "Starting and stopping Polybar instances using the provided script.",
+        "example": {
+          "code": "# Launch/restart Polybar (often called by i3 config)\n~/.config/polybar/polybar.sh\n\n# Kill all Polybar instances manually\nkillall -q -s KILL polybar",
+          "validation": "Observe Polybar bar appearing or disappearing on screen. Check `pgrep polybar` for running processes."
+        },
+        "related": {
+          "methods": [
+            "method:polybar_launch_script"
+          ],
+          "errors": []
+        }
+      },
+      "vlcControl": {
+        "id": "pattern:vlcControl",
+        "description": "Controlling VLC playback status, duration, and seeking via command-line scripts.",
+        "example": {
+          "code": "vlc_status=$(~/.config/polybar/scripts/vlc/status.sh --status)\necho \"VLC Status: $vlc_status\"\n\n~/.config/polybar/scripts/vlc/seek.sh plus # Seek forward",
+          "validation": "Verify VLC player responds to commands and `status.sh` reports correct state."
+        },
+        "related": {
+          "methods": [
+            "method:vlc_status_script",
+            "method:vlc_duration_script",
+            "method:vlc_seek_script"
+          ],
+          "errors": [
+            "error:playerctlNoPlayerRunning"
+          ]
+        }
+      }
+    },
+    "errors": {
+      "commandNotFound": {
+        "id": "error:commandNotFound",
+        "type": "Shell Error",
+        "symptoms": "`zsh: command not found: <command_name>`, or script execution fails.",
+        "properties": "None (error message directly from shell).",
+        "scenarios": [
+          {
+            "trigger": "Attempting to use an uninstalled utility (e.g., `lsd`, `pj`).",
+            "example": "lsd --tree",
+            "reason": "`lsd` executable is not found in any directory listed in `$PATH`."
+          },
+          {
+            "trigger": "Shell function or alias definition is not sourced correctly.",
+            "example": "sessionize",
+            "reason": "The `sessionize` function (or its autoload script) was not loaded into the current Zsh session."
+          }
+        ],
+        "diagnosis": "Check `command -v <command_name>` to see if it's found. Verify `echo $PATH` includes necessary directories. For functions/aliases, ensure relevant Zsh config files (`functions.zsh`, `aliases.zsh`, etc.) are sourced.",
+        "resolution": "Install the missing utility (see dependencies). Correct `$PATH` in `~/.config/zsh/exports.zsh`. Source your Zsh configuration using `source ~/.zshrc` or `r`.",
+        "prevention": "Run `~/.dotfiles/install` after cloning to set up initial environment. Regularly `r` (source) your Zsh config after making changes.",
+        "handlingPatterns": "For scripts, check if commands exist before execution (e.g., `command -v playerctl >/dev/null || { echo 'playerctl not found'; exit 1; }`).",
+        "propagationBehavior": "Typically halts script execution and prints to stderr; in interactive shell, prevents command from running."
+      },
+      "playerctlNoPlayerRunning": {
+        "id": "error:playerctlNoPlayerRunning",
+        "type": "Application Error (Playerctl)",
+        "symptoms": "Scripts related to VLC control (e.g., `status.sh`, `seek.sh`) output `playerctl: No player is running`.",
+        "properties": "None (error message directly from `playerctl`).",
+        "scenarios": [
+          {
+            "trigger": "No media player (e.g., VLC) is active and playing music when a `playerctl` command is invoked.",
+            "example": "~/.config/polybar/scripts/vlc/status.sh --status",
+            "reason": "`playerctl` cannot find any active MPRIS-compatible media players."
+          },
+          {
+            "trigger": "`playerctl` daemon itself is not running or is unresponsive.",
+            "example": "playerctl status",
+            "reason": "The `playerctld` service might not be running or is in a bad state."
+          }
+        ],
+        "diagnosis": "Verify VLC is running and playing music. Run `playerctl status` directly to confirm `playerctl`'s output. Check `ps aux | grep playerctld` to see if the daemon is running.",
+        "resolution": "Start VLC and play some media. If `playerctld` is not running, try starting it (`playerctld &`) or restarting it (`killall playerctld; playerctld &`).",
+        "prevention": "Ensure VLC is launched before using control scripts. Consider adding `playerctld &` to your startup scripts if it's not managed by systemd.",
+        "handlingPatterns": "The Polybar scripts check the exit code of `playerctl` (`EXIT_CODE=$?`) to determine if a player is running and adjust output accordingly. Developers should implement similar checks.",
+        "propagationBehavior": "Outputted to stderr and stdout by `playerctl`. The calling script can capture this and handle it (as seen in `vlc/status.sh`)."
+      },
+      "badMathExpression": {
+        "id": "error:badMathExpression",
+        "type": "Shell Error",
+        "symptoms": "`zsh: bad math expression: operand expected` (or similar for `bc`).",
+        "properties": "None.",
+        "scenarios": [
+          {
+            "trigger": "Arithmetic operation in a script (e.g., `vlc/seek.sh`, `vlc/duration.sh`) fails due to a missing `bc` utility.",
+            "example": "playerctl --player=vlc position 5 + 5 | bc",
+            "reason": "The `bc` command, used for floating-point arithmetic, is not installed or not in `$PATH`."
+          }
+        ],
+        "diagnosis": "Run `command -v bc` to confirm if `bc` is installed and accessible.",
+        "resolution": "Install `bc` via your package manager (`sudo pacman -S bc`).",
+        "prevention": "Ensure `bc` is listed as a dependency and installed during setup.",
+        "handlingPatterns": "Scripts can include a check for `bc`'s presence at the start and exit gracefully if it's missing.",
+        "propagationBehavior": "Typically halts script execution with an error message to stderr."
+      }
+    }
+  }
+}

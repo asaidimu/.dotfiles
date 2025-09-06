@@ -33,9 +33,6 @@
 # -- title --
   export DISABLE_AUTO_TITLE='true'
 
-# -- nvim socket --
-  export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim
-
 # -- java --
 _SILENT_JAVA_OPTIONS="$_JAVA_OPTIONS"
 unset _JAVA_OPTIONS

@@ -131,3 +131,7 @@ options.splitright = true
 
 -- Highlight the current line (duplicated, so only one needed)
 options.cursorline = true
+
+-- Enable syntax-based folding (can be overridden by Treesitter if configured)
+--[[ options.foldmethod = "syntax" ]]
+

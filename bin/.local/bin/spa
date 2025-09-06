@@ -1,30 +1,47 @@
 #!/usr/bin/env python3
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 import os
+import mimetypes
 
 class SPAHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
+        # Translate requested path to file system path
         file_path = self.translate_path(self.path)
 
-        # Check if the requested file exists
+        # If path doesn't exist or is a directory, serve index.html (SPA fallback)
         if not os.path.exists(file_path) or os.path.isdir(file_path):
             file_path = self.translate_path("/index.html")
 
-        self.send_response(200)
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        # Make sure the file exists before trying to serve it
+        if not os.path.exists(file_path):
+            self.send_error(404, "File not found")
+            return
 
-        # Set content-type properly
-        if file_path.endswith(".html"):
-            self.send_header("Content-Type", "text/html")
+        try:
+            # Start response
+            self.send_response(200)
 
-        self.send_header("Content-Length", str(os.path.getsize(file_path)))
-        self.end_headers()
+            # Set CORS headers
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+            self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
 
-        # Read and send the file content
-        with open(file_path, "rb") as f:
-            self.wfile.write(f.read())
+            # Use Python's mimetypes module to determine content type
+            content_type, encoding = mimetypes.guess_type(file_path)
+            if content_type is None:
+                content_type = 'application/octet-stream'
+            self.send_header("Content-Type", content_type)
+
+            # Set content length
+            self.send_header("Content-Length", str(os.path.getsize(file_path)))
+            self.end_headers()
+
+            # Read and send the file content
+            with open(file_path, "rb") as f:
+                self.wfile.write(f.read())
+
+        except Exception as e:
+            self.send_error(500, f"Internal Server Error: {str(e)}")
 
     def do_OPTIONS(self):
         self.send_response(200)
@@ -33,8 +50,25 @@ class SPAHandler(SimpleHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
         self.end_headers()
 
-PORT = 8080
-server = HTTPServer(("127.0.0.1", PORT), SPAHandler)
-print(f"Serving on http://127.0.0.1:{PORT}")
-server.serve_forever()
+def run_server(port=8080, bind="127.0.0.1"):
+    # Initialize the mimetypes database
+    mimetypes.init()
 
+    server_address = (bind, port)
+    httpd = HTTPServer(server_address, SPAHandler)
+    print(f"Serving SPA at http://{bind}:{port}")
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        print("\nShutting down server...")
+        httpd.server_close()
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Simple SPA Server with MIME support")
+    parser.add_argument("--port", type=int, default=8080, help="Port to listen on (default: 8080)")
+    parser.add_argument("--bind", default="127.0.0.1", help="Address to bind to (default: 127.0.0.1)")
+
+    args = parser.parse_args()
+    run_server(args.port, args.bind)

@@ -102,11 +102,9 @@ return {
             vim.g.rustfmt_autosave = 1
         end
     },
-    -- add this to your lua/plugins.lua, lua/plugins/init.lua,  or the file you keep your other plugins:
     {
         'numToStr/Comment.nvim',
         opts = {
-            -- add any options here
         }
     },
     {
@@ -156,13 +154,18 @@ return {
         config = function()
             require("configs.nvim-dap")
         end,
+        dependencies = {
+            'rcarriga/nvim-dap-ui',
+            'nvim-neotest/nvim-nio',
+
+            -- optional
+            -- 'mason-org/mason.nvim',
+            'jay-babu/mason-nvim-dap.nvim',
+            'leoluz/nvim-dap-go', -- Golang
+            'theHamsta/nvim-dap-virtual-text',
+        },
         cmd = { "DapContinue" },
         lazy = true,
-    },
-    {
-        "leoluz/nvim-dap-go",
-        config = function()
-        end,
     },
     {
         "Weissle/persistent-breakpoints.nvim",
@@ -190,5 +193,32 @@ return {
                 }
             })
         end,
+    },
+    {
+        "folke/twilight.nvim",
+        opts = {}
+
+    },
+    {
+        "folke/zen-mode.nvim",
+        cmd = "ZenMode",
+        opts = {}
+    },
+    {
+        "olimorris/codecompanion.nvim",
+        cmd = { "CodeCompanionChat" },
+        opts = {},
+        config = function()
+            require("configs.codecompanion")
+        end,
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+        },
+    },
+    {
+        "Davidyz/VectorCode",
+        build = "pipx upgrade vectorcode", -- optional but recommended. This keeps your CLI up-to-date.
+        dependencies = { "nvim-lua/plenary.nvim" },
     }
 }

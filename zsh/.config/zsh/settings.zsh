@@ -1,8 +1,10 @@
 # add custom completions to path
 #fpath=($ZSH_CONFIG/completions $ZSH_CONFIG/functions $fpath)
 
+fpath=($HOME/.local/share/zsh/site-functions $fpath)
+
 # load stock functions
- autoload -U compaudit compinit
+autoload -U compaudit compinit
 
 #  start compinit
 if [[ $ZSH_DISABLE_COMPFIX != true ]]; then
